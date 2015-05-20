@@ -65,22 +65,22 @@
    	<div class="row-fluid primarydiv"> 
 	   <span class="pull-right">
 	       <div class="btn-group">
-	         <a ng-show="(orderData.status == 'ACTIVE')&&PermissionService.showMenu('UPDATE_ORDER')||(orderData.status == 'SUSPENDED')" href="" ng-click="orderDisconnect(orderPriceDatas[0].orderId)" class="btn btn-primary"><i class="icon-remove fa-spin icon-white"></i> Disconnect</a>
-	         <a ng-show="(orderData.status == 'DISCONNECTED')&&PermissionService.showMenu('RECONNECT_ORDER')&&(orderData.contractPeriod == 'Perpetual')" ng-click="reconnect()" class="btn btn-primary"><i class=" icon-repeat icon-white"></i> Reconnect</a>
-	         <a ng-show="(orderData.endDate && orderData.status != 'PENDING' && orderData.status != 'SUSPENDED' && orderData.status != 'TERMINATED' && orderData.isPrepaid == 'N')&&PermissionService.showMenu('RENEWAL_ORDER')" href="" ng-click="orderRenew(orderPriceDatas[0].orderId)" class="btn btn-primary"><i class="icon-edit icon-white"></i>Renewal</a>
-	         <a ng-show="(orderData.isPrepaid == 'Y' && orderData.status != 'PENDING')&&PermissionService.showMenu('RENEWAL_ORDER')"  href="" ng-click="orderRenew(orderPriceDatas[0].orderId)"class="btn btn-primary"><i class="icon-arrow-up icon-white"></i>TopUp</a>
+	         <a ng-show="config.disconnect=='true'&&((orderData.status == 'ACTIVE')&&PermissionService.showMenu('UPDATE_ORDER')||(orderData.status == 'SUSPENDED'))" href="" ng-click="orderDisconnect(orderPriceDatas[0].orderId)" class="btn btn-primary"><i class="icon-remove fa-spin icon-white"></i> Disconnect</a>
+	         <a ng-show="config.reconnect=='true'&& ((orderData.status == 'DISCONNECTED')&&PermissionService.showMenu('RECONNECT_ORDER')&&(orderData.contractPeriod == 'Perpetual')) " ng-click="reconnect()" class="btn btn-primary"><i class=" icon-repeat icon-white"></i> Reconnect</a>
+	         <a ng-show="config.renewal=='true'&&((orderData.endDate && orderData.status != 'PENDING' && orderData.status != 'SUSPENDED' && orderData.status != 'TERMINATED' && orderData.isPrepaid == 'N')&&PermissionService.showMenu('RENEWAL_ORDER')) " href="" ng-click="orderRenew(orderPriceDatas[0].orderId)" class="btn btn-primary"><i class="icon-edit icon-white"></i>Renewal</a>
+	         <a ng-show="config.topup=='true'&&((orderData.isPrepaid == 'Y' && orderData.status != 'PENDING')&&PermissionService.showMenu('RENEWAL_ORDER'))"  href="" ng-click="orderRenew(orderPriceDatas[0].orderId)"class="btn btn-primary"><i class="icon-arrow-up icon-white"></i>TopUp</a>
 	        <!--  <a ng-show="orderData.status == 'ACTIVE'" ng-click="CommandCenter(orderPriceDatas[0].orderId)" class="btn btn-primary"><i class=" icon-repeat icon-white"></i> Command Center</a> -->
 	         <a ng-show="(orderData.status == 'PENDING')&&PermissionService.showMenu('DELETE_ORDER')" ng-click="cancelOrder()" class="btn btn-primary"><i class="icon-remove-circle icon-white"></i> Cancel Order</a>
-	         <a ng-show ="(association.orderId == null)&&PermissionService.showMenu('CREATE_ASSOCIATION')"  href="#/association/{{clientId}}/{{orderPriceDatas[0].orderId}}" class="btn btn-primary"><i class="icon-plus icon-white"></i>Pairing</a>
-	         <a ng-show="(orderData.status == 'ACTIVE')&&PermissionService.showMenu('CREATE_ORDERADDONS')"  href="#/orderaddons/" class="btn btn-primary"><i class="icon-remove fa-spin icon-white"></i> AddOns</a>
+	         <a ng-show ="config.pairing=='true'&&((association.orderId == null)&&PermissionService.showMenu('CREATE_ASSOCIATION'))"  href="#/association/{{clientId}}/{{orderPriceDatas[0].orderId}}" class="btn btn-primary"><i class="icon-plus icon-white"></i>Pairing</a>
+	         <a ng-show="config.addons=='true'&&((orderData.status == 'ACTIVE')&&PermissionService.showMenu('CREATE_ORDERADDONS'))"  href="#/orderaddons/" class="btn btn-primary"><i class="icon-remove fa-spin icon-white"></i> AddOns</a>
 		     <a ng-show ="(orderData.status == 'DISCONNECTED' && association.orderId != null)&&PermissionService.showMenu('DEASSOCIATION_ASSOCIATION')" ng-click="deAssociation()" class="btn btn-primary"><i class="icon-repeat icon-white"></i> Un Pairing</a>
-		     <a ng-show ="(orderData.status == 'ACTIVE')&&PermissionService.showMenu('SWAPPING_HARDWARESWAPPING')&&association.saleId" href="#/hardwareswap/{{association.saleId}}/{{clientId}}/{{association.orderId}}" class="btn btn-primary"><i class="icon-move"></i>Device Swap</a>
-		     <a ng-show ="(orderData.status == 'ACTIVE')&&PermissionService.showMenu('APPLYPROMO_ORDER')" ng-click="applyPromo()" class="btn btn-primary"><i class="icon-gift"></i>Apply Promo</a>
+		     <a ng-show ="config.deviceswap=='true'&&((orderData.status == 'ACTIVE')&&PermissionService.showMenu('SWAPPING_HARDWARESWAPPING')&&association.saleId)" href="#/hardwareswap/{{association.saleId}}/{{clientId}}/{{association.orderId}}" class="btn btn-primary"><i class="icon-move"></i>Device Swap</a>
+		     <a ng-show ="config.applypromo=='true'&&((orderData.status == 'ACTIVE')&&PermissionService.showMenu('APPLYPROMO_ORDER'))" ng-click="applyPromo()" class="btn btn-primary"><i class="icon-gift"></i>Apply Promo</a>
 		     <!-- <a ng-show ="orderData.status != 'PENDING' && orderData.status != 'SUSPENDED' && orderData.status != 'TERMINATED' " ng-click="extension()" class="btn btn-primary"><i class="icon-cog"></i>Extension</a> -->
-		     <a ng-show ="(orderData.status == 'ACTIVE')&&PermissionService.showMenu('CHANGEPLAN_ORDER')" href="#/neworder/{{orderData.pdid}}/{{clientId}}" class="btn btn-primary"><i class="icon-cog"></i>Change Plan</a>
+		     <a ng-show ="config.changeplan=='true'&&(orderData.status == 'ACTIVE')&&PermissionService.showMenu('CHANGEPLAN_ORDER')" href="#/neworder/{{orderData.pdid}}/{{clientId}}" class="btn btn-primary"><i class="icon-cog"></i>Change Plan</a>
 		     <a ng-show ="orderData.status == 'PENDING' && orderServicesData[0].isAutoProvision == 'N'" href="#/provision/{{orderData.id}}/{{clientId}}/{{orderServicesData[0].serviceId}}" class="btn btn-primary"><i class="icon-cog"></i>Provision It</a>
 		     <a ng-show ="orderData.status == 'ACTIVE' && orderServicesData[0].isAutoProvision == 'N' " href="#/editprovison/{{orderData.id}}/{{clientId}}/{{orderServicesData[0].serviceId}}" class="btn btn-primary"><i class="icon-cog"></i>Edit Provision</a>
-		     <!-- <a ng-show="(orderData.status == 'DISCONNECTED')&&PermissionService.showMenu('RECONNECT_ORDER')" ng-click="terminate()" class="btn btn-primary"><i class=" icon-repeat icon-white"></i> Terminate</a> -->
+		     <a ng-show="(orderData.status == 'DISCONNECTED')&&PermissionService.showMenu('RECONNECT_ORDER')" ng-click="terminate()" class="btn btn-primary"><i class=" icon-repeat icon-white"></i> Terminate</a> 
 		     <a ng-show="orderData.status == 'SUSPENDED'" ng-click="reactive()" class="btn btn-primary"><i class=" icon-repeat icon-white"></i> ReActive</a>
 	        	<span  class="btn-group">
               		<a class="btn btn-primary dropdown-toggle" ng-show="(orderData.status == 'ACTIVE')&&PermissionService.showMenu('RETRACKOSDMESSAGE_ORDER')">
@@ -89,9 +89,9 @@
               	</a>
               <ul style='margin-left:-95px;' class="dropdown dropdown-menu">
                 <li>
-                    <a ng-show ="orderData.status == 'ACTIVE'" ng-click="suspend()">Suspend</a>
-                    <a ng-click="CommandCenter(orderPriceDatas[0].orderId)">Command Center</a>
-                    <a href="#/ipchange/{{clientId}}/{{orderData.id}}/{{orderServicesData[0].serviceId}}">Ip Change</a>
+                    <a ng-show ="config.suspend=='true'&&orderData.status == 'ACTIVE'" ng-click="suspend()">Suspend</a>
+                    <a ng-show ="config.commandcenter=='true'" ng-click="CommandCenter(orderPriceDatas[0].orderId)">Command Center</a>
+                    <a ng-show ="config.ipchange=='true'" href="#/ipchange/{{clientId}}/{{orderData.id}}/{{orderServicesData[0].serviceId}}">Ip Change</a>
                 </li>
               </ul>
           </span> 

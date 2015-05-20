@@ -14,6 +14,7 @@
         scope.isextensionEnable=false;
         scope.clientId=routeParams.clientId;
         scope.walletConfig = webStorage.get('is-wallet-enable');
+        scope.config = webStorage.get("client_configuration").orderActions;
         
          var clientData = webStorage.get('clientData');
          webStorage.add("orderId",routeParams.id);

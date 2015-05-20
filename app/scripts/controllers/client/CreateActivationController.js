@@ -1,6 +1,6 @@
 (function(module) {
   mifosX.controllers = _.extend(module, {
-	  CreateActivationController: function(scope,webStorage,routeParams, resourceFactory, location, http,filter,PermissionService, dateFilter,$rootScope) {
+	  CreateActivationController: function(scope,webStorage,routeParams, resourceFactory, location, http,filter,PermissionService, dateFilter,$rootScope,API_VERSION) {
 		 
 		
 		  scope.ActivationData = {};
@@ -14,6 +14,7 @@
 		 
 		  scope.configPayment = webStorage.get("client_configuration").payment;
 		  scope.PermissionService = PermissionService;
+		  scope.propertyMaster = webStorage.get("is-propertycode-enabled");
 		 
 		  
 //create client controller
@@ -57,6 +58,42 @@
             		scope.formData1.country = data.country;
         	  });
           };
+          
+          scope.getExistsProperty = function(query){
+	           	return http.get($rootScope.hostUrl+API_VERSION+'/property/propertycode/', {
+	           	      params: {
+	           	    	  		query: query
+	           	      		   }
+	           	    }).then(function(res){   
+	           	    	 scope.propertyCodesData=res.data;
+	           	      return scope.propertyCodesData;
+	           	    });
+	             };  
+	             
+	   scope.getPropertyDetails = function(existsProperty){   
+	            if(!angular.isUndefined(existsProperty)){
+	                 for(var j in scope.propertyCodesData)  {
+	            			 if(existsProperty == scope.propertyCodesData[j].propertyCode){
+	            				 scope.formData1.addressNo = scope.propertyCodesData[j].propertyCode;
+	            				 scope.formData1.street = scope.propertyCodesData[j].street;
+	            				 scope.formData1.city  =  scope.propertyCodesData[j].precinct; 
+	            				 scope.formData1.state =  scope.propertyCodesData[j].state;
+	            				 scope.formData1.country = scope.propertyCodesData[j].country;
+	            				 scope.formData1.zipCode = scope.propertyCodesData[j].poBox;
+	            				 scope.status=scope.propertyCodesData[j].status;
+	            				 scope.propetyId=scope.propertyCodesData[j].id;
+	            				 break;
+	            			 }
+	            		 }
+	            	   }else{
+	            		 delete scope.formData1.street;
+	            		 delete scope.formData1.city;
+	            		 delete scope.formData1.state;
+	            		 delete scope.formData1.country;
+	            		 delete scope.formData1.zipCode;
+	            	   }
+	             };        
+	             
         
 //addonetimsale controller
       	
@@ -267,9 +304,10 @@
 	                  this.formData1.activationDate = reqDate;
 	                  this.formData1.state=scope.formData1.state;
 	                  this.formData1.country=scope.formData1.country;
-	                  this.formData1.addressNo="Addr1";
 	                  this.formData1.entryType="IND";
-	                
+                      if(!scope.propertyMaster){
+                       this.formData1.addressNo="Addr1";
+	                  }
 	                  this.formData1.flag=scope.configurationProperty;
 	                  delete this.formData1.middlename;
 	                  
@@ -383,7 +421,8 @@
                                                                   '$filter',
                                                                   'PermissionService', 
                                                                   'dateFilter',
-                                                                  '$rootScope', 
+                                                                  '$rootScope',
+                                                                  'API_VERSION',
                                                                   mifosX.controllers.CreateActivationController]).run(function($log) {
     $log.info("CreateActivationController initialized");
   });

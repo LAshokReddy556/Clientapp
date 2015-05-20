@@ -447,7 +447,6 @@
 			};
 			
 	            scope.enablePaymentGateway = function (id, name) {
-
 	                    var temp = {'enabled': 'true'};
 	                    resourceFactory.paymentGatewayConfigurationResource.update({'configId': id}, temp, function (data) {
 	                    	scope.getpaymentgatewayData();
@@ -460,9 +459,9 @@
 	                    	scope.getpaymentgatewayData();
 	                    });
 	            };
-	            
 				/*paymentgateway Configuration tab end*/ 
-	            
+
+
 	        }
 	    });
 
