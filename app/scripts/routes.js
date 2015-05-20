@@ -649,7 +649,7 @@
       .when('/viewitem/:id/:showtype/:totalItem',{
     	  templateUrl: 'views/logistics/inventory/item/viewitem.html'
       })
-      .when('/edititem/:id',{
+      .when('/edititem/:id/:totalItem',{
     	  templateUrl: 'views/logistics/inventory/item/edititem.html'
       })
       .when('/viewgrn/:id',{

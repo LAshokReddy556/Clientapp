@@ -5,6 +5,7 @@
         scope.audit = [];
         scope.showType="";
         scope.PermissionService = PermissionService;
+        scope.totalItem=routeParams.totalItem;
         var showtype = routeParams.showtype;
         scope.totalItem=routeParams.totalItem;
         resourceFactory.itemResource.get({itemId: routeParams.id} , function(data) {

@@ -86,6 +86,8 @@
              	}
              scope.formData.locale = $rootScope.locale.code;
              scope.formData.dateFormat = 'dd MMMM yyyy';
+             scope.formData.volume='None';
+         	scope.formData.units=0;
              scope.formData.startDate = dateFilter(scope.date.startDate,scope.formData.dateFormat);
              scope.formData.endDate = dateFilter(scope.date.endDate,scope.formData.dateFormat);
              resourceFactory.planResource.update({'planId':scope.planId},scope.formData,function(data){

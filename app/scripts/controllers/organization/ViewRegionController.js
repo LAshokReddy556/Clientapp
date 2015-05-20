@@ -19,7 +19,8 @@
 
 				$scope.regionDelete = function() {
 					resourceFactory.regionResource.remove({ regionId : routeParams.id }, {}, function(data) {
-						route.reload();
+					//	route.reload();
+						location.path('/regions');				
 					});
 					$modalInstance.close('delete');
 				};

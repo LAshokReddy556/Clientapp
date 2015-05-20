@@ -97,6 +97,8 @@ angular.module('notificationWidget', [])
               } else if (rejection.status == 500) {
             	  if(rejection.data.match("InvalidLicenseKeyException")){
             		  $rootScope.errorStatus='Invalid License';
+            	  }if(rejection.data.match("LicenseKeyNotFoundException")){
+            		  $rootScope.errorStatus='Please enter valid license key';
             	  }else{
                   $rootScope.errorStatus='Internal Server Error [500].';
             	  }

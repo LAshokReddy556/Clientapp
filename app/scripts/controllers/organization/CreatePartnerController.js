@@ -26,7 +26,13 @@
             		 }
             	 }
             }
-            scope.formData.officeType = data.officeTypes[1].id;
+            
+            for(var i in data.officeTypes){
+            	  if(data.officeTypes[i].name == "Agent"){
+            		  scope.formData.officeType = data.officeTypes[i].id;
+            	  }
+              }
+            //scope.formData.officeType = data.officeTypes[1].id;
         });
         
         scope.getStateAndCountry=function(city){

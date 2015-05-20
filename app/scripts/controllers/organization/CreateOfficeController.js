@@ -9,9 +9,15 @@
         	 resourceFactory.officeTemplateResource.get({} , function(data) {
             scope.offices = data.allowedParents;
             scope.officeTypes = data.officeTypes;
+            for(var i in data.officeTypes){
+          	  if(data.officeTypes[i].name == "Office"){
+          		scope.officeType = data.officeTypes[i].id;
+          	  }
+            }
             scope.formData = {
               parentId : scope.offices[0].id,
-              officeType : data.officeTypes[0].id,
+              officeType :scope.officeType 
+              
             };
             
         });

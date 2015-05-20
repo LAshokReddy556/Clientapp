@@ -984,6 +984,8 @@
   "validation.msg.order.suspensionReason.cannot.be.blank":"Please Select Suspension Reason",
   "validation.msg.order.suspensionDescription.cannot.be.blank":"Description can not be blank",
   "validation.msg.order.paytermCode.cannot.be.blank":"Please Select Billing frequency",
+  "validation.msg.promotioncode.durationType.cannot.be.blank":"Please select duration type",
+  "validation.msg.promotioncode.discountType.cannot.be.blank":"Please select discount type",
   "label.osdmessage.message":"message",
   "label.osdMessage":"OSD Message",
   "error.msg.billing.order.not.found":"No Orders found for Invoice",

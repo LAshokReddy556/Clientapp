@@ -6,7 +6,7 @@
         scope.chargesDatas = [];
         scope.formData = {};
         scope.removeItemPrices = [];
-        
+        scope.totalItem=routeParams.totalItem;
          resourceFactory.itemResource.get({itemId: routeParams.id} , function(data) {
         	scope.itemClassDatas = data.itemClassData;
             scope.unitDatas = data.unitData;
@@ -69,7 +69,7 @@
               }
         	 this.formData.locale = $rootScope.locale.code;
                resourceFactory.itemResource.update({'itemId': routeParams.id},this.formData,function(data){
-             location.path('/viewitem/' + data.resourceId +'/item');
+             location.path('/viewitem/' + data.resourceId +'/item/'+scope.totalItem);
           });
         };
     }
