@@ -52,20 +52,19 @@ ServicesController = function(scope,RequestSender,localStorageService,location,p
 		 scope.orderRenew = angular.uppercase(orderRenew) == 'Y';
 		 scope.selectedOrderId = selectedOrderId;
 		 scope.selectedPlanId = selectedPlanId;
+		 
 		 if(angular.lowercase(orderStatus) == 'active'){
-			 scope.screenName = "changeorder";var totalOrdersData = []; 
-			 totalOrdersData = completeOrdersData;
+			 scope.screenName = "changeorder";var totalOrdersData = [];
+			 angular.copy(completeOrdersData,totalOrdersData);
 			  for(var i in totalOrdersData){
 				  for(var j in clientOrdersData){
 					  
 					  if(totalOrdersData[i].planId == clientOrdersData[j].pdid){
-						  totalOrdersData[i].pricingData = _.filter(totalOrdersData[i].pricingData, function(item) {
-							  return (item.planCode != clientOrdersData[j].planCode) &&
-							  		  (item.duration != clientOrdersData[j].contractPeriod) &&
-							  		  (item.price != clientOrdersData[j].price);
+						 totalOrdersData[i].pricingData = _.reject(totalOrdersData[i].pricingData, function(item) {
+							  return (item.duration == clientOrdersData[j].contractPeriod);
 						  });
 					  }
-				  }
+				  } 
 			  }
 			  scope.plansData = [];
 			  for(var j in totalOrdersData){
@@ -75,8 +74,8 @@ ServicesController = function(scope,RequestSender,localStorageService,location,p
 			  localStorageService.add("storageData",{clientData:clientData,totalOrdersData:totalOrdersData,orderId:scope.selectedOrderId});
 	 	}
 		if(angular.lowercase(orderStatus) == 'disconnected'){
-			scope.screenName = "renewalorder";var totalOrdersData = []; 
-			totalOrdersData = completeOrdersData;
+			scope.screenName = "renewalorder";var totalOrdersData = [];
+			angular.copy(completeOrdersData,totalOrdersData);
 				  scope.plansData = [];
 				  for(var j in totalOrdersData){
 						if((totalOrdersData[j].planId == scope.selectedPlanId) && (totalOrdersData[j].isPrepaid == 'Y')){

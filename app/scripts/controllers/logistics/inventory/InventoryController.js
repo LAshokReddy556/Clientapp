@@ -71,7 +71,6 @@
            };
         scope.routeToitem = function(id,totalItem){
             location.path('/viewitem/'+ parseInt(id)+'/item/'+totalItem);
-
           };
          
         

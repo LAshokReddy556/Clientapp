@@ -48,7 +48,7 @@
 		 </table>
 		 <div class="marginleft10 lightbluecolor">
 		 	<strong data-ng-show="ordersData.length==0">{{'label.addpack.info' | translate}}</strong>
-		 	<div  data-ng-show="ordersData.length!=0">
+		 	<div  data-ng-show="ordersData.length!=0&&plansData.length!=0">
 		 		<strong data-ng-show="screenName == 'additionalorders'">{{'label.anotherpack.info' | translate}}</strong>
 		 		<strong data-ng-show="screenName == 'changeorder'">{{'label.changepack.info' | translate}}</strong>
 		 		<strong data-ng-show="screenName == 'renewalorder'">{{'label.topuppack.info' | translate}}</strong>

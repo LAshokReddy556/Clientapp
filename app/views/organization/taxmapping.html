@@ -21,13 +21,13 @@
             	</tr>
         	</thead>
        		<tbody>
-            	<tr data-ng-repeat="taxmapping in taxmappings | filter:filterText">
-                	<td><a href="#/viewtaxmapping/{{taxmapping.id}}">{{taxmapping.chargeCode}}</a></td>        
-                	<td><a href="#/viewtaxmapping/{{taxmapping.id}}">{{taxmapping.taxCode}}</a></td>        
-                	<td><a href="#/viewtaxmapping/{{taxmapping.id}}">{{taxmapping.startDate | DateFormat}}</a></td>
-                	<td><a href="#/viewtaxmapping/{{taxmapping.id}}">{{taxmapping.taxType}}</a></td> 
-                	<td><a href="#/viewtaxmapping/{{taxmapping.id}}">{{taxmapping.rate}}</a></td> 
-                	<td><a href="#/viewtaxmapping/{{taxmapping.id}}">{{taxmapping.taxRegion}}</a></td> 
+            	<tr class="pointer-main" data-ng-repeat="taxmapping in taxmappings | filter:filterText">
+                	<td class="pointer" data-ng-click="routeTo(taxmapping.id)"> <!-- <a href="#/viewtaxmapping/{{taxmapping.id}}"></a> -->  {{taxmapping.chargeCode}}</td>        
+                	<td class="pointer" data-ng-click="routeTo(taxmapping.id)"> <!-- <a href="#/viewtaxmapping/{{taxmapping.id}}"></a> -->  {{taxmapping.taxCode}}</td>        
+                	<td class="pointer" data-ng-click="routeTo(taxmapping.id)"> <!-- <a href="#/viewtaxmapping/{{taxmapping.id}}"></a> -->  {{taxmapping.startDate | DateFormat}}</td>
+                	<td class="pointer" data-ng-click="routeTo(taxmapping.id)"> <!-- <a href="#/viewtaxmapping/{{taxmapping.id}}"></a> -->  {{taxmapping.taxType}}</td> 
+                	<td class="pointer" data-ng-click="routeTo(taxmapping.id)"> <!-- <a href="#/viewtaxmapping/{{taxmapping.id}}"></a> -->  {{taxmapping.rate}}</td> 
+                	<td class="pointer" data-ng-click="routeTo(taxmapping.id)"> <!-- <a href="#/viewtaxmapping/{{taxmapping.id}}"></a> -->  {{taxmapping.taxRegion}}</td> 
                 	<td>
                 		<a href="#/edittaxmapping/{{taxmapping.id}}" popover="Edit Tax" popover-trigger="mouseenter">
                     		<i class="icon-edit icon-white"></i>
