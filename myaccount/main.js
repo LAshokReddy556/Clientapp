@@ -1,5 +1,5 @@
 var selfcareApp = angular.module('selfcareApp',['configurations','ngResource','ngRoute','ui.bootstrap','pascalprecht.translate','modified.datepicker',
-                                                	'webStorageModule','tmh.dynamicLocale','notificationWidget','LocalStorageModule']);
+                                                	'webStorageModule','tmh.dynamicLocale','notificationWidget','LocalStorageModule','uiSwitch']);
 
 
 selfcareApp.config(function($httpProvider ,$translateProvider) {

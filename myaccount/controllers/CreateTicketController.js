@@ -18,7 +18,7 @@
 			 var clientData= localStorageService.get('clientTotalData');
 			 if(clientData){
 			   var selfcare_sessionData=localStorageService.get('selfcare_sessionData');
-			   scope.formData.assignedTo=selfcare_sessionData.userId;
+			   scope.formData.assignedTo=1;//selfcare_sessionData.userId;
 			   scope.clientId=clientData.id;
 			   RequestSender.ticketResourceTemplate.get(function(data){ 
 				   

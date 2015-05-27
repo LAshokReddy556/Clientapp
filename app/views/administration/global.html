@@ -21,6 +21,7 @@
             <th></th>
             <th></th>
             <th></th>	
+            <th></th>	
         </tr>
         </thead>
         <tbody>
@@ -32,9 +33,9 @@
                 <button type="button" class="btn btn-danger flag" data-ng-show="config.enabled" data-ng-click="disable(config.id,config.name)"><i class="icon-remove"></i></button>
             </td>
             <td><a data-ng-hide="config.name == 'smtp'" data-ng-click="edit(config.id)" data-popover="Edit" data-popover-trigger="mouseenter"><i class="icon-edit icon-white"></i></a> 
-              <a data-ng-show="config.name=='smtp'" href="#/createsmtp/{{config.id}}" popover="Edit" popover-trigger="mouseenter"><i class="icon-edit icon-white"></i></a> </td>
-                <td> <a ng-click="popup(config.id)" popover="Help" popover-trigger="mouseenter"><i class="icon-question-sign"></i></td>
-         </tr>
+                <a data-ng-show="config.name=='smtp'" href="#/createsmtp/{{config.id}}" data-popover="Edit" data-popover-trigger="mouseenter"><i class="icon-edit icon-white"></i></a></td>
+            <td> <a ng-click="globalConfigHelpPopup(config.id)" popover="Help" popover-trigger="mouseenter"><i class="icon-question-sign"></i></a></td>
+        </tr>
         </tbody>
     </table>
     </tab>
@@ -52,7 +53,7 @@
         <tbody>
         <tr data-ng-repeat="lookup in myData | filter:filterText1">
             <td>{{lookup.name}}</td>
-            <td>{{lookup.value}}</td> 
+            <td  style="word-break:break-all;">{{lookup.value}}</td> 
             <td><button type="button" class="btn btn-success flag" data-ng-show="lookup.value == 'false' " data-ng-click="clientConfigChange(lookup.name,lookup.value,0)"><i class="icon-flag-alt"></i></button>
                 <button type="button" class="btn btn-danger flag" data-ng-show="lookup.value == 'true'" data-ng-click="clientConfigChange(lookup.name,lookup.value,0)"><i class="icon-remove"></i></button>
                 <a data-ng-show="(lookup.name == 'deviceAgrementType')||(lookup.name == 'date_format')" data-ng-click="editClientConfigs(lookup.name,lookup.value)" data-popover="Edit {{lookup.name}}" 
@@ -80,6 +81,7 @@
             <th>{{'label.enabled' | translate}}</th>
             <th>{{'label.value' | translate}}</th>
             <th>{{'table.action' | translate}}</th>
+            <th></th> 
         </tr>
         </thead>
         <tbody>
@@ -90,7 +92,8 @@
             <td style="word-break:break-all;">{{config.value}}</td>
             <td><button type="button" class="btn btn-success flag" data-ng-hide="config.enabled" data-ng-click="enablePaymentGateway(config.id)"><i class="icon-flag-alt"></i></button>
                 <button type="button" class="btn btn-danger flag" data-ng-show="config.enabled" data-ng-click="disablePaymentGateway(config.id)"><i class="icon-remove"></i></button>
-           		<a data-ng-show="config.value" data-ng-click="editPaymentGateway(config.id,config.name,config.value)" data-popover="Edit" data-popover-trigger="mouseenter"><i class="icon-edit icon-white"></i></a></td>        
+           		<a data-ng-show="config.value" data-ng-click="editPaymentGateway(config.id,config.name,config.value)" data-popover="Edit" data-popover-trigger="mouseenter"><i class="icon-edit icon-white"></i></a></td>
+           		<td><a  data-ng-click="viewPaymentGateway(config.id)" data-popover="Help" data-popover-trigger="mouseenter"><i class="icon-question-sign"></i></a></td>         
         </tr>
         </tbody>
     </table>
@@ -123,6 +126,34 @@
    <div class="modal-footer">
          <button id="cancel" class="btn btn-warning" ng-click="reject()">{{'button.cancel' | translate}}</button>
          <button id="submit" class="btn btn-primary" ng-click="accept()">{{'label.confirm' | translate}}</button>
+   </div>
+
+</script>
+<script type="text/ng-template" id="globalConfigHelpPopup.html">
+	<form class="form-horizontal well" ng-submit="submit()">
+	 <div class="error" ng-show="errorStatus || errorDetails">
+		<label>{{'label.contract.error' | translate}}</label>
+		<label ng-show="errorStatus">{{errorStatus}}</label>
+		<label ng-hide="errorStatus" ng-repeat="error in errorDetails">{{error.code | translate}}</label>
+	    </div>
+			<table class="table">
+        		<thead>
+        			<tr class="graybg">
+            			<th width="30">{{'label.form.module' | translate}}</th>
+            			<th style="padding-left:20px;">{{'table.heading.description' | translate}}</th>	
+        			</tr>
+        		</thead>
+        		<tbody>
+        			<tr>
+            			<td>{{module}}</a></td>
+            			<td style="padding-left:20px;" width="30">{{description}}</td> 
+            			
+        			</tr>
+        		</tbody>
+    			</table>
+	</form>
+   <div class="modal-footer">
+        <button id="cancel" class="btn btn-primary" ng-click="reject()">{{'button.close' | translate}}</button>
    </div>
 
 </script> 
@@ -412,4 +443,36 @@
 				</tr>
 			</table>
         </div>
-</script>
+	</script>
+	<script type="text/ng-template" id="viewPaymentgateway.html">
+
+	<form class="form-horizontal well" ng-submit="submit()">
+	 <div class="error" ng-show="errorStatus || errorDetails">
+		<label>{{'label.contract.error' | translate}}</label>
+		<label ng-show="errorStatus">{{errorStatus}}</label>
+		<label ng-hide="errorStatus" ng-repeat="error in errorDetails">{{error.code | translate}}</label>
+	    </div>
+	<fieldset>
+		
+		
+	</fieldset>
+			<table class="table">
+        		<thead>
+        			<tr class="graybg">
+            			<th>{{'table.heading.description' | translate}}</th>	
+        			</tr>
+        		</thead>
+        		<tbody>
+        			<tr>
+            			<td>{{description}}</td> 
+        			</tr>
+        		</tbody>
+    			</table>
+	
+	</form>
+   <div class="modal-footer">
+        <button id="cancel" class="btn btn-primary" ng-click="reject()">{{'button.close' | translate}}</button>
+   </div>
+
+</script> 
+

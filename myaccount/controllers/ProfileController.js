@@ -38,7 +38,6 @@ ProfileController = function(scope,RequestSender,rootScope,webStorage,location,p
 	  		   }
 	  		   callback(retrivingTicketsData);
 	  	   };*/
-		  
 	  	 var sessionData= localStorageService.get('selfcare_sessionData');
 		 if(sessionData){		  
 			  scope.clientId = sessionData.clientId;
@@ -73,7 +72,9 @@ ProfileController = function(scope,RequestSender,rootScope,webStorage,location,p
 	  					  RequestSender.configurationResource.get(function(data){
 	  						var configType = angular.fromJson(data.clientConfiguration);
 	  						if(configType) registrationListing	= configType.registrationListing;
+	  						scope.isConfigNationalId 			= configType.nationalId;
 	  						scope.isConfigPassport		= registrationListing.passport;
+	  						localStorageService.add("isAutoRenewConfig",configType.isAutoRenew);
 	  						if(scope.isConfigPassport){
 	  							RequestSender.clientIdentifiersResource.query({clientId:scope.clientId},function(identifiersdata){
 	  								angular.forEach(identifiersdata,function(val,key){

@@ -117,11 +117,13 @@ selfcareApp.config(function($provide) {
         	
         	scheduleOrderResource: defineResource(apiVer + "/orders/scheduling/:clientId", {clientId:'@clientId'}, {}),
         	
-        	recurringStatusCheckingResource: defineResource(apiVer + "/chargecode/:planId/:billFrequency", {planId:'@planId',billFrequency:'@billFrequency'}, {}),
+        	recurringStatusCheckingResource: defineResource(apiVer + "/chargecode/:planId/:billFrequency/:contractPeriod/:clientId", {planId:'@planId',billFrequency:'@billFrequency',contractPeriod:'@contractPeriod',clientId:'@clientId'}, {}),
         	
         	getRecurringScbcriberIdResource: defineResource(apiVer + "/recurringpayments/:orderId", {orderId:'@orderId'}, {}),
         	
-        	orderDisconnectByScbcriberIdResource: defineResource(apiVer + "/recurringpayments", {}, {}),
+        	orderDisconnectByScbcriberIdResource: defineResource(apiVer + "/recurringpayments/delSubscription", {}, {
+        		update : {method: 'PUT', params: {}}
+        	}),
 
 		clientIdentifiersResource: defineResource(apiVer + "/clients/:clientId/identifiers", {clientId:'@clientId'}, {}),
 

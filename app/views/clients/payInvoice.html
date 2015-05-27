@@ -73,8 +73,8 @@
 			 			 <div class="control-group">
 			 			  	<div class="controls">
 
-			  				<input  id="accountId" type="radio" name="selectType"  ng-click="selectedAccount()" checked/>&nbsp;&nbsp;Account&nbsp;&nbsp;
-						  	<input  id="invoiceId" type="radio" name="selectType"  ng-click="selectedInvoice()"/>&nbsp;&nbsp;Invoice
+			  				<input  id="accountId" type="radio" name="selectType"  data-ng-click="selectedAccount()" checked/>&nbsp;&nbsp;Account&nbsp;&nbsp;
+						  	<input  id="invoiceId" type="radio" name="selectType"  data-ng-click="selectedInvoice()"/>&nbsp;&nbsp;Invoice
 
 						  	</div>
 						  	</div>
@@ -85,8 +85,8 @@
 								<div class="control-group">
            					 	<label class="control-label" for="paymentDate">{{ 'label.paymentdate' | translate }}</label>
             					<div class="controls">
-             					  <input id="dateid" type="text" ng-change="test()" datepicker-pop="dd MMMM yyyy" ng-model="start.date" is-open="opened2" min="minDate" max="maxDate" 
-             					  date-disabled="disabled(date, mode)"  style="background-color:#FFFFFF;"  readonly />
+             					  <input id="dateid" type="text" data-ng-change="test()" data-datepicker-pop="dd MMMM yyyy" data-ng-model="start.date" data-is-open="opened2" min="minDate" max="maxDate" 
+             					  data-date-disabled="disabled(date, mode)"  style="background-color:#FFFFFF;"  readonly />
            						</div>
          						</div>	
 							</td>
@@ -97,7 +97,7 @@
 								<div class="control-group">
             					<label class="control-label" for="paymentCode">{{ 'label.paymentType' | translate }}</label>
             					<div class="controls">
-             					 <select id="paymenttypeval" ng-model="formData.paymentCode" ng-options="data.id as data.mCodeValue for data in data" value="{{data.id}}" ng-change="paymentTypeData(formData.paymentCode)">
+             					 <select id="paymenttypeval" data-ng-model="formData.paymentCode" data-ng-options="data.id as data.mCodeValue for data in data" value="{{data.id}}" data-ng-change="paymentTypeData(formData.paymentCode)">
              					 </select>
             					</div>
           						</div>		
@@ -110,7 +110,9 @@
            					 	<label class="control-label" for="amountPaid">{{ 'label.amount' | translate }}</label>
             					<div class="controls">
              					 <input type="text" id="amountPaid" name="amountPaid" data-ng-model="formData.amountPaid" data-ng-pattern="{{'decimal' | CodeValidate}}"/>
-             					 <span data-ng-show="payInvoiceForm.amountPaid.$dirty && payInvoiceForm.amountPaid.$invalid">
+             					 <input data-ng-show="showInvoiceDetails" type="text" class="input-small" id="payAvailAmount" 
+             					    name="payAvailAmount" data-ng-model="payAvailAmount" data-ng-pattern="{{'decimal' | CodeValidate}}" disabled/>
+             					     <span data-ng-show="payInvoiceForm.amountPaid.$dirty && payInvoiceForm.amountPaid.$invalid">
              					 	<small class="error-row">{{'error.not.decimal.validation' | translate}}</small>
              					 </span>
            						</div>
@@ -123,7 +125,7 @@
 								<div class="control-group">
            					 	<label class="control-label" for="receiptNo">{{ 'label.receiptno' | translate }}<span class="required">*</span></label>
             					<div class="controls">
-             					 <input type="text" id="receiptNo" name="receiptno" ng-model="formData.receiptNo">
+             					 <input type="text" id="receiptNo" name="receiptno" data-ng-model="formData.receiptNo">
            						</div>
          						</div>
 							</td>
@@ -133,18 +135,18 @@
 							<div class="control-group">
 	          				<label class="control-label">{{'label.notes' | translate}}</label>
 		        			<div class="controls">
-		          			<textarea ng-model="formData.remarks"></textarea>
+		          			<textarea data-ng-model="formData.remarks"></textarea>
 		        			</div>
 	        				</div>
 	        				</td>
 						</tr>
-						<tr ng-show ="walletconfig">
+						<tr data-ng-show ="walletconfig">
 						<td>
 						 <div class="control-group">
             				<label class="control-label" for="iswalletpayment">{{ 'label.iswalletpayment' | translate }}</label>
             					<div class="controls">
               							<label class="checkbox">
-                							<input type="checkbox" ng-model="formData.isWalletPayment">
+                							<input type="checkbox" data-ng-model="formData.isWalletPayment">
               							</label>
             					</div>
           					</div>
@@ -167,14 +169,14 @@
 				</td>
 				
 				<td>
-				<div ng-show="paymentType == 'Cheque'">
+				<div data-ng-show="paymentType == 'Cheque'">
 				<table>
 				<tr>
 							<td>
 								<div class="control-group">
            					 	<label class="control-label" for="chequeNo">{{ 'label.chequeno' | translate }}</label>
             					<div class="controls">
-             					 <input type="text" id="chequeNo" ng-model="formData.chequeNo">
+             					 <input type="text" id="chequeNo" data-ng-model="formData.chequeNo">
            						</div>
          						</div>
 							</td>
@@ -184,7 +186,7 @@
 								<div class="control-group">
             					<label class="control-label" for="chequeDate">{{ 'label.chequedate' | translate }}</label>
             					<div class="controls">
-              					<input type="text" id="chequeDate" ng-model="formData.chequeDate">
+              					<input type="text" id="chequeDate" data-ng-model="formData.chequeDate">
             					</div>
           						</div>
 							</td>
@@ -195,7 +197,7 @@
 					<div class="control-group">
            			<label class="control-label" for="bankName">{{ 'label.bankname' | translate }}</label>
             		    <div class="controls">
-             				<input type="text" id="bankName" ng-model="formData.bankName">
+             				<input type="text" id="bankName" data-ng-model="formData.bankName">
            				</div>
          			</div>
 				  </td>
@@ -205,7 +207,7 @@
 						<div class="control-group">
            				<label class="control-label" for="branchName">{{ 'label.branchname' | translate }}</label>
             			  <div class="controls">
-             				<input type="text" id="branchName" ng-model="formData.branchName">
+             				<input type="text" id="branchName" data-ng-model="formData.branchName">
            					</div>
          				</div>
 					</td>
@@ -215,26 +217,24 @@
 				  </div>
 				</td>
 			  </tr>
-			
 			</table>
 			<br>
-			 <div class="offset3" ng-hide= "selectInvoice">
+			 <div class="offset3" data-ng-hide= "selectInvoice">
            		 <a href='#/viewclient/{{clientId}}' class="btn">Cancel</a>
-          		 <button id="submit" type="submit" data-ng-disabled="payInvoiceForm.$dirty && payInvoiceForm.$invalid" class="btn btn-primary" ng-click = "submitAccount()">{{'button.save'| translate}}</button>
+          		 <button id="submit" type="submit" data-ng-disabled="payInvoiceForm.$dirty && payInvoiceForm.$invalid" class="btn btn-primary" data-ng-click = "submitAccount()">{{'button.save'| translate}}</button>
           	</div>
-			<br>
-			<div class="control-group" ng-show = "selectInvoice">
-          		<label class="control-label">Show Invoice Details</label>
+			<div class="control-group" data-ng-show = "selectInvoice">
+          		<label class="control-label">{{'label.show.invoice.details' | translate}}</label>
          		 <div class="controls">
-            		<a class="btn btn-primary" ng-click="showInvoiceDetails=!showInvoiceDetails">
-              			<i ng-show="showInvoiceDetails" class="icon-minus icon-white"></i>
-             			 <i ng-show="!showInvoiceDetails" class="icon-plus icon-white"></i>
+            		<a class="btn btn-primary" data-ng-click="showInvoices(formData.amountPaid)">
+              			<i data-ng-show="showInvoiceDetails" class="icon-minus icon-white"></i>
+             			 <i data-ng-show="!showInvoiceDetails" class="icon-plus icon-white"></i>
             		</a>
           		</div>
         	</div>
 			<br>
 
-<div collapse = "!showInvoiceDetails">
+<div data-collapse = "!showInvoiceDetails">
 
 			<table class="table" >
         <thead>
@@ -244,40 +244,42 @@
                 <th>Invoice Date</th>
                 <th>Invoice Amount</th>
                 <th>Due Amount</th>
-                <th>Amount</th>
-                <th></th>
+              <!--   <th>Amount</th>
+                <th></th> -->
             </tr>
         </thead>
         <tbody>
-             <tr ng-repeat="invoiceData in invoiceDatas" >
+             <tr data-ng-repeat="invoiceData in invoiceDatas" >
            
-            	<td> <input  id = "{{invoiceData.id}}" type="radio" name ="select"  ng-click = "seletedRecord(invoiceData.id)"/></td>
+            	<td> <input  id="{{invoiceData.id}}" class="unCheck" type="checkbox" data-ng-model="active" data-ng-change="selectedInvoices(invoiceData.id,invoiceData.dueAmount,active,$index)"/></td>
             	<td>{{invoiceData.id}}</td>
                 <td>{{invoiceData.billDate | DateFormat}}</td>
                  <td>{{invoiceData.amount}}</td>
                 <td>{{invoiceData.dueAmount}}</td>
-                <td>
-             		<span style="color:green;" ng-show="(invoiceData.dueAmount == 0) && (value == invoiceData.id)">Paid</span>
-             		<input ng-show="(value == invoiceData.id) && (invoiceData.dueAmount != 0)" class="input-small" type="text" name="amountInvoice"
-             			ng-model ="formData.amount" ng-change="amountField(formData.amount,invoiceData.dueAmount)" data-ng-pattern="{{'decimal' | CodeValidate}}">
+              <!--   <td>  data-ng-click = "seletedRecord(invoiceData.id)"
+             		<span style="color:green;" data-ng-show="(invoiceData.dueAmount == 0) && (value == invoiceData.id)">Paid</span>
+             		<input data-ng-show="(value == invoiceData.id) && (invoiceData.dueAmount != 0)" class="input-small" type="text" name="amountInvoice"
+             			data-ng-model ="formData.amount" data-ng-change="amountField(formData.amount,invoiceData.dueAmount)" data-ng-pattern="{{'decimal' | CodeValidate}}">
              		
-           		</td>
-                 <td>
-                    <button ng-show="(value == invoiceData.id) && (invoiceData.dueAmount != 0)"  
-                    	class="btn btn-primary"  ng-click="submitInvoice()">Pay</button>
-                  <!--   <span data-ng-show="payInvoiceForm.amountInvoice.$dirty && payInvoiceForm.amountInvoice.$invalid">
+           		</td> -->
+           <!--       <td>
+                    <button data-ng-show="(value == invoiceData.id) && (invoiceData.dueAmount != 0)"  
+                    	class="btn btn-primary"  data-ng-click="submitInvoice()">Pay</button>
+                    <span data-ng-show="payInvoiceForm.amountInvoice.$dirty && payInvoiceForm.amountInvoice.$invalid">
              			<small class="error-row" data-ng-show="payInvoiceForm.amountInvoice.$error.pattern">{{'error.not.decimal.validation' | translate}}</small>
-             		</span> -->
-           		</td >
+             		</span>
+           		</td > -->
 
             </tr>
             
         </tbody>
     </table>
+    	<br>
+		<div class="pull-right">
+            <a href='#/viewclient/{{clientId}}' class="btn">{{'button.cancel'  | translate}}</a>
+          <button id="submit" type="submit" class="btn btn-primary" data-ng-disabled="payInvoiceForm.$dirty && payInvoiceForm.$invalid" class="btn btn-primary" data-ng-click = "submitAccount()">Pay</button>
+          </div>	
  </div> 
- 
- 	
-			
         </fieldset>
       </form>
       <script type="text/ng-template" id="alert.html">
@@ -285,7 +287,19 @@
                         <h3 class="bolder">Warning</h3>
                     </div>
                     <div class="modal-body" modal-middle>
-                       <i class="icon-warning-sign error"></i>Amount cann't be greater than <span style='color:blue;font-size:15px;'>"Due Amount"</span>.
+                       <i class="icon-warning-sign error"></i>Paying Amount cann't be greater than <span style='color:blue;font-size:15px;'>"Invoice Due Amount"</span>.
+                    </div>
+                    <div class="modal-footer">
+						<button class="btn btn-primary" ng-click="approve()">ok</button>
+                    </div>
+      </script>
+      
+       <script type="text/ng-template" id="amountAlert.html">
+					<div class="modal-header silver">
+                        <h3 class="bolder">Warning</h3>
+                    </div>
+                    <div class="modal-body" modal-middle>
+                       <i class="icon-warning-sign error"></i>Available Paying Amount cann't be greater than <span style='color:blue;font-size:15px;'>"Invoice Due Amount"</span>.
                     </div>
                     <div class="modal-footer">
 						<button class="btn btn-primary" ng-click="approve()">ok</button>

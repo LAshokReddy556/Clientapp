@@ -243,6 +243,7 @@
   "button.no":"NO",
   "button.yes":"YES",
   "button.create":"Create",
+   "button.close":"Close",
 
   "#datatable":"",
   "table.heading.datatablename":"Data Table Name",
@@ -320,8 +321,8 @@
 
 
   "#view employee":"....",
-  "label.office.parentoffice":"Parent office",
-  "label.office.openedon":"Opened on",
+  "label.office.parentoffice":"Parent Office",
+  "label.office.openedon":"Opened On",
   "label.office.namedecorated":"Name Decorated",
   "label.office.externalid":"External Id",
   
@@ -415,9 +416,9 @@
   "link.reports.tickets":"Tickets",
   "link.reports.inventory" : "Inventory",
   "link.reports.leads" : "Leads",
-  "link.reports.invoice&collections":"Invoice&Collections",
+  "link.reports.invoice&collections" : "Invoice&Collections",
   "link.admin.users" : "Users",
-  "link.admin.organisation" : "Organisation",
+  "link.admin.organisation" : "Organization",
   "link.admin.templates" : "Templates",
   "link.admin.system" : "System",
   "link.admin.configuration":"Configurations",
@@ -525,11 +526,11 @@
   "table.heading.parent office":"Parent Office",
   "table.heading.office type":"Office Type",
   "table.heading.opened on":"Opened On",
-  "label.officename":"Office name",
+  "label.officename":"Office Name",
   "label.openedon":"Opened on:",
   "label.externalId":"External Id",
-  "label.openedon":"Opened on",
-  "label.parentoffice":"Parent office",
+  "label.openedon":"Opened On",
+  "label.parentoffice":"Parent Office",
   "app lebels end" :"-----------------------------------------------------",
   "app erros start" :"----------------------------------------------------",
   "error.login.failed":"Please try again, your credentials are not valid",
@@ -752,7 +753,7 @@
   "label.plan.plandescription":"Plan Description",
   "label.plan.billingrule":"Billing Rule",
   "label.plan.startdate":"Start Date",
-  "label.plan.provisioningsystem":"ProvisioningSystem",
+  "label.plan.provisioningsystem":"Provisioning System",
   "label.plan.service":"Services",
   "label.plan.enddate":"End Date",
   "label.availableservice":"Available Service",
@@ -825,6 +826,7 @@
   "label.media.image"					: "image",
   "label.media.location"				: "Media Location",
   "label.delete.mediadetails"			: "Delete Media Details",
+  "label.media.contentprovider"         : "Content Provider",
 
   "placehoder.mediadetails.searchbar" 	:  "Enter text to search",
   
@@ -1122,7 +1124,7 @@
   "label.firstname":"First Name",
   "label.officephone":"Office Number",
   "label.middlename":"Middle Name",
-  "label.mobilephone":"Mobile Phone:",
+  "label.mobilephone":"Mobile Phone",
   "label.lastname":"Last Name",
   "label.emailid":"Email Id",
   "label.address":"Address",
@@ -1945,6 +1947,9 @@
 
  "#Mapping Configuration":"..........",
  "label.managemappingconfigurations":"Mapping Configurations",
+ "label.planMapping":"Plan Mapping",
+ "label.hardwareMapping":"Hardware Mapping",
+ "label.provisioningMapping":"Provisioning Mapping",
  "table.servicemapping.id":"Id",
  "table.servicemapping.servicecode":"Service Code",
  "table.servicemapping.serviceidentification":"Service Identification",
@@ -2348,7 +2353,7 @@
 "label.groupsdetails.groupcir"				: "Group CIR",
 "label.groupsdetails.dir"					: "DIR",
 "label.groupsdetails.membercir"				: "Member CIR",
-"label.groupsdetails.additionalinfo"		: "Additional information",
+"label.groupsdetails.additionalinfo"		: "Additional Information",
 "label.groupdetails.clientname"				: "Name",
 "label.groupdetails.status"					: "Status",
 "label.groupdetails.account"				: "Account #",
@@ -2543,7 +2548,7 @@
 "label.repeatPassword":"Repeat Password",
 "label.editpartner":"Edit Partner",
 "label.partner.isCollective":"Is Collective",
-"label.contact.name":"Contact Name:",
+"label.contact.name":"Contact Name",
 "label.partner.phone":"phone Number",
 "validation.msg.partner.partnerName.cannot.be.blank":"Partner Name cannot be blank",
 "validation.msg.partner.loginName.cannot.be.blank":"Login Name cannot be blank",
@@ -2773,7 +2778,8 @@
 "validation.msg.feemaster.defaultFeeAmount.cannot.be.blank"  : "Default Fee Amount can not be blank",
 "error.msg.feemaster.regional.price.not.found":"No Regional Price found for this Service Transfer",
 "validation.msg.feemaster.regionPrices.not.greater.than.zero" :"Please add atleast one region price",
-"label.pgconfig.editconfig":"Edit Configurations"
+"label.pgconfig.editconfig":"Edit Configurations",
+"label.form.module":"Module"
 
 
 

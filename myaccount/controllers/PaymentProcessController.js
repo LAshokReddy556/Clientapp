@@ -1,8 +1,8 @@
 PaymentProcessController = function(scope,routeParams,RequestSender,localStorageService,location,modal){
 	
 	scope.screenName 		= routeParams.screenName;
-	var priceDataId 		= routeParams.priceDataId;
 	var planId 				= routeParams.planId;
+	var priceDataId 		= routeParams.priceId;
 	scope.price		 	 	= routeParams.price;
 	var encrytionKey 		= selfcareModels.encriptionKey;
 	scope.isRedirecting 	= false;
@@ -16,8 +16,6 @@ PaymentProcessController = function(scope,routeParams,RequestSender,localStorage
 	var  internalPaymentPG	=	paymentGatewayNames.internalPayment || "";
 	var  two_checkoutPG		=	paymentGatewayNames.two_checkout || "";
 	
-	scope.paypalPG			=   paypalPG;
-	
 	//getting locale value
 	 var temp 				= localStorageService.get('localeLang')||"";
 	 scope.optlang 			= temp || selfcareModels.locale;
@@ -28,13 +26,13 @@ PaymentProcessController = function(scope,routeParams,RequestSender,localStorage
 	var orderId				= storageData.orderId || 0;
 	scope.clientId			= clientData.id;
 	var chargeCodeData 		= localStorageService.get("chargeCodeData")||"";
+	var isAutoRenew 		= localStorageService.get("isAutoRenew") || "";
 	
 		for(var i in totalOrdersData){
 			if(totalOrdersData[i].planId == planId){
 				for(var j in totalOrdersData[i].pricingData){
 					if(totalOrdersData[i].pricingData[j].id == priceDataId){
 						scope.planData = totalOrdersData[i].pricingData[j] || {};
-						localStorageService.add("planData",scope.planData);
 						break;
 					}
 				}
@@ -42,13 +40,13 @@ PaymentProcessController = function(scope,routeParams,RequestSender,localStorage
 			}
 		}
 		
-		if(localStorageService.get("clientTotalData")){
+		if(clientData){
 		  scope.paymentgatewayDatas = [];
 		  RequestSender.paymentGatewayConfigResource.get(function(data) {
 			  if(data.globalConfiguration){
 				  for(var i in data.globalConfiguration){
 					   if(data.globalConfiguration[i].enabled && data.globalConfiguration[i].name != 'is-paypal-for-ios'  
-						   && data.globalConfiguration[i].name != 'is-paypal'){
+						   && data.globalConfiguration[i].name != 'is-paypal'&& data.globalConfiguration[i].name != 'paypal-recurring-payment-details'){
 						   scope.paymentgatewayDatas.push(data.globalConfiguration[i]);
 					   }
 				  }
@@ -63,9 +61,6 @@ PaymentProcessController = function(scope,routeParams,RequestSender,localStorage
 	   scope.paymentGatewayFun  = function(paymentGatewayName){
 		   localStorageService.remove("N_PaypalData");
 		   scope.paymentGatewayName = paymentGatewayName;
-		   scope.errorRecurring = "";
-		   paymentGatewayName == paypalPG ? scope.paypalType = true : scope.paypalType =false;
-		   console.log(scope.paypalType);
 			  scope.termsAndConditions = false;
 			  var paymentGatewayValues = {};
 			  for (var i in scope.paymentgatewayDatas){
@@ -96,34 +91,31 @@ PaymentProcessController = function(scope,routeParams,RequestSender,localStorage
 				break;
 					
 			case paypalPG :
-				scope.paymentGatewayValues1 = paymentGatewayValues;
 				RequestSender.getRecurringScbcriberIdResource.get({orderId:orderId},function(data){
 					console.log(angular.fromJson(angular.toJson(data)));
 					localStorageService.add("recurringData",angular.fromJson(angular.toJson(data)));
 				});
-				if(scope.paypalRecurringType){
-					if(scope.paypalType && scope.paypalRecurringType == 'RecurringType'){
+				if(angular.fromJson(isAutoRenew)){
 						var chargeCodeData1	= chargeCodeData.data;
 						var srt 		= srtCountCheckingFun(chargeCodeData1);
-						
 						 /*if(srt<=1){
 							scope.errorRecurring = "error.msg.paypal.recurring.notpossible"; 
 						 }else*/
-							 scope.paymentURL = "#/paypalrecurring/"+scope.screenName+"/"+scope.clientId+"/"+planId+"/"+priceDataId+"/"+scope.planData.price+"/"+scope.paymentGatewayValues1.paypalEmailId;
-					}else{
+							 scope.paymentURL = "#/paypalrecurring/"+scope.screenName+"/"+scope.clientId+"/"+planId+"/"+priceDataId+"/"+scope.price+"/"+paymentGatewayValues.paypalEmailId+"/"+scope.planData.contractId;
+				}else{
+					
 						/*var query = {clientId :scope.clientId,planId: planId,screenName:scope.screenName,priceDataId:priceDataId};*/
 						var query = hostName;
-						localStorageService.add("N_PaypalData",{clientId:scope.clientId,screenName :scope.screenName,planId: planId,priceDataId:priceDataId});
-						scope.paymentURL = scope.paymentGatewayValues1.paypalUrl+'='+scope.paymentGatewayValues1.paypalEmailId+"&item_name="+scope.planData.planCode+"&amount="+scope.planData.price+"" +	  	  				
+						localStorageService.add("N_PaypalData",{clientId:scope.clientId,screenName :scope.screenName,planId: planId,priceId:priceDataId});
+						scope.paymentURL = paymentGatewayValues.paypalUrl+'='+paymentGatewayValues.paypalEmailId+"&item_name="+scope.planData.planCode+"&amount="+scope.planData.price+"" +	  	  				
 						  	  "&custom="+query;
-					}
 				}
 				break;
 					
 			case globalpayPG :
 				
-				var globalpayStorageData = {clientData :clientData,planId:planId,screenName :scope.screenName,price :scope.planData.price,
-											 priceId : scope.planData.id, globalpayMerchantId:paymentGatewayValues.merchantId};	
+				var globalpayStorageData = {clientData :clientData,planId:planId,screenName :scope.screenName,price :scope.price,
+											 priceId : priceDataId, globalpayMerchantId:paymentGatewayValues.merchantId};	
 			    var encodeURIComponentData = encodeURIComponent(JSON.stringify(globalpayStorageData));
 				var encryptedData = CryptoJS.AES.encrypt(encodeURIComponentData,encrytionKey).toString();
 				
@@ -131,7 +123,7 @@ PaymentProcessController = function(scope,routeParams,RequestSender,localStorage
 				break;
 			case netellerPG :
 				
-				var nettellerData = {currency:selfcareModels.netellerCurrencyType,total_amount:scope.planData.price,
+				var nettellerData = {currency:selfcareModels.netellerCurrencyType,total_amount:scope.price,
 									paytermCode:scope.planData.billingFrequency,planCode : planId,
 									contractPeriod : scope.planData.contractId,screenName:scope.screenName,orderId : orderId};
 				
@@ -141,7 +133,7 @@ PaymentProcessController = function(scope,routeParams,RequestSender,localStorage
 				break;
 				
 			case internalPaymentPG :
-				scope.paymentURL =  "#/internalpayment/"+scope.screenName+"/"+scope.clientId+"/"+planId+"/"+priceDataId+"/"+scope.planData.price;
+				scope.paymentURL =  "#/internalpayment/"+scope.screenName+"/"+scope.clientId+"/"+planId+"/"+priceDataId+"/"+scope.price;
 				break;
 				
 			case two_checkoutPG :
@@ -160,35 +152,6 @@ PaymentProcessController = function(scope,routeParams,RequestSender,localStorage
 		    	  		 	
 		  };
 		  
-	scope.paypalRecurringTypeNameFun = function(data){
-		scope.termsAndConditions = false;
-		scope.paypalRecurringType = data;
-		scope.errorRecurring = "";
-		if(scope.paypalType && scope.paypalRecurringType == 'RecurringType'){
-				var chargeCodeData1	= chargeCodeData.data;
-				var srt 		= srtCountCheckingFun(chargeCodeData1);
-				 console.log(srt);
-				/* if(srt<=1){
-					scope.errorRecurring = "error.msg.paypal.recurring.notpossible"; 
-				 }else*/
-					 scope.paymentURL = "#/paypalrecurring/"+scope.screenName+"/"+scope.clientId+"/"+planId+"/"+priceDataId+"/"+scope.planData.price+"/"+scope.paymentGatewayValues1.paypalEmailId;;
-		}else{
-			/*var query = {clientId :scope.clientId,locale : "en",planCode : planId,contractPeriod : scope.planData.contractId,
-						  paytermCode:scope.planData.billingFrequency,returnUrl:hostName, screenName:scope.screenName,orderId:orderId,eventData:""};*/
-			var query = hostName;
-			localStorageService.add("N_PaypalData",{clientId:scope.clientId,screenName :scope.screenName,planId: planId,priceDataId:priceDataId});
-			scope.paymentURL = scope.paymentGatewayValues1.paypalUrl+'='+scope.paymentGatewayValues1.paypalEmailId+"&item_name="+scope.planData.planCode+"&amount="+scope.planData.price+"" +	  	  				
-			  	  "&custom="+query;
-		}
-	};
-	scope.isPaypalRecurringFun = function(){
-		if(scope.paypalType){
-			if(scope.paypalRecurringType) return true; else return false;
-		}else{
-			return true;
-		}
-	};
-	
 	scope.finishBtnFun =function(){
   	  		  location.path("/orderbookingscreen/"+scope.screenName+"/"+scope.clientId+"/"+planId+"/"+priceDataId);
     };
@@ -219,44 +182,48 @@ PaymentProcessController = function(scope,routeParams,RequestSender,localStorage
     };
     
     function srtCountCheckingFun(chargeCodeData){
-    	var billFrequencyCode = 0;
+    	var contractType = 0;
 		var durationType = 0;
-    			switch (chargeCodeData.durationType) {
-							case "Month(s)":
-								durationType = 30;
+		console.log("contractType**************>"+angular.lowercase(chargeCodeData.contractType));
+		console.log("durationType**************>"+angular.lowercase(chargeCodeData.durationType));
+    			switch (angular.lowercase(chargeCodeData.contractType)) {
+							case "month(s)":
+								contractType = 30;
 								break;
-							case "Day(s)":
-								durationType = 1;
+							case "day(s)":
+								contractType = 1;
 								break;
-							case "Week(s)":
-								durationType = 7;
+							case "week(s)":
+								contractType = 7;
 								break;
-							case "Year(s)":
-								durationType = 365;
+							case "year(s)":
+								contractType = 365;
 								break;
 							default:
 								break;
 					};
-				switch (chargeCodeData.billFrequencyCode) {
-								case "Monthly":
-									billFrequencyCode = 30;
-									break;
-								case "Daily":
-									billFrequencyCode = 1;
-									break;
-								case "Weekly":
-									billFrequencyCode = 7;
-									break;
-								case "yearly":
-									billFrequencyCode = 365;
-									break;
-								default:
-									break;
+				switch (angular.lowercase(chargeCodeData.durationType)) {
+							case "month(s)":
+								durationType = 30;
+								break;
+							case "day(s)":
+								durationType = 1;
+								break;
+							case "week(s)":
+								durationType = 7;
+								break;
+							case "year(s)":
+								durationType = 365;
+								break;
+							default:
+								break;
 						};
-						console.log("billFrequencyCode-->"+billFrequencyCode);
+						console.log("contractType-->"+contractType);
+						console.log("units-->"+chargeCodeData.units);
 						console.log("durationType-->"+durationType);
 						console.log("chargeDuration-->"+chargeCodeData.chargeDuration);
-				var srt =  Math.round(billFrequencyCode/(durationType*chargeCodeData.chargeDuration));
+				/*var srt =  Math.round(billFrequencyCode/(durationType*chargeCodeData.chargeDuration));*/
+				  var srt = (chargeCodeData.units * contractType) / (durationType * chargeCodeData.chargeDuration);
 				return srt;
     }
     

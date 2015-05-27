@@ -75,12 +75,12 @@
       					   <label for="{{paymentgatewayData.name}}" class="inlinedis pointer">
       								<img src="../images/{{paymentgatewayData.name}}.jpg" width="110px;">&nbsp;
       					   </label><br/>
-      					  <div data-ng-show="paymentgatewayData.name==paypalPG" class="marginleft30">
+      					  <!-- <div data-ng-show="paymentgatewayData.name==paypalPG" class="marginleft30">
       					   	 <div data-ng-show="paypalType">
       					   	  	<input style="vertical-align: sub;" type="radio" name="paypalTypeName" data-ng-click="paypalRecurringTypeNameFun('NormalType')"/>&nbsp;Normal&nbsp;
       					   	  <input style="vertical-align: sub;" type="radio" name="paypalTypeName" data-ng-click="paypalRecurringTypeNameFun('RecurringType')"/>&nbsp;Recurring&nbsp;
 	      					  </div>
-      					   </div> 
+      					   </div>  -->
        				</div>
        				<div class="error" data-ng-show="paymentGatewayName==''" style="font-size: 1.5em;margin-top: 0px;">
        					 {{'label.notselect.payment.gateway' | translate}}<br/><br/>
@@ -107,8 +107,8 @@
           	    </td>
        		 	<td style="padding-top: 30px;" >
       		 	   <div >
-					  <a class="btn btn-primary" data-ng-hide="termsAndConditions&&isPaypalRecurringFun()" data-ng-disabled="true">{{'btn.proceed' | translate}}</a>
-					  <a class="btn btn-primary" href="{{paymentURL}}" data-ng-show="termsAndConditions&&isPaypalRecurringFun()">
+					  <a class="btn btn-primary" data-ng-hide="termsAndConditions" data-ng-disabled="true">{{'btn.proceed' | translate}}</a>
+					  <a class="btn btn-primary" href="{{paymentURL}}" data-ng-show="termsAndConditions">
 					  	{{'btn.proceed' | translate}}
 					  </a>
 				   </div>

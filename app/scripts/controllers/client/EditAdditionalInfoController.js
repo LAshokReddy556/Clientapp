@@ -41,6 +41,7 @@
             scope.ageGroupDatas = data.ageGroupDatas;
             scope.customeridentificationDatas= data.customeridentificationDatas;
             scope.cummunitcationDatas= data.cummunitcationDatas;
+            scope.languagesDatas= data.languagesDatas;
             if(data){
             scope.formData.nationality = data.nationalityId;
             scope.formData.gender = data.genderId;

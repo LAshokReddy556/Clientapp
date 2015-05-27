@@ -88,6 +88,7 @@
  	"label.home.postcode"		: "Home Postcode",
  	"label.nationalid"			: "National ID",
  	"label.order.info"			: "Order Information",
+ 	"label.service.info"		: "Service Information",
  	"label.listofvods"			: "List Of VODs",
  	"label.ondemands"			: "On Demands",
  	"label.serialnumber"	    : "Serial Number",
@@ -108,6 +109,7 @@
  	"label.terms.conditions"	: "Terms and Conditions", 
  	"label.read.agreement"		: "Read and accept the following agreement to continue.", 
  	"label.passport"			: "Passport", 
+ 	"label.autorenew"			: "Is Auto Renew", 
  	
  	"label.signup.newuser"			   			: "Signup new user ",
  	"label.or"			   						: " - or - ",
@@ -274,6 +276,9 @@
 	 "label.disconnectorder"				: "Disconnect Order",
 	 "label.order.disconnectionDate"		: "Disconnection Date",
 	 "label.order.disconnectionreason"		: "Disconnection Reason",
+	 "table.header.order.servicecode"		: "Service Code",
+	 "table.header.order.servicedescription": "Service Description",
+	 "table.header.order.servicetype"		: "Service Type",
 	 
 	 
 	  "#ListofVODSResources "	 :"------------------------------------",
@@ -346,6 +351,11 @@
 	 "label.globalpay.email"		: "Email Address",
 	 "label.globalpay.phone"	    : "Phone Number",
 	 "label.add.globalpay.Info"		: "GlobalPay Information",
+	 
+	 
+	 "#EditProfileResouces" :"------------------------------------",
+	 "label.edit.profile"								: "Edit Profile",
+	 
 	 
 	 "#Registration errors ":"-----------------------------------",
 	 "validation.msg.activationprocess.device.cannot.be.blank"		: "Mac Id field cannot be blank",
@@ -939,7 +949,7 @@
 "label.addpack.info"								: "If you wish to add pack, please choose one of the following packs, and click on ‘Add Pack’:",
 "label.anotherpack.info"							: "If you wish to add another pack, please choose one of the following packs, and click on ‘Add Pack’:",
 "label.changepack.info"								: "If you wish to change pack, please choose one of the following packs, and click on ‘Change Pack’:",
-"label.topuppack.info"								: "If you wish to TopUp pack, please choose one of the Renewal Period, and click on ‘Top Up’:",
+"label.topuppack.info"								: "If you wish to TopUp pack, please choose one of the Renewal Period, and click on ‘Top Up Pack’:",
 "btn.add.pack"										: "Add Pack",
 "btn.change.pack"									: "Change Pack",
 "btn.topup.pack"									: "Top Up Pack",

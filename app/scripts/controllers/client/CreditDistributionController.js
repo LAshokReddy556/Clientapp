@@ -67,7 +67,7 @@
         };
         
         scope.selectedInvoices = function(invoiceId,amount,active,index){
-        	
+        	console.log(active);
         	if(active == true){
         		if(scope.paymentDatas[paymentIndex].availAmount == 0){
         			$('#'+invoiceId).prop('checked',false);
@@ -80,7 +80,6 @@
         		}else if(amount >= payAvailAmount){
         			prevAvailAmountArray.push({id : invoiceId,amount : scope.paymentDatas[paymentIndex].availAmount});
         			paymentAmount = scope.paymentDatas[paymentIndex].availAmount;
-        			scope.paymentDatas[paymentIndex].availAmount =0;
         		    scope.creditdistributions.push({
         				invoiceId : invoiceId,
         				amount : paymentAmount,
@@ -89,6 +88,14 @@
 						locale    : $rootScope.locale.code
 						
         				});
+        		    if(amount!=scope.paymentDatas[paymentIndex].availAmount){
+                        $modal.open({
+   		                 templateUrl: 'amountAlert.html',
+        			     controller: alertController,
+        			     resolve:{}
+        		       });
+   		           }
+        		    scope.paymentDatas[paymentIndex].availAmount =0;
         			}
         		else{
         			prevAvailAmountArray.push({id : invoiceId,amount : amount});

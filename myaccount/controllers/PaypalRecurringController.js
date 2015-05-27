@@ -6,23 +6,26 @@ PaypalRecurringController = function(scope,RequestSender,location,localStorageSe
 		var priceId 		= routeParams.priceId||"";
 		scope.price 		= routeParams.price||"";
 		scope.emailId 		= routeParams.emailId||"";
+		var contractId 		= routeParams.contractId||"";
 		var selfcareAppUrl	= selfcareModels.selfcareAppUrl;
 		
 		scope.returnURL 	= selfcareAppUrl+"#/paypalrecurringsuccess/"+screenName+"/"+clientId+"/"+planId+"/"+priceId;
 		
-		var chargeCodeData 	= localStorageService.get("chargeCodeData")||"";
-			chargeCodeData  = chargeCodeData.data;
-			var orderId 	= localStorageService.get("chargeCodeData").orderId || null;
+		var chargeCodeData = "";var orderId = null ;
+		localStorageService.get("chargeCodeData") ? (chargeCodeData = localStorageService.get("chargeCodeData").data,
+													orderId = localStorageService.get("chargeCodeData").orderId):"";
 			console.log(orderId);
 		scope.period		= chargeCodeData.chargeDuration;
 		scope.time			= chargeCodeData.durationType[0];
-		//scope.customValue   = {chargeDuration:chargeCodeData.chargeDuration,durationType:chargeCodeData.durationType};
-		var planData = localStorageService.get("planData");
+		
 		if(screenName == "changeorder"){
 			scope.customValue   = { clientId:clientId,planId:planId,paytermCode:chargeCodeData.billFrequencyCode,
-					contractPeriod:planData.contractId,orderId:orderId};
+					contractPeriod:contractId,orderId:orderId};
+		}else if(screenName == "renewalorder"){
+			scope.customValue   = {clientId:clientId,planId:planId,paytermCode:chargeCodeData.billFrequencyCode,
+						renewalPeriod:contractId,orderId:orderId,priceId:priceId};
 		}else{
-			scope.customValue   = { clientId:clientId,planId:planId,paytermCode:chargeCodeData.billFrequencyCode,contractPeriod:planData.contractId};
+			scope.customValue   = { clientId:clientId,planId:planId,paytermCode:chargeCodeData.billFrequencyCode,contractPeriod:contractId};
 		}
 		var billFrequencyCode = 0;
 		var durationType = 0;

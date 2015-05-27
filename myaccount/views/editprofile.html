@@ -1,0 +1,88 @@
+<div data-ng-controller="EditProfileController">
+	 <div class="loading-widget-div" data-ng-show="blockUI">
+        <div id="circularG">
+        	<div id="circularG_1" class="circularG"></div><div id="circularG_2" class="circularG"></div>
+            <div id="circularG_3" class="circularG"></div><div id="circularG_4" class="circularG"></div>
+            <div id="circularG_5" class="circularG"></div><div id="circularG_6" class="circularG"></div>
+            <div id="circularG_7" class="circularG"></div><div id="circularG_8" class="circularG"></div>
+        </div>
+    </div>
+	<div>
+		<ul class="breadcrumb borderradius15">
+			<li><a href="#/profile" class="colorwhite">{{'link.profile' | translate}}</a> <span class="divider colorwhite">/</span></li>
+			<li class="active colorwhite">{{'label.edit.profile' | translate}}</li>
+		</ul>
+	</div>
+<form name="editprofileform" class="form-horizontal well"  data-ng-submit="submit()">
+<br/>
+ 	<div class="error" data-ng-show="errorStatus || errorDetails">
+		<label>{{'label.contract.error' | translate}}</label>
+		<label data-ng-show="errorStatus">{{errorStatus}}</label>
+		<label data-ng-hide="errorStatus" data-ng-repeat="error in errorDetails">{{error.code | translate}}</label>
+    </div>
+	<fieldset>
+		<table>
+			<tr>
+				<td valign="top">
+          			<div class="control-group" style="margin-bottom:30px;">
+          			   <label class="control-label">{{'label.customer.name' | translate}}&nbsp;<span class="required">*</span></label>
+          			   <div class="controls">
+		                 <input data-ng-autofocus="true" name="fullName" type="text" data-ng-model="displayName" placeholder= "{{'label.customer.name' | translate}}" required  data-late-Validate/>
+          			   </div>
+      				</div>
+       			</td>
+	       		<td valign="top">
+      			  <div class="control-group" style="margin-bottom:30px;">
+          			<label class="control-label">{{'label.mobilephone' | translate}}&nbsp;<span class="required">*</span></label>
+       				<div class="controls">
+       				  <input name="phone" type="text" data-ng-model="formData.phone" placeholder= "{{'label.mobilephone' | translate}}" data-ng-minlength="7" maxlength="15"
+       							data-ng-pattern="/^\d{1,15}$/" required  data-late-Validate/><br/>
+       					<span data-ng-show="editprofileform.phone.$invalid">
+			       			<small class="error" data-ng-show="editprofileform.phone.$error.pattern">{{'form.error.number'|translate}}</small>
+			       			<small class="error" data-ng-show="editprofileform.phone.$error.minlength">{{'form.error.number.digits.atleast'|translate}}</small>
+			   			</span>
+       				</div>
+      			  </div>
+	       		</td>
+			</tr>
+			<tr>
+				<td valign="top">
+       			<div class="control-group" style="margin-bottom:30px;">
+       			  <label class="control-label">{{'label.telephone.number' | translate}}&nbsp;</label>
+       			  <div class="controls">
+       				<input name="telePhone" type="text" data-ng-model="formData.homePhoneNumber" placeholder= "{{'label.telephone.number' | translate}}" data-ng-minlength="7" maxlength="15"
+       							data-ng-pattern="/^\d{1,15}$/" /><br/>
+       				<span data-ng-show="editprofileform.telePhone.$invalid">
+			       	   <small class="error" data-ng-show="editprofileform.telePhone.$error.pattern">{{'form.error.number'|translate}}</small>
+			       	   <small class="error" data-ng-show="editprofileform.telePhone.$error.minlength">{{'form.error.number.digits.atleast'|translate}}</small>
+			   		</span>
+       			  </div>
+   			    </div>
+	       	   </td>
+	       	   <td valign="top">
+	       			<div class="control-group" style="margin-bottom:10px;" data-ng-show="isConfigNationalId">
+	                  <label class="control-label">{{ 'label.nationalid' | translate }}&nbsp;<span class="required">*</span></label>
+	                   <div class="controls">
+		                   <input type="text" data-ng-model="formData.externalId" name="externalId" placeholder= "{{ 'placeholder.enter.nationalid.example' | translate }}" maxlength="11"
+		                  		 data-ng-onblur="nationalIdValidationFun(formData.externalId)"/><br/>
+		                   <small>{{'label.pattern'|translate}}{{'hint.nationaid.pattern'|translate}}</small><br/>
+		                   <small class="error" data-ng-hide="nationalIdvalue">{{'form.error.nationalid.pattern'|translate}}</small>
+	                   </div>
+	                </div>	
+	                <div class="control-group" style="margin-bottom:30px;" data-ng-hide="isConfigNationalId">
+	                   <label class="control-label">{{ 'label.nationalid' | translate }}&nbsp;</label>
+	                    <div class="controls">
+	                      <input type="text" data-ng-model="formData.externalId" name="externalId" placeholder= "{{ 'label.nationalid' | translate }}" maxlength="11"/><br/>
+	                    </div>
+	               </div>
+	       		</td>
+			</tr>
+		   <tr><td colspan="2" align="right">
+			<a id="cancel" href="#/profile"><button type="reset" class="btn">{{'btn.cancel' | translate}}</button></a>
+			<button id="submit" type="submit" data-ng-show="isConfigNationalId" class="btn btn-primary" data-ng-disabled="!editprofileform.$valid||!formData.externalId||!nationalIdvalue">{{'btn.save' | translate}}</button>
+			<button id="submit" type="submit" data-ng-hide="isConfigNationalId" class="btn btn-primary" data-ng-disabled="!editprofileform.$valid">{{'btn.save' | translate}}</button>
+		</td></tr></table>
+
+	</fieldset>
+</form>
+</div>

@@ -88,6 +88,7 @@
  	"label.home.postcode"		: "Póstnúmer",
  	"label.nationalid"			: "Kennitala",
  	"label.order.info"			: "Panta Upplýsingar",
+ 	"label.service.info"		: "þjónusta Upplýsingar",
  	"label.listofvods"			: "Listi yfir Vods",
  	"label.ondemands"			: "á Krafa",
  	"label.serialnumber"	    : "raðnúmeri",
@@ -108,6 +109,7 @@
  	"label.terms.conditions"	: "Skilmálar og skilyrði", 
  	"label.read.agreement"		: "Lesa og samþykkja eftirfarandi samkomulag til að halda áfram.",
  	"label.passport"			: "vegabréf", 
+ 	"label.autorenew"			: "Er farartæki Endurnýja", 
  	
  	"label.signup.newuser"			 		    : "stofnaðu aðgang ",
  	"label.or"			 					    : " - eða - ",
@@ -273,6 +275,9 @@
 	 "label.disconnectorder"				: "Aftengja Order",
 	 "label.order.disconnectionDate"		: "slitnar Dagsetning",
 	 "label.order.disconnectionreason"		: "slitnar Ástæða",
+	 "table.header.order.servicecode"		: "þjónusta Kóði",
+	 "table.header.order.servicedescription": "þjónusta Lýsing",
+	 "table.header.order.servicetype"		: "þjónusta Tegund",
 	 
 	 
 	  "#ListofVODSResources "	 :"------------------------------------",
@@ -345,6 +350,10 @@
 	 "label.globalpay.email"		: "tölvupósti Heimilisfang",
 	 "label.globalpay.phone"	    : "Símanúmer",
 	 "label.add.globalpay.Info"		: "GlobalPay Upplýsingar",
+	 
+	 "#paymentGatewayConfig" :"------------------------------------",
+	 "label.edit.profile"								: "Breyta prófíl",
+	 
 	 
 	  "#Registration errors ":"-----------------------------------",
 	 "validation.msg.activationprocess.device.cannot.be.blank"		: "Mac auðkenni má ekki vera autt",
@@ -938,7 +947,7 @@
 "label.addpack.info"								: "Ef þú vilt bæta við pakka, vinsamlegast veldu einn af eftirfarandi pakkningum og smelltu á 'Bæta Pakki':",
 "label.anotherpack.info"							: "Ef þú vilt bæta við öðrum pakka, vinsamlegast veldu einn af eftirfarandi pakkningum og smelltu á 'Bæta Pakki':",
 "label.changepack.info"								: "Ef þú vilt breyta pakki, vinsamlegast veldu einn af eftirfarandi pakkningum og smelltu á 'Breyta Pakki':",
-"label.topuppack.info"								: "Ef þú vilt TopUp pakka, vinsamlegast veldu einn af endurnýjunartímabils og smelltu á 'Top Up':",
+"label.topuppack.info"								: "Ef þú vilt TopUp pakka, vinsamlegast veldu einn af endurnýjunartímabils og smelltu á 'Top Up Pakki':",
 "btn.add.pack"										: "Bæta pakki",
 "btn.change.pack"									: "Breyta pakki",
 "btn.topup.pack"									: "Top Up pakki",

@@ -65,7 +65,7 @@ selfcareApp.config(function($routeProvider, $locationProvider) {
     .when('/paymentgatewayresponse/:clienId',{
     	templateUrl: 'views/paymentgatewayresponse.html'
     })
-    .when('/paymentprocess/:screenName/:priceDataId/:planId/:price',{
+    .when('/paymentprocess/:screenName/:planId/:priceId/:price',{
     	templateUrl: 'views/paymentprocess.html'
     })
     .when('/neteller/:clientId',{
@@ -89,7 +89,7 @@ selfcareApp.config(function($routeProvider, $locationProvider) {
     .when('/interswitchintegration/:screenName/:clientId/:planId/:priceId/:amount/:productId/:payItemId',{
     	templateUrl: 'views/interswitchintegration.html'
     })
-     .when('/paypalrecurring/:screenName/:clientId/:planId/:priceId/:price/:emailId',{
+     .when('/paypalrecurring/:screenName/:clientId/:planId/:priceId/:price/:emailId/:contractId',{
     	templateUrl: 'views/paypalrecurring.html'
     })
     .when('/paypalrecurringsuccess/:screenName/:clientId/:planId/:priceId',{
@@ -100,6 +100,9 @@ selfcareApp.config(function($routeProvider, $locationProvider) {
     })
     .when('/events',{
     	templateUrl: 'views/events.html'
+    })
+    .when('/editprofile/:clientId/:isConfigNationalId',{
+    	templateUrl: 'views/editprofile.html'
     });
        
     $locationProvider.html5Mode(false);

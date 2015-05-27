@@ -26,36 +26,35 @@ PaypalRedirectionController = function(scope,RequestSender, location,localStorag
     		
     		var screenName					= N_PaypalData.screenName;
     		var planId						= N_PaypalData.planId;
-    		var priceId						= N_PaypalData.priceDataId;
+    		var priceId						= N_PaypalData.priceId;
     		
     		RequestSender.paymentGatewayResource.update({},formData,function(data){
-    			
     			//  localStorageService.remove("N_PaypalData");
+    			  localStorageService.remove("chargeCodeData");
+    			  
 				  localStorageService.add("paymentgatewayresponse", {data:data});
 				  var result = angular.uppercase(data.Result) || "";
 	    			location.$$search = {};
 	    			if(screenName == 'payment'){
 						location.path('/paymentgatewayresponse/'+formData.clientId);
 					}else if(result == 'SUCCESS' || result == 'PENDING'){
-						localStorageService.remove("chargeCodeData");
 						if(angular.lowercase(formData.status) == 'pending')localStorageService.add("gatewayStatus",formData.status);
 						var recurringData = localStorageService.get("recurringData")||{};
+						localStorageService.remove("recurringData");
 						console.log(recurringData);
 						if(recurringData.length != 0){
-							scope.scbcriberId = recurringData.scbcriberId;
+							scope.scbcriberId = recurringData.subscriberId;
 							scope.orderId = recurringData.orderId;
 						}
 						console.log("scope.scbcriberId-->"+scope.scbcriberId);
 						
 						if(scope.scbcriberId){
-							localStorageService.remove("recurringData");
-							var recurringOrderData = {orderId:scope.orderId,recurringStatus:"CANCEL"};
-							RequestSender.orderDisconnectByScbcriberIdResource.remove({},recurringOrderData,function(data){
+							var recurringOrderData = {orderId:scope.orderId,recurringStatus:"CANCEL",subscr_id:scope.scbcriberId};
+							RequestSender.orderDisconnectByScbcriberIdResource.update({},recurringOrderData,function(data){
 								
 								location.path("/orderbookingscreen/"+screenName+"/"+formData.clientId+"/"+planId+"/"+priceId);
 							});
 						}else{
-							localStorageService.remove("recurringData");
 							location.path("/orderbookingscreen/"+screenName+"/"+formData.clientId+"/"+planId+"/"+priceId);
 						}
 						

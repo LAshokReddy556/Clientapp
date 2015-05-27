@@ -26,6 +26,12 @@
             scope.orderId=webStorage.get('orderId');
             resourceFactory.orderaddonTemplateResource.get({planId : scope.orderData.planId,chargeCode :  scope.orderData.chargeCode} , function(data) {  
         	scope.subscriptiondatas=data.contractPeriods;
+        	/* removing contracts from drop down of contract period label which have no end date..... */
+        	for (var i=scope.subscriptiondatas.length -1; i>=0; i--){
+        		if(scope.subscriptiondatas[i].Contractdata=="Perpetual" || scope.subscriptiondatas[i].Contractdata=="No Exipriy"){
+        			 scope.subscriptiondatas.splice(i, 1);
+        		}
+        	}
         	scope.addonsPriceDatas=data.addonsPriceDatas;
         	
         });

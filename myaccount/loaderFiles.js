@@ -14,6 +14,8 @@ document.write("<script type='text/javascript' src='./bower_components/underscor
 document.write("<script type='text/javascript' src='./bower_components/angular-webstorage/angular-webstorage.js'></script>");
 document.write("<script type='text/javascript' src='./bower_components/bootstrap-timepicker/js/bootstrap-timepicker.js'></script>");
 document.write("<script type='text/javascript' src='./bower_components/angular-dynamic-locale/tmhDynamicLocale.min.js'></script>");
+document.write("<script type='text/javascript' src='./additionals/angular-ui-switch.js'></script>");
+document.write("<script type='text/javascript' src='./additionals/bootstrap-switch.js'></script>");
 
 //individual js files
 document.write("<script type='text/javascript' src='./constants.js'></script>");
@@ -40,6 +42,7 @@ document.write("<script type='text/javascript' src='./filters/StatusLookup.js'><
 document.write("<script type='text/javascript' src='./directives/LateValidateDirective.js'></script>");
 document.write("<script type='text/javascript' src='./directives/NgAutoFocusFunDirective.js'></script>");
 document.write("<script type='text/javascript' src='./directives/OnBlurDirective.js'></script>");
+document.write("<script type='text/javascript' src='./directives/bsSwitch.js'></script>");
 
 //services folder js files
 document.write("<script type='text/javascript' src='./services/AuthenticationService.js'></script>");
@@ -85,3 +88,4 @@ document.write("<script type='text/javascript' src='./controllers/PaypalRecurrin
 document.write("<script type='text/javascript' src='./controllers/PaypalRecurringController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/PaypalRedirectionController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/EventsController.js'></script>");
+document.write("<script type='text/javascript' src='./controllers/EditProfileController.js'></script>");

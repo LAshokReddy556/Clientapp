@@ -3,8 +3,8 @@
     float: left;
     font-size: 12px;
     line-height: 22px;
-    margin: 10px 8px 25px 10px;;
-    min-height: 170px;
+    margin: 10px 8px 10px 10px;;
+    min-height: 179px;
     min-width: 220px;
     border-radius: 15px;
 }
@@ -153,7 +153,6 @@ label.css-label {
        -o-transition: opacity 0.3s linear, top 0.3s ease-out;
           transition: opacity 0.3s linear, top 0.3s ease-out;
 }
-
 
 
 
