@@ -1,59 +1,46 @@
-ServicesController = function(scope,RequestSender,localStorageService,location,paginatorService,$modal,route,dateFilter,rootScope) {
+ServicesController = function(scope,RequestSender,localStorageService,location,$modal,route,dateFilter,rootScope) {
 		  
-		  	scope.getOrdersData = function(offset, limit, callback) {
-			  retrivingOrdersData.pageItems = [];
-				  var itrCount = 0;
-				  for (var i=offset;i<clientOrdersData.length;i++) {
-					 itrCount += 1;
-					 retrivingOrdersData.pageItems.push(clientOrdersData[i]);
-					 if(itrCount==limit){
-						 break;
-					 }
-			      }
-				  callback(retrivingOrdersData);
-		  	};
 		  var isAutoRenewConfig = angular.fromJson(localStorageService.get("isAutoRenewConfig"));
-		  	var clientOrdersData =[]; var retrivingOrdersData = {};scope.ordersData = [];
+		  	var clientOrdersData =[]; scope.ordersData = [];
 		  	var completeOrdersData = [];
-	  	  var clientData= localStorageService.get('clientTotalData');
+	  	  var clientData= {};
 	  	  function initialFunCall(){
-	  		scope.screenName = "additionalorders";
-		    if(clientData){
-			  scope.clientId = clientData.id;
-			  
-			  RequestSender.getOrderResource.get({clientId:scope.clientId},function(data){
-				  clientOrdersData = data.clientOrders;
-				  retrivingOrdersData.totalFilteredRecords = clientOrdersData.length;
-				 // scope.ordersData = paginatorService.paginate(scope.getOrdersData,3);
-				  scope.ordersData = clientOrdersData;
-				  
-				  //new code for new ui
-				  var totalOrdersData = []; 
-				  RequestSender.orderTemplateResource.query({region : clientData.state},function(data){
-					  completeOrdersData = data;
-					  totalOrdersData = completeOrdersData;
-					  scope.plansData = [];
-						  for(var i in clientOrdersData ){
-							  totalOrdersData = _.filter(totalOrdersData, function(item) {
-			                      return item.planCode != clientOrdersData[i].planCode;
-			                  });
-						  }
-						  for(var j in totalOrdersData){
-							  totalOrdersData[j].autoRenew = isAutoRenewConfig;
-							if(totalOrdersData[j].isPrepaid == 'Y')scope.plansData.push(totalOrdersData[j]); 
-						  }
-						  localStorageService.add("storageData",{clientData:clientData,totalOrdersData:totalOrdersData});
-				  });
-			  });
-		    }
+	  		 if(rootScope.selfcare_sessionData){
+	  			 scope.clientId = rootScope.selfcare_sessionData.clientId;
+	  		   RequestSender.clientResource.get({clientId: scope.clientId} , function(clientTotalData) {
+	  			  scope.screenName = "additionalorders";
+	  			  clientData	   = clientTotalData;
+  				  RequestSender.getOrderResource.get({clientId:scope.clientId},function(data){
+  					  clientOrdersData = data.clientOrders;
+  					  scope.ordersData = clientOrdersData;
+  					  
+  					  //new code for new ui
+  					  var totalOrdersData = []; 
+  					  RequestSender.orderTemplateResource.query({region : clientData.state},function(data){
+  						  completeOrdersData = data;
+  						  totalOrdersData = completeOrdersData;
+  						  scope.plansData = [];
+  						  for(var i in clientOrdersData ){
+  							  totalOrdersData = _.filter(totalOrdersData, function(item) {
+  								  return item.planCode != clientOrdersData[i].planCode;
+  							  });
+  						  }
+  						  for(var j in totalOrdersData){
+  							  totalOrdersData[j].autoRenew = isAutoRenewConfig;
+  							  if(totalOrdersData[j].isPrepaid == 'Y')scope.plansData.push(totalOrdersData[j]); 
+  						  }
+  						  localStorageService.add("storageData",{clientData:clientData,totalOrdersData:totalOrdersData});
+  					  });
+  				  });
+	  		  });
+	  	    }
 	  	  }initialFunCall();
 		  
-	 scope.packageSelectionFun = function(selectedOrderId,selectedPlanId,orderStatus,orderRenew){
+	 scope.activePackageSelectionFun = function(selectedOrderId,selectedPlanId,orderStatus,orderRenew){
 		 scope.orderRenew = angular.uppercase(orderRenew) == 'Y';
 		 scope.selectedOrderId = selectedOrderId;
 		 scope.selectedPlanId = selectedPlanId;
 		 
-		 if(angular.lowercase(orderStatus) == 'active'){
 			 scope.screenName = "changeorder";var totalOrdersData = [];
 			 angular.copy(completeOrdersData,totalOrdersData);
 			  for(var i in totalOrdersData){
@@ -72,20 +59,23 @@ ServicesController = function(scope,RequestSender,localStorageService,location,p
 				if(totalOrdersData[j].isPrepaid == 'Y')scope.plansData.push(totalOrdersData[j]); 
 			  }
 			  localStorageService.add("storageData",{clientData:clientData,totalOrdersData:totalOrdersData,orderId:scope.selectedOrderId});
-	 	}
-		if(angular.lowercase(orderStatus) == 'disconnected'){
-			scope.screenName = "renewalorder";var totalOrdersData = [];
-			angular.copy(completeOrdersData,totalOrdersData);
-				  scope.plansData = [];
-				  for(var j in totalOrdersData){
-						if((totalOrdersData[j].planId == scope.selectedPlanId) && (totalOrdersData[j].isPrepaid == 'Y')){
-							totalOrdersData[j].autoRenew = isAutoRenewConfig;
-							scope.plansData.push(totalOrdersData[j]); 
-							break;
-						}
-					  }
+	  };
+	  scope.disconnectedPackageSelectionFun = function(selectedOrderId,selectedPlanId,orderStatus,orderRenew){
+		  scope.orderRenew = angular.uppercase(orderRenew) == 'Y';
+		  scope.selectedOrderId = selectedOrderId;
+		  scope.selectedPlanId = selectedPlanId;
+		  
+			  scope.screenName = "renewalorder";var totalOrdersData = [];
+			  angular.copy(completeOrdersData,totalOrdersData);
+			  scope.plansData = [];
+			  for(var j in totalOrdersData){
+				  if((totalOrdersData[j].planId == scope.selectedPlanId) && (totalOrdersData[j].isPrepaid == 'Y')){
+					  totalOrdersData[j].autoRenew = isAutoRenewConfig;
+					  scope.plansData.push(totalOrdersData[j]); 
+					  break;
+				  }
+			  }
 			  localStorageService.add("storageData",{clientData:clientData,totalOrdersData:totalOrdersData,orderId:scope.selectedOrderId});
-		  }
 	  };
 	  
 	  scope.revertRadioBtnFun = function(){
@@ -97,24 +87,23 @@ ServicesController = function(scope,RequestSender,localStorageService,location,p
     	   if(priceData.contractId != 0){
     		   scope.planId 	= planId;				scope.billingFrequency 	= priceData.billingFrequency;
     		   scope.priceId 	= priceData.id;			scope.price 			= priceData.price;
-    		   scope.duration 	= priceData.duration;
     	   }else if(priceData.contractId == 0){
     		   alert("Contract Id is '0',Please Choose another.....");
     	   }
        };
 	  scope.checkingRecurringStatus = function(autoRenew){
 		  if(scope.planId && scope.billingFrequency && scope.priceId && scope.price){
-			RequestSender.recurringStatusCheckingResource.get({planId:scope.planId,billFrequency:scope.billingFrequency,contractPeriod:scope.duration,clientId:scope.clientId},function(data){
-				if(scope.billingFrequency == data.billFrequencyCode && scope.price == data.price){
-					if(scope.screenName == "additionalorders")localStorageService.add("chargeCodeData",{data:data});
-					if(scope.screenName == "changeorder" || scope.screenName == "renewalorder")localStorageService.add("chargeCodeData",{data:data,orderId:scope.selectedOrderId});
+			RequestSender.recurringStatusCheckingResource.get({priceId:scope.priceId,clientId:scope.clientId},function(data){
+					if(scope.screenName == "additionalorders")localStorageService.add("chargeCodeData",{data:data,billingFrequency:scope.billingFrequency});
+					if(scope.screenName == "changeorder" || scope.screenName == "renewalorder")localStorageService.add("chargeCodeData",{data:data,orderId:scope.selectedOrderId,billingFrequency:scope.billingFrequency});
 					console.log('This is the state of my isAutoRenew: ' + autoRenew);
 					if(scope.screenName == "renewalorder")localStorageService.add("isAutoRenew",scope.orderRenew);
 					else localStorageService.add("isAutoRenew",autoRenew);
-					location.path( '/paymentprocess/'+scope.screenName+'/'+scope.planId+'/'+scope.priceId+'/'+scope.price);
-				}
+					location.path( '/paymentprocess/'+scope.screenName+'/'+scope.planId+'/'+scope.priceId+'/'+data.finalAmount);
 			});
 		  }else if(scope.price == 0){
+			  if(scope.screenName == "additionalorders" || scope.screenName == "changeorder") 
+				  localStorageService.add("isAutoRenew",autoRenew);
 			  location.path( '/paymentprocess/'+scope.screenName+'/'+scope.planId+'/'+scope.priceId+'/'+scope.price);
 		  }
 			
@@ -134,6 +123,21 @@ ServicesController = function(scope,RequestSender,localStorageService,location,p
 		 modalInstance.result.then(function () {}, function () {
 			 if(scope.orderDisconnect){route.reload();}
  	    });
+     };
+     scope.viewPlanServices = function(planId){
+    	 scope.orderDisconnect = false;
+    	 var modalInstance = $modal.open({
+    		 templateUrl: 'viewplanservice.html',
+    		 controller: viewPlanServicesPopupController,
+    		 resolve:{
+    			 planId : function(){
+    				 return planId;
+    			 }
+    		 }
+    	 });
+    	 modalInstance.result.then(function () {}, function () {
+    		 if(scope.orderDisconnect){route.reload();}
+    	 });
      };
     function vieworderPopupController($scope, $modalInstance,$log,orderId) {
    	  function initialFunCall(){
@@ -169,6 +173,15 @@ ServicesController = function(scope,RequestSender,localStorageService,location,p
     	};
    	  $scope.close = function () {$modalInstance.dismiss('cancel');};
          
+     };
+     
+     function viewPlanServicesPopupController($scope, $modalInstance,$log,planId) {
+    	RequestSender.planServicesResource.get({planId: planId},function(data){
+    			 $scope.planServices = data.selectedServices;
+    		 });
+    	 
+    	 $scope.close = function () {$modalInstance.dismiss('cancel');};
+    	 
      };
      
        var OrderDisconnectPopupController = function ($scope, $modalInstance,orderId) {
@@ -211,7 +224,6 @@ selfcareApp.controller('ServicesController', ['$scope',
                                               'RequestSender',
                                               'localStorageService',
                                               '$location',
-                                              'PaginatorService',
                                               '$modal',
                                               '$route',
                                               'dateFilter',

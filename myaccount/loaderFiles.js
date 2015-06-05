@@ -55,10 +55,8 @@ document.write("<script type='text/javascript' src='./services/SessionManager.js
 document.write("<script type='text/javascript' src='./controllers/SignUpFormController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/SignInFormController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/ActivateUserController.js'></script>");
-document.write("<script type='text/javascript' src='./controllers/AdditionalOrdersController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/OrderBookingScreenController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/ChangeKortaTokenController.js'></script>");
-document.write("<script type='text/javascript' src='./controllers/ChangeOrderController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/ChangePasswordController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/CreateTicketController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/EventDetailsPreviewScreenController.js'></script>");
@@ -69,8 +67,6 @@ document.write("<script type='text/javascript' src='./controllers/KortaSuccessCo
 document.write("<script type='text/javascript' src='./controllers/KortaTokenController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/PaymentGatewayResponseController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/ProfileController.js'></script>");
-document.write("<script type='text/javascript' src='./controllers/RenewalOrderController.js'></script>");
-document.write("<script type='text/javascript' src='./controllers/RenewalOrderPreviewScreenController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/ServicesController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/StatementsController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/TicketsController.js'></script>");

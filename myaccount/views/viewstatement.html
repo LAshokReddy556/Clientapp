@@ -29,7 +29,7 @@
 		</tr>
    </table>
     <br/>
-   <span style="margin-left:20px">{{ 'label.statement.transactions' | translate }}</span>
+   <span style="margin-left:20px;font-weight: bold;">{{ 'label.statement.transactions' | translate }}</span>
    <br/>
    <br/>
 	<div class="row-fluid span" style="margin-left:20px;margin-top: -20px">
@@ -37,12 +37,12 @@
 		<table class="table table-striped table-bordered fullwidth">
 		  <thead>
               <tr>
-                  <td width="50%">{{ 'label.statement.transactiontype' | translate }}</td>
-                  <td width="50%">{{ 'table.header.statement.amount' | translate }}</td>
+                  <td width="50%" class="borderbottom">{{ 'label.statement.transactiontype' | translate }}</td>
+                  <td width="50%" class="borderbottom">{{ 'table.header.statement.amount' | translate }}</td>
               </tr>
           </thead>
 			<tr data-ng-repeat="statementData in statementDatas">
-				<td width="50%">{{statementData.transaction}}</td>        
+				<td width="50%" >{{statementData.transaction}}</td>        
                 <td width="50%">{{statementData.amount}}</td>         
 			</tr>
 		 </table>		

@@ -6,9 +6,10 @@
 	       <div id="circularG_5" class="circularG"></div><div id="circularG_6" class="circularG"></div>
 	       <div id="circularG_7" class="circularG"></div><div id="circularG_8" class="circularG"></div>
 	   </div>
-    </div>
- 
-    <br/><br/>
+    </div><br/>
+    <div class="headersdiv" >
+	  <h3><b class="marginleft10">{{'label.netteler.info' | translate}}</b></h3>
+	</div>
     <form name="netellerform" class="form-horizontal well"  data-ng-submit="submit()">
     <br/>
      <div class="error" data-ng-show="errorStatus || errorDetails">
@@ -18,7 +19,6 @@
 	 </div>
     <br/>
      <fieldset>
-          <legend class="offset1">{{'label.netteler.info' | translate}}</legend>
       <table>
     	<tr>
     		<td>
@@ -58,9 +58,6 @@
 				</div>
     		</td>
     	</tr>
-    	<!-- <tr>
-    		<td>&nbsp;</td>
-    	</tr> -->
     	<tr>
     		<td colspan="2" align="right">
 				<a id="cancel" data-ng-click="goBack()"><button type="reset" class="btn">{{'btn.cancel' | translate}}</button></a>

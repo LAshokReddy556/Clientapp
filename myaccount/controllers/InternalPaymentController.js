@@ -3,18 +3,17 @@ InternalPaymentController = function(scope, routeParams, location, localStorageS
 	scope.formData 				= {};
 	scope.formData.clientId 	= routeParams.clientId;
 	scope.formData.Amount 		= routeParams.amount;
-	var screenName 				= routeParams.screenName;
-	var planId 					= routeParams.planId || '';
-	var priceId 				= routeParams.priceId || '';
-	var isValueVoucher 			= false;
+	var screenName 				= routeParams.screenName,
+		planId 					= routeParams.planId || '',
+		priceId 				= routeParams.priceId || '',
+		isValueVoucher 			= false;
 	
 	scope.pinNoValidationFun = function(id){
 		 if(id){
 			 RequestSender.VoucherResource.query({pinNumber:id},function(data){
-				 var voucherArray = data;
-				 if(voucherArray.length == 1){
-					 var pinType 	= voucherArray[0].pinType;
-					 var pinValue 	= voucherArray[0].pinValue;
+				 if(data.length == 1){
+					 var pinType 	= data[0].pinType;
+					 var pinValue 	= data[0].pinValue;
 					 if(pinType == 'VALUE'){
 						 scope.errorStatus='';
 						 if(pinValue == scope.formData.Amount || scope.formData.Amount < pinValue){
@@ -26,6 +25,8 @@ InternalPaymentController = function(scope, routeParams, location, localStorageS
 						 
 					 }else{
 						 isValueVoucher = false;
+						 delete scope.formData.pinNumber;
+						 scope.errorStatus = '';
 						 alert("Please Go to Redemption Option");
 					 }
 				 }else{

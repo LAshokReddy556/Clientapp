@@ -1480,6 +1480,9 @@ ul.breadcrumb li a{
   border-bottom: medium none;
 }
 
+.borderbottom{
+	border-bottom: 1px solid #d3d3d3;
+}
 
 /*new changes for selfcare ended*/
 

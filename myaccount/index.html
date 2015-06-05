@@ -31,17 +31,6 @@
     <div data-ng-hide="isLandingPage || currentSession.user != null" data-ng-cloak >
       <div class="container well margintop20" style="height: 580px;margin-bottom: 0;">
         <div class="row form-search paddedbottom" >
-       <!--  <div id="header" style="padding:15px 10px 18px 15px;-webkit-box-shadow: 0 6px 4px -4px #BABABA;box-shadow: 0 6px 4px -4px #BABABA;">
-			<div class="pull-left" style="margin: 0px 0px;background:#fff;">
-				<img src="../images/logo.png" alt="Billing">
-			</div> 
-			<div id="lang-ch" class="dropdown pull-right colorwhite" style="margin-top:8px;margin-right:10px;">{{ 'label.change.language' | translate }}
-			  <a class="dropdown-toggle btn btn-primary ">{{localeLang.name}}<i class="icon-sort-down"></i></a>
-			  <ul class="dropdown-menu"><li data-ng-repeat="lang in langs">
-					<a data-ng-click="changeLang(lang)">{{lang.name}}</a></li>
-			  </ul>
-			</div> 
-		</div> -->
 		<div>
 		<table class="fullwidth" id="header" style="-webkit-box-shadow: 0 6px 4px -4px #BABABA;box-shadow: 0 6px 4px -4px #BABABA;">
 		  <tr>
@@ -72,7 +61,6 @@
            <tr><td colspan="2">
          	    <table class="fullwidth"><tr>
          	    	<td width="57%" class="paddingleftnone paddingleft7"><h2><span class="indexheader-span fontsize22">{{'label.signup.newuser' | translate}}</span></h2></td>
-         	    	<!-- <td width="25%" align="right" style="padding-right:20px;"><h2><span >{{'label.or' | translate}}</span></h2></td> -->
          	    	<td class="paddingleftnone"><h2><span class="indexheader-span fontsize22">{{'label.login.existuser' | translate}}</span></h2></td>
          	    </tr></table></td>
            </tr>
@@ -148,7 +136,7 @@
 		 <div class="navbar navbar-fixed-top container">
 	        <div class="navbar-inner" >
 	            <div class="container">
-	                <a class="brand" style="margin: 0px 0px;background:#fff;""><img src="../images/logo.png" alt="SelfCare" width="50px;"></a>
+	                <a class="brand" style="margin: 0px 0px;background:#fff;"><img src="../images/logo.png" alt="SelfCare" width="50px;"></a>
 	                <div class="nav-collapse collapse" id="main-menu" style="float:right;">
 	                    <ul class="nav" id="main-menu-left" data-ng-hide="isRegClientProcess">
 	                     <li><a href="#/profile" data-ng-class="{ activate: isActive('/profile') }"><i class="icon-user icon-white"></i>{{'label.profile' | translate}}</a></li>
@@ -211,13 +199,13 @@
                        	<div class="control-group">
 							<label class="control-label">{{'label.emailid' | translate}}&nbsp;:<span class="required">*</span></label>
 							<div class="controls">
-							   <input type="email" id="email" ng-model="emailData.email" required/>
+							   <input type="email" id="email" ng-model="email" required/>
 							</div>	
 						</div>
                     </div>
 					<div class="modal-footer" ng-hide="isProcessing">
                         <button id="cancel" class="btn btn-warning" ng-click="reject()">{{'btn.cancel' | translate}}</button>
-                        <button id="submit" class="btn btn-primary" ng-disabled="!forgotForm.$valid" ng-click="accept(emailData.email)" >{{'label.confirm' | translate}}</button>
+                        <button id="submit" class="btn btn-primary" ng-disabled="!forgotForm.$valid" ng-click="accept(email)" >{{'label.confirm' | translate}}</button>
                     </div>
 					<div class="modal-footer" ng-show="isProcessing">
 						<span class="btn">{{'label.pleasewait' | translate}}

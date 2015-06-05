@@ -71,7 +71,7 @@
                     	<div class="btn-group pull-right">
                         	<span data-ng-repeat="button in buttons">
                           	<a href="" class="btn btn-primary" data-ng-show="button.ngShow" data-ng-click="getMe(button.href,client.id,button.subhref)"><i class="{{button.icon}} icon-white" ></i>{{button.name | translate}}</a>
-                          	<span  class="btn-group" ng-show="$index==buttons.length-2">
+                          	 <!--<span  class="btn-group" ng-show="$index==buttons.length-2">
 				              		<a class="btn btn-primary dropdown-toggle">
 					                	{{ 'label.button.more' | translate}}
 				                 <span class="caret"></span>
@@ -81,7 +81,7 @@
 					                    <a href="#/servicetransfer/{{clientId}}">{{'label.service.transfer' | translate}}</a>
 					                    <a ng-click="ipChaneFunction()">Static Ip</a>
 					                </li>
-					              </ul>
+					              </ul> -->
           						</span>
                         	</span>
                           	<button type="button" class="btn btn-primary" data-ng-click="deleteClient()" data-ng-show="(client.status.value=='Pending')&&PermissionService.showMenu('DELETE_CLIENT')"><i class="icon-trash icon-white"></i>{{"label.delete" | translate}}</button>

@@ -7,6 +7,13 @@
 	       <div id="circularG_7" class="circularG"></div><div id="circularG_8" class="circularG"></div>
 	   </div>
     </div><br/>
+    <div data-ng-show="(errorDetails[0].code != 'error.msg.billing.generatedKey.already.verified')&&!isRegPage">
+       <div class="error" data-ng-show="errorStatus || errorDetails">
+		<label>{{'label.contract.error' | translate}}</label>
+		<label data-ng-show="errorStatus">{{errorStatus}}</label>
+		<label data-ng-hide="errorStatus" data-ng-repeat="error in errorDetails">{{error.code | translate}}</label>
+       </div>
+    </div>
 	<form class="form-horizontal">
 		<div class="alert alert-success" data-ng-show="isAlreadyActive==true" style="margin-top:50px;">
 		   <table><tr><td><span><img src="../images/warning-icon.png" width="30"></span></td>

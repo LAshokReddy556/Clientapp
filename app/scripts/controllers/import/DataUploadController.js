@@ -1,6 +1,6 @@
 (function(module) {
   mifosX.controllers = _.extend(module, {
-	  DataUploadController: function(scope, resourceFactory,paginatorService,route,API_VERSION,$rootScope,PermissionService) {
+	  DataUploadController: function(scope, resourceFactory,paginatorService,route,API_VERSION,$rootScope,PermissionService,TENANT) {
         scope.imports = [];
         scope.PermissionService = PermissionService;
         
@@ -37,15 +37,15 @@
         
         
         scope.downloadFile = function (id){ 
-            	 window.open($rootScope.hostUrl+ API_VERSION +'/datauploads/print/'+id+'?tenantIdentifier=default');
+            	 window.open($rootScope.hostUrl+ API_VERSION +'/datauploads/print/'+id+'?tenantIdentifier='+TENANT);
         };
              
         scope.logFile = function (id){ 
-        		window.open($rootScope.hostUrl+ API_VERSION +'/datauploads/printlog/'+id+'?tenantIdentifier=default');
+        		window.open($rootScope.hostUrl+ API_VERSION +'/datauploads/printlog/'+id+'?tenantIdentifier='+TENANT);
         };
     }
   });
-  mifosX.ng.application.controller('DataUploadController', ['$scope', 'ResourceFactory','PaginatorService','$route','API_VERSION','$rootScope','PermissionService', mifosX.controllers.DataUploadController]).run(function($log) {
+  mifosX.ng.application.controller('DataUploadController', ['$scope', 'ResourceFactory','PaginatorService','$route','API_VERSION','$rootScope','PermissionService','TENANT', mifosX.controllers.DataUploadController]).run(function($log) {
     $log.info("DataUploadController initialized");
   });
 }(mifosX.controllers || {}));

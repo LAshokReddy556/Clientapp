@@ -1,30 +1,25 @@
 ActivateUserController = function(scope,RequestSender,rootScope,routeParams,sessionManager,authenticationService,$modal,$filter) {
 
 		
-		rootScope.isRegClientProcess = true;
 		
-		//getting the mailId value form routeParams
-		  scope.existedEmail = routeParams.mailId;
-
 		//default variables for this controller
-		  scope.isAlreadyActive=false;
-		  scope.isRegPage = false;
+		  rootScope.isRegClientProcess = true;
 		  
 		//declaration of formData
 		  scope.formData = {};
 		  var configDeviceAgreeType = {};
 		  
-		//getting the key value form routeParams
-		  var actualKey = routeParams.registrationKey || "";
-		  var afterSliceKey = actualKey.slice(0, 27);
 		  
 		//function called when  clicking on Login link
 		  scope.goToSignInPageFun = function(){
 			  	rootScope.currentSession = sessionManager.clear();
 		   };
 		  
+		   //getting the key value form routeParams
+		   scope.existedEmail = routeParams.mailId || "";
+		   var actualKey = routeParams.registrationKey || "";
 		  //adding jsondata for selfcare activation updation request
-		  scope.registrationKey = {'verificationKey' : afterSliceKey,
+		  scope.registrationKey = {'verificationKey' : actualKey.slice(0, 27),
 		  	  						'uniqueReference' : scope.existedEmail};
 		  
 		  authenticationService.authenticateWithUsernamePassword(function(data){
@@ -72,12 +67,14 @@ ActivateUserController = function(scope,RequestSender,rootScope,routeParams,sess
 	  					});
 	
 		        },function(errorData){
-		      	  scope.isAlreadyActive=true;
+		      	 if(errorData.data.errors[0].userMessageGlobalisationCode == "error.msg.billing.generatedKey.already.verified"){
+		      		 scope.isAlreadyActive=true;
+         	  	  }
 		        });
 		  });
 		  
 		//national Id validation
-		      scope.nationalIdvalue = true;
+		     scope.nationalIdvalue = true;
 			 scope.nationalIdValidationFun = function(id){
 				 if(id){
 				 scope.nationalIdvalue = Kennitala.validate(id);
@@ -195,11 +192,11 @@ ActivateUserController = function(scope,RequestSender,rootScope,routeParams,sess
       	    		             {'name' : 'title.login.msg'}]
       	    	      });
       		
-      		$scope.approve = function () { 
-      			
-      			$modalInstance.dismiss('cancel');
-      		 };
-		   } 
+		      		$scope.approve = function () { 
+		      			
+		      			$modalInstance.dismiss('cancel');
+		      		 };
+			  	} 
 		  		
 			//function called when clicking on Register button in Registration Page
 			scope.registerBtnFun =function(){

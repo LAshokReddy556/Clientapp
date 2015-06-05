@@ -13,7 +13,12 @@ UserSettingController = function(scope,rootScope,translate,localStorageService,t
 	                }
 	            }
 	        } else {
-	        	for(var i in scope.langs) if(scope.langs[i].code == selfcareModels.locale) scope.localeLang = scope.langs[i];
+	        	for(var i in scope.langs){ 
+	        		if(scope.langs[i].code == selfcareModels.locale){ 
+	        			scope.localeLang = scope.langs[i];
+	        			tmhDynamicLocale.set(scope.langs[i].code);
+	        		}
+	        	}
 	        }
 	        
 	        scope.changeLang = function (lang) {

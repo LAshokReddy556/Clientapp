@@ -1,8 +1,6 @@
-EventsController = function(scope,RequestSender,localStorageService,location,paginatorService) {
-		var totalVODSData =[];
-		var retrivingVODSData = {};
-		scope.VODSDatas = [];
+EventsController = function(scope,RequestSender,paginatorService,rootScope) {
 		
+		var totalVODSData =[];var retrivingVODSData = {};scope.VODSDatas = [];
 		scope.getVODSData = function(offset, limit, callback) {
 	  		retrivingVODSData.pageItems = [];
 	  		var itrCount = 0;
@@ -16,9 +14,8 @@ EventsController = function(scope,RequestSender,localStorageService,location,pag
 	  		callback(retrivingVODSData);
 	  	};
 		
-		 var clientData= localStorageService.get('clientTotalData');
-		  if(clientData){
-			  scope.clientId = clientData.id;
+		  if(rootScope.selfcare_sessionData){
+			  scope.clientId = rootScope.selfcare_sessionData.clientId;
 			  RequestSender.eventOrderPriceTemplateResource.query({clientId:scope.clientId},function(data){
 				  totalVODSData = data;
 				  retrivingVODSData.totalFilteredRecords = totalVODSData.length;
@@ -29,7 +26,6 @@ EventsController = function(scope,RequestSender,localStorageService,location,pag
     
 selfcareApp.controller('EventsController', ['$scope',
                                             'RequestSender',
-                                            'localStorageService',
-                                            '$location',
                                             'PaginatorService',
+                                            '$rootScope',
                                              EventsController]);

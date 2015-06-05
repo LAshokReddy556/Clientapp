@@ -137,7 +137,7 @@
 	        scope.itemData=function(itemId,officeId){
 	        	
 	        	  scope.saleType=scope.formData2.saleType;
-	        	resourceFactory.oneTimeSaleTemplateResourceData.get({itemId: itemId}, function(data) {
+	        	resourceFactory.oneTimeSaleTemplateResourceData.get({itemId: itemId,region:scope.formData1.state}, function(data) {
 	        	
 	        		scope.formData2=data;
 	        		scope.formData2.itemId=itemId;

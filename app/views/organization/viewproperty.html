@@ -7,8 +7,8 @@
 		</ul>
 		<div class="pull-right">
 			<div class="btn-group">
-		<!-- 		<a data-ng-show="property.status=='VACANT'&&PermissionService.showMenu('UPDATE_PROPERTY')" href="#/editproperty/{{property.id}}" 
-				 class="btn btn-primary"><i class="icon-edit icon-white"></i>{{'button.edit' | translate}}</a> -->
+				<!-- <a data-ng-show="property.status=='VACANT'&&PermissionService.showMenu('UPDATE_PROPERTY')" href="#/editproperty/{{property.id}}" 
+				 class="btn btn-primary"><i class="icon-edit icon-white"></i>{{'button.edit' | translate}}</a>  -->
 				<a data-ng-show="property.status=='VACANT'&&PermissionService.showMenu('DELETE_PROPERTY')"data-ng-click="deleteProperty()" class="btn btn-primary"><i
 					class="icon-trash icon-white"></i> {{'button.delete' | translate}}</a>
 			</div>
@@ -16,27 +16,27 @@
 	</div>
 
 	<div class="row-fluid">
-		<h3>{{property.propertyCode}}</h3>
+		<h3>&nbsp;&nbsp;&nbsp;{{property.propertyCode}}</h3>
 		<div class="span6">
 		<table class="fullwidth">
 			<tr>
-				<td width="35%">{{ 'label.propertytype' | translate }}:</td>
+				<td width="35%">{{ 'label.propertytype' | translate }}</td>
 				<td width="65%">{{property.propertyType}}</td>
 			</tr>
 			<tr>
-				<td>{{'label.unitcode' | translate }}:</td>
+				<td>{{'label.unitcode' | translate }}</td>
 				<td>{{property.unitCode}}</td>
 			</tr>
 			<tr>
-				<td>{{'label.buildingcode' | translate }}:</td>
+				<td>{{'label.buildingcode' | translate }}</td>
 				<td>{{property.buildingCode}}</td>
 			</tr>
 			<tr>
-				<td>{{'label.parcel' | translate }}:</td>
+				<td>{{'label.parcel' | translate }}</td>
 				<td>{{property.parcel}}</td>
 			</tr>
 			<tr>
-				<td>{{'label.floor' | translate }}:</td>
+				<td>{{'label.floor' | translate }}</td>
 				<td data-ng-show="property.floorDesc">{{property.floorDesc}}</td>
 				<td data-ng-hide="property.floorDesc">{{property.floor}}</td>
 			</tr>
@@ -45,15 +45,15 @@
 	   <div class="span4">
 					<table class="fullwidth">
 					<tr>
-				<td width="35%">{{'label.status' | translate }}:</td>
+				<td width="35%">{{'label.status' | translate }}</td>
 				<td width="65%">{{property.status}}</td>
 			</tr>
 			<tr>
-				<td>{{ 'label.state' | translate }}: </td>
+				<td>{{ 'label.state' | translate }} </td>
 				<td>{{property.precinct}},{{property.state}}</td>
 			</tr>
 			<tr>
-				<td>{{'label.country' | translate }}:</td>
+				<td>{{'label.country' | translate }}</td>
 				<td>{{property.country}}</td>
 			</tr>
 			</table>

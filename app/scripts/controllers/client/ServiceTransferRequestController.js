@@ -68,23 +68,26 @@
           	      		   }
           	    }).then(function(res){   
           	    	 scope.propertyCodesData=res.data;
+          	    	
           	      return scope.propertyCodesData;
           	    });
             };  
        
-       scope.getPropertyDetails = function(existsProperty){   
+       scope.getPropertyDetails = function(existsProperty){ 
+    	   
           	   if(!angular.isUndefined(existsProperty)){
           		  for(var j in scope.propertyCodesData)  {
           			 if(existsProperty == scope.propertyCodesData[j].propertyCode){
           				 scope.property.propertyCode = scope.propertyCodesData[j].propertyCode;
-          				 scope.unitStatus=scope.propertyCodesData[j].status;
-          				 scope.propetyId=scope.propertyCodesData[j].id;
+          				 scope.unitStatus = scope.propertyCodesData[j].status;
+          				 scope.propertyId = scope.propertyCodesData[j].id;
           				 break;
           			 }
           		 }
           	   }else{
-                     
+          		 
           	   }
+          	 
              };        
            
 	     scope.generatePropertyPopup = function (){
@@ -302,7 +305,7 @@
   	                 
     	    	    }else{
     	    		   delete $scope.errorData;
- 	    	    	   scope.propetyId=undefined;
+ 	    	    	   scope.propertyId=undefined;
  	    		       $("#propertyCode").removeClass("validationerror");
  	    		     
     	    	   }
@@ -316,7 +319,6 @@
 
        
        scope.submit = function(){
-    	   
     	   scope.formData.oldPropertyCode = scope.serviceTransferRequestData.propertyCode; 
     	   scope.formData.locale = "en"; 
     	   if(scope.shiftingCheckbox == "Yes"){

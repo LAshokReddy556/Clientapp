@@ -1,17 +1,17 @@
-PaypalRedirectionController = function(scope,RequestSender, location,localStorageService,routeParams,dateFilter) {
+PaypalRedirectionController = function(scope,RequestSender, location,localStorageService,routeParams,dateFilter,rootScope) {
  
-    		var formData 					= {};
     		var N_PaypalData				= localStorageService.get("N_PaypalData")||"";
     		
+    		var formData 					= {};
     		formData.transactionId 			= location.search().txnId;
     		formData.total_amount 			= location.search().amnt;
     		formData.currency 				= location.search().currency;
     		if(angular.lowercase(location.search().payStatus) == 'completed')
     			formData.status		 		= 'success';
     		else formData.status		 	= location.search().payStatus;
-    		formData.source 				= 'paypal';
+    		formData.source 				= paymentGatewaySourceNames.paypal;
     		formData.clientId 				= N_PaypalData.clientId;
-    		formData.locale 				= 'en';
+    		formData.locale 				= rootScope.localeLangCode;
     		formData.dateFormat 			= 'dd MMMM yyyy';
     		formData.otherData 				= {};
     		formData.otherData.paymentDate 	= dateFilter(new Date(location.search().payDate),'dd MMMM yyyy');
@@ -27,39 +27,37 @@ PaypalRedirectionController = function(scope,RequestSender, location,localStorag
     		var screenName					= N_PaypalData.screenName;
     		var planId						= N_PaypalData.planId;
     		var priceId						= N_PaypalData.priceId;
-    		
+    	
+    	 if(N_PaypalData != ""){
     		RequestSender.paymentGatewayResource.update({},formData,function(data){
-    			//  localStorageService.remove("N_PaypalData");
-    			  localStorageService.remove("chargeCodeData");
     			  
 				  localStorageService.add("paymentgatewayresponse", {data:data});
 				  var result = angular.uppercase(data.Result) || "";
-	    			location.$$search = {};
+	    			location.$$search = {};localStorageService.remove("N_PaypalData");
 	    			if(screenName == 'payment'){
 						location.path('/paymentgatewayresponse/'+formData.clientId);
 					}else if(result == 'SUCCESS' || result == 'PENDING'){
-						if(angular.lowercase(formData.status) == 'pending')localStorageService.add("gatewayStatus",formData.status);
-						var recurringData = localStorageService.get("recurringData")||{};
-						localStorageService.remove("recurringData");
-						console.log(recurringData);
-						if(recurringData.length != 0){
-							scope.scbcriberId = recurringData.subscriberId;
-							scope.orderId = recurringData.orderId;
-						}
-						console.log("scope.scbcriberId-->"+scope.scbcriberId);
-						
-						if(scope.scbcriberId){
-							var recurringOrderData = {orderId:scope.orderId,recurringStatus:"CANCEL",subscr_id:scope.scbcriberId};
-							RequestSender.orderDisconnectByScbcriberIdResource.update({},recurringOrderData,function(data){
-								
+						if(result == 'PENDING')localStorageService.add("gatewayStatus",formData.status);
+						var storageData = localStorageService.get("storageData")||{};
+						var orderId 	= storageData.orderId || 0;
+						RequestSender.getRecurringScbcriberIdResource.get({orderId:orderId},function(data){
+							scope.recurringData = angular.fromJson(angular.toJson(data));
+							scope.scbcriberId 	= scope.recurringData.subscriberId;
+							console.log("scope.scbcriberId-->"+scope.scbcriberId);
+							if(scope.scbcriberId){
+								var recurringOrderData = {orderId:orderId,recurringStatus:"CANCEL",subscr_id:scope.scbcriberId};
+								RequestSender.orderDisconnectByScbcriberIdResource.update({},recurringOrderData,function(data){
+									
+									location.path("/orderbookingscreen/"+screenName+"/"+formData.clientId+"/"+planId+"/"+priceId);
+								});
+							}else{
 								location.path("/orderbookingscreen/"+screenName+"/"+formData.clientId+"/"+planId+"/"+priceId);
-							});
-						}else{
-							location.path("/orderbookingscreen/"+screenName+"/"+formData.clientId+"/"+planId+"/"+priceId);
-						}
+							}
+						});
 						
 					}
 			  });
+    	  }
     		
 		};
 
@@ -69,5 +67,6 @@ selfcareApp.controller('PaypalRedirectionController', ['$scope',
 	                                                  'localStorageService', 
 	                                                  '$routeParams', 
 	                                                  'dateFilter', 
+	                                                  '$rootScope', 
 	                                                  PaypalRedirectionController]);
 

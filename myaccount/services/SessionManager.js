@@ -11,22 +11,22 @@ selfcareApp.service("SessionManager",['$rootScope','HttpService','$location','lo
         localStorageService.remove('loginHistoryId');
         localStorageService.remove('isAutoRenewConfig');
         httpService.cancelAuthorization();
-        scope.isLandingPage= false;
+        scope.isLandingPage= false;scope.isRegClientProcess = false;
 		location.path('/').replace();
         return scope.currentSession= {user:null};
       };
 
         this.restore = function(handler) {
-            var selfcare_sessionData = localStorageService.get('selfcare_sessionData');
-            if (selfcare_sessionData !== null) {
-              httpService.setAuthorization(selfcare_sessionData.authenticationKey);
+            scope.selfcare_sessionData = localStorageService.get('selfcare_sessionData');
+            if (scope.selfcare_sessionData !== null) {
+              httpService.setAuthorization(scope.selfcare_sessionData.authenticationKey);
             	  var clientData = localStorageService.get("clientTotalData");
             	  if(clientData){
+            		  scope.selfcare_userName = clientData.displayName;
+            		  clientData.selfcare.token ? scope.iskortaTokenAvailable = true :  scope.iskortaTokenAvailable = false;
 	            		//adding web tv url
 	           		   scope.webtvURL = selfcareModels.webtvURL+"?id="+clientData.id;
 	           		   localStorageService.add("selfcareAppUrl",selfcareModels.selfcareAppUrl);
-            		  scope.selfcare_userName = clientData.displayName;
-            		  clientData.selfcare.token ? scope.iskortaTokenAvailable = true :  scope.iskortaTokenAvailable = false;
             		  if(location.path() == "/")location.path('/profile');
             		  else if(location.path())location.path(location.path());
             		  else location.path('/profile');

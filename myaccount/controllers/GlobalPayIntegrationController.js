@@ -2,13 +2,13 @@ GlobalPayIntegrationController = function(scope, RequestSender,location, localSt
 		 
 		//values getting form constants.js file
 		  scope.currencyType		= selfcareModels.globalPayCurrencyType;
-		  var encrytionKey 			= selfcareModels.encriptionKey;
-  		  
-  		  var encryptedData 		= location.search().key;
-		  var decryptedData 		= CryptoJS.AES.decrypt(encryptedData, encrytionKey).toString(CryptoJS.enc.Utf8);
-    	  var globalpayStorageData 	= JSON.parse(decodeURIComponent(decryptedData));
-    	  var clientData 			= globalpayStorageData.clientData;
-    	  var clientId				= clientData.id;
+		  
+		  var  encrytionKey 		= selfcareModels.encriptionKey,
+		  	   encryptedData 		= location.search().key,
+		  	   decryptedData 		= CryptoJS.AES.decrypt(encryptedData, encrytionKey).toString(CryptoJS.enc.Utf8),
+		  	   globalpayStorageData = angular.fromJson(decodeURIComponent(decryptedData)),
+		  	   clientData 			= globalpayStorageData.clientData,
+		  	   clientId				= clientData.id;
     	  scope.names 				= clientData.displayName;
     	  scope.email 				= clientData.email;
     	  scope.phone 				= clientData.phone;

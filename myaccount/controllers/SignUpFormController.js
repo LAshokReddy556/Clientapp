@@ -1,20 +1,13 @@
-SignUpFormController = function(scope,RequestSender,HttpService,rootScope,authenticationService,$modal) {
-
-		  rootScope.signUpCredentials = {};
+SignUpFormController = function(scope,RequestSender,rootScope,authenticationService,$modal) {
 		  
 		  //set the default values
-		  scope.isProcessing  = false;
-		  
-		 //adding returnUrl to signUpCredentials form model returnURL.js
-     	 scope.returnURL = selfcareModels.returnURL; 
-		  
+		  rootScope.signUpCredentials = {};
 		  //submit functionality
           scope.submitEmail = function(){
-        	  
         	  rootScope.signupErrorMsgs = [];rootScope.loginErrorMsgs = [];rootScope.infoMsgs = [];rootScope.popUpMsgs = [];
         	  
         	  if(rootScope.signUpCredentials.userName){
-        		  rootScope.signUpCredentials.returnUrl = scope.returnURL+"/"+rootScope.signUpCredentials.userName+"/";
+        		  rootScope.signUpCredentials.returnUrl = selfcareModels.returnURL+"/"+rootScope.signUpCredentials.userName+"/";
 	        	  
 	        	  authenticationService.authenticateWithUsernamePassword(function(data){
 	        		  
@@ -59,12 +52,12 @@ SignUpFormController = function(scope,RequestSender,HttpService,rootScope,authen
   		      		    	 $modalInstance.dismiss('cancel');
   		      		     };
   		              }    
-			        });
-	    		  });
+			        });//end of request
+	    		  });//end of authentication request
         	  }else{
 				  rootScope.signupErrorMsgs.push({"name":'title.fill.emailid'});
         	  }
-          };
+          };//submit fun end
           
           $('#emailId').keypress(function(e) {
               if(e.which == 13) {
@@ -75,7 +68,6 @@ SignUpFormController = function(scope,RequestSender,HttpService,rootScope,authen
     };
 selfcareApp.controller('SignUpFormController', ['$scope',
                                                 'RequestSender',
-                                                'HttpService',
                                                 '$rootScope',
                                                 'AuthenticationService',
                                                 '$modal',

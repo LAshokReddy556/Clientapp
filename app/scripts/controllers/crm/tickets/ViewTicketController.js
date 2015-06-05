@@ -1,6 +1,6 @@
 (function(module) {
   mifosX.controllers = _.extend(module, {
-	  ViewTicketController: function(scope,webStorage, routeParams , route, location, resourceFactory, http,PermissionService,$rootScope,API_VERSION) {
+	  ViewTicketController: function(scope,webStorage, routeParams , route, location, resourceFactory, http,PermissionService,$rootScope,API_VERSION,TENANT) {
         scope.ticket = []; 
         scope.PermissionService = PermissionService;
       //  var clientData = webStorage.get('clientData');
@@ -37,7 +37,7 @@
         };
         
         scope.downloadDocument = function(id) {
-        	window.open($rootScope.hostUrl + API_VERSION + '/tickets/' + id + '/print' + '?tenantIdentifier=default');
+        	window.open($rootScope.hostUrl + API_VERSION + '/tickets/' + id + '/print' + '?tenantIdentifier='+TENANT);
         };
         
         scope.deletemessage = function (){
@@ -49,7 +49,7 @@
           };
     }
   });
-  mifosX.ng.application.controller('ViewTicketController', ['$scope', 'webStorage','$routeParams', '$route', '$location', 'ResourceFactory', '$http','PermissionService','$rootScope','API_VERSION', mifosX.controllers.ViewTicketController]).run(function($log) {
+  mifosX.ng.application.controller('ViewTicketController', ['$scope', 'webStorage','$routeParams', '$route', '$location', 'ResourceFactory', '$http','PermissionService','$rootScope','API_VERSION','TENANT', mifosX.controllers.ViewTicketController]).run(function($log) {
     $log.info("ViewTicketController initialized");
   });
 }(mifosX.controllers || {}));

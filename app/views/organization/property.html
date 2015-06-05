@@ -40,9 +40,9 @@
                     	<a data-ng-show="PermissionService.showMenu('READ_PROPERTY')" 
                     	    data-ng-click="propertyHistoryPopup(propertyCode.propertyCode)" data-popover="View Track" data-popover-trigger="mouseenter" >
                     	  <i class="icon-list"></i></a>&nbsp;
-					<!-- 	<a data-ng-show="PermissionService.showMenu('UPDATE_PROPERTY') && propertyCode.clientId == 'VACANT'"
+						<!-- <a data-ng-show="PermissionService.showMenu('UPDATE_PROPERTY') && propertyCode.clientId == 'VACANT'"
 							href="#/editproperty/{{propertyCode.id}}" data-popover="{{'label.editproperty' | translate}}" data-popover-trigger="mouseenter">
-                    		<i class="icon-edit icon-white"></i></a>&nbsp;  -->
+                    		<i class="icon-edit icon-white"></i></a>&nbsp; -->  
                     
                     	<a data-ng-show="propertyCode.status=='VACANT'&&PermissionService.showMenu('DELETE_PROPERTY')"
                     	 	data-ng-click="deleteProperty(propertyCode.id)" data-popover="{{'label.deleteproperty' | translate}}" data-popover-trigger="mouseenter">

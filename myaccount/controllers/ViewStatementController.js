@@ -1,8 +1,8 @@
-ViewStatementController = function(scope,routeParams , RequestSender,API_VERSION,$rootScope,localStorageService) {
+ViewStatementController = function(scope,routeParams , RequestSender,API_VERSION,rootScope) {
 
         scope.billId=routeParams.billId;
         
-		if(localStorageService.get('selfcare_sessionData')){
+		if(rootScope.selfcare_sessionData){
 			scope.statementDatas = [];    
 	        RequestSender.singleStatementResource.query({billId: scope.billId} , function(data) {
 	            scope.statementDatas = data;
@@ -11,7 +11,7 @@ ViewStatementController = function(scope,routeParams , RequestSender,API_VERSION
         
         scope.downloadFile = function (){
         	
-        	window.open($rootScope.hostUrl+ API_VERSION +'/billmaster/'+scope.billId+'/print?tenantIdentifier=default');
+        	window.open(rootScope.hostUrl+ API_VERSION +'/billmaster/'+scope.billId+'/print?tenantIdentifier='+selfcareModels.tenantId);
         };
         
         
@@ -24,5 +24,4 @@ selfcareApp.controller('ViewStatementController', ['$scope',
 	                                               'RequestSender', 
 	                                               'API_VERSION',
 	                                               '$rootScope', 
-	                                               'localStorageService', 
 	                                               ViewStatementController]);

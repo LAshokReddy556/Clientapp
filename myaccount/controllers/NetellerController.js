@@ -1,23 +1,17 @@
-NetellerController = function(scope,RequestSender,routeParams,
-			  							HttpService,location,dateFilter,localStorageService) {
+NetellerController = function(scope,RequestSender,routeParams,location,dateFilter,localStorageService,rootScope) {
 		  
-		scope.formData 			= {};
 		var clientId 			= routeParams.clientId;
-		scope.validation 		= {};
 		
-		var encrytionKey 		= selfcareModels.encriptionKey;
-		
-		var encryptedData     	= location.search().key;
-    	var decryptedData     	= CryptoJS.AES.decrypt(encryptedData, encrytionKey).toString(CryptoJS.enc.Utf8);
-    	var	kortaStorageData 	= JSON.parse(decodeURIComponent(decryptedData));
+		scope.formData 			= {};
+		var	decryptedData     	= CryptoJS.AES.decrypt(location.search().key, selfcareModels.encriptionKey).toString(CryptoJS.enc.Utf8),
+			kortaStorageData 	= angular.fromJson(decodeURIComponent(decryptedData));
     	scope.planCode 			= kortaStorageData.planCode;
     	scope.amount 			= kortaStorageData.total_amount;
     	scope.formData 			= kortaStorageData;
     	var screenName 			= scope.formData.screenName;
-    	scope.formData.locale	= "en";
-    	scope.formData.source	= "neteller";
+    	scope.formData.locale	= rootScope.localeLangCode;
+    	scope.formData.source	= paymentGatewaySourceNames.neteller;
     	
-    	 var tokenVal 			= "";
 		  var randomFun = function() {
 				var chars = "0123456789";
 				var string_length = 6;
@@ -27,11 +21,20 @@ NetellerController = function(scope,RequestSender,routeParams,
 					var rnum = Math.floor(Math.random() * chars.length);
 					randomstring += chars.substring(rnum,rnum+1);	
 				}	
-				tokenVal = randomstring;
+				scope.formData.transactionId = randomstring;
 				
 			};randomFun();
-    	scope.formData.transactionId = tokenVal;
     	
+    	scope.validation = {};
+    	scope.validationValueForNeteller = function(value){
+    		
+    		if(value == null || value == '' || value == undefined){
+    			scope.validation.value = true;
+    		}else{
+    			scope.validation.value = false;
+    		}
+    		
+    	};
     	scope.validationForNeteller = function(code){
     		
     		if(code == null || code == '' || code == undefined || code.length < 6){
@@ -42,28 +45,21 @@ NetellerController = function(scope,RequestSender,routeParams,
     		
     	};
     	
-    	scope.validationValueForNeteller = function(value){
-    		
-    		if(value == null || value == '' || value == undefined){
-    			scope.validation.value = true;
-    		}else{
-    			scope.validation.value = false;
-    		}
-    		
-    	};
     	scope.submit = function() { 
-    		var clientData = localStorageService.get("clientTotalData");
-    		if(clientData){
-    			scope.formData.clientId = clientId || clientData.id;
+    		if(rootScope.selfcare_sessionData){
+    			scope.formData.clientId = clientId;
     		  if(!scope.validation.value && !scope.validation.verificationCode){
     			  if(screenName == 'vod') scope.formData.screenName = "";
-    			var authentication = {username:selfcareModels.obs_username,password:selfcareModels.obs_password};
-    			RequestSender.netellerPaymentResource.save(authentication,scope.formData, function(data){
+    			  var authentication = {username:selfcareModels.obs_username,password:selfcareModels.obs_password};
+    			  RequestSender.netellerPaymentResource.save(authentication,scope.formData, function(data){
     				localStorageService.add("paymentgatewayresponse",{data:data});
+    				var result = angular.uppercase(data.Result);
+    				
     				if(screenName == 'vod'){
-    					if(data.Result.toLowerCase() == "success"){
+    					if(result == "SUCCESS" || result == 'PENDING'){
+    						if(result=='PENDING')localStorageService.add("gatewayStatus",result);
     						 location.path("/orderbookingscreen/"+screenName+"/"+clientId+"/0/0");
-    					}else if(data.Result.toLowerCase() == "failure"){
+    					}else if(result == "FAILURE"){
     						location.path('/paymentgatewayresponse/'+clientId);
     					}
     				}else{
@@ -79,10 +75,10 @@ NetellerController = function(scope,RequestSender,routeParams,
     };
     
 selfcareApp.controller('NetellerController',['$scope',
-                                                     'RequestSender',
-                                                     '$routeParams',
-                                                     'HttpService',
-                                                     '$location',
-                                                     'dateFilter',
-                                                     'localStorageService',
-                                                     NetellerController]);
+                                             'RequestSender',
+                                             '$routeParams',
+                                             '$location',
+                                             'dateFilter',
+                                             'localStorageService',
+                                             '$rootScope',
+                                             NetellerController]);

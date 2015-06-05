@@ -1,7 +1,8 @@
 (function(module) {
   mifosX.controllers = _.extend(module, {
-    ViewClientController: function(scope,webStorage, routeParams , route, location, resourceFactory,paginatorService, http,$modal,dateFilter,API_VERSION,$rootScope,PermissionService,localStorageService) {
-    	 scope.clientId = routeParams.id;
+
+    ViewClientController: function(scope,webStorage, routeParams , route, location, resourceFactory,paginatorService, http,$modal,dateFilter,API_VERSION,$rootScope,PermissionService,localStorageService,TENANT) {
+    	scope.clientId=routeParams.id;
     	 scope.client = [];
          scope.error = {};
          scope.identitydocuments = [];
@@ -193,27 +194,62 @@
                       	                  icon:"icon-tag",
                       	                  ngShow : bookOrder
                          	            },
-                         	           {
+                         	            {
+                                            name:"button.neworder",
+                                            href:"#/neworder/0",
+                                            icon :"icon-plus-sign",
+                                            ngShow : bookOrder
+                                          	 
+                                         },
+                                         {
+                                             name:"button.payments",
+                                             href:"#/payinvoice",
+                                             icon :"icon-usd",
+                                             ngShow : payInvoice
+                                          },
+                                          {
+                                              name:"button.invoice",
+                                              href:"#/clientinvoice",
+                                              icon :"icon-play",
+                                              ngShow : doInvoice
+                                           },
+                                           {                                 
+ 	                                          name:"Service Transfer ",	
+ 	                                          href:"#/servicetransfer",
+ 	                                          icon :"icon-map-marker",
+ 	                                          ngShow : "serviceTransfer"
+                                           },
+                         	              {
                                             name:"button.redemption",
                                             href:"#/redemption",
                                             icon :"icon-plus-sign",
                                             ngShow : redemption
                                           	 
                                           },
-                         	            {
-                                          name:"button.neworder",
-                                          href:"#/neworder/0",
-                                          icon :"icon-plus-sign",
-                                          ngShow : bookOrder
-                                        	 
-                                        },
-                                      
-                                        {
+                                          {
+ 	                                          name:"Static Ip",	
+ 	                                          href:"#/staticip",
+ 	                                          icon :"",
+ 	                                          ngShow : "staticIp"
+                                           },
+                                           {
+   	                                        name:"button.edit",
+   	                                        href:"#/editclient",
+   	                                        icon :"icon-edit",
+   	                                        ngShow : edit
+                                           },
+                                           {
+                                           	name:"Close",
+                                           	href:"#/closeclient",
+                                           	icon:"icon-remove",
+                                           	ngShow : "true"
+                                           },
+                                        /*{
                                           name:"button.newTicket",
                                           href:"#/newTicket",
                                           icon :"icon-flag",
                                           ngShow : riseTicket
-                                        },
+                                        },*/
                                         
                                         /*{
 
@@ -224,12 +260,6 @@
                                          },
                                             icon :"icon-usd"
                                          },*/
-                                         {
-                                             name:"button.payments",
-                                             href:"#/payinvoice",
-                                             icon :"icon-usd",
-                                             ngShow : payInvoice
-                                          },
                                          /* {
 
                                               name:"button.distribution",
@@ -246,31 +276,12 @@
                                              icon :"icon-adjust",
                                              ngShow : postAdjustment
                                          },*/
-                                         {
-                                             name:"button.invoice",
-                                             href:"#/clientinvoice",
-                                             icon :"icon-play",
-                                             ngShow : doInvoice
-                                          },
-                                          {
+                                          /*{
                                              name:"button.statement",
                                              href:"#/statement",
                                              icon :"icon-file",
                                              ngShow : statement
-                                         },                                                                              
-
-                                         {
-	                                        name:"button.edit",
-	                                        href:"#/editclient",
-	                                        icon :"icon-edit",
-	                                        ngShow : edit
-                                        },
-                                        {
-                                        	name:"Delete",
-                                        	href:"#/closeclient",
-                                        	icon:"icon-remove",
-                                        	ngShow : "true"
-                                        },
+                                         },*/                                                                              
                                         {
 	                                          name:"",	
 	                                          href:"#/viewclient",
@@ -329,7 +340,8 @@
         getDetails();
         
         var Approve = function($scope, $modalInstance){
-        	
+        	 scope.errorDetails = [];
+        	 scope.errorStatus = [];
         	$scope.accept = function(date){
         		$scope.flagapprove1 = true;
 			    scope.formData.locale = $rootScope.locale.code;
@@ -417,6 +429,13 @@
                     controller: redemptionPopController,
                     resolve:{}
                 });
+        	}else if(href == "#/staticip"){
+
+        		$modal.open({
+                    templateUrl: 'Staticip.html',
+                    controller: StaticIpPopController,
+                    resolve:{}
+                });
         	}else if(href == "#/viewclient"){
         		route.reload();
         	}else{
@@ -458,7 +477,8 @@
         
  var redemptionPopController = function($scope, $modalInstance){
         	
-        	
+	 		scope.errorDetails = [];
+	 		scope.errorStatus = [];
         	$scope.acceptRedemption= function(){
         		
         		$scope.flagStatementPop = true;
@@ -986,7 +1006,7 @@
                  data: {}
                })*/
               
-              window.open($rootScope.hostUrl+ API_VERSION +'/billmaster/'+ statementId +'/print?tenantIdentifier=default');
+              window.open($rootScope.hostUrl+ API_VERSION +'/billmaster/'+ statementId +'/print?tenantIdentifier='+TENANT);
         };
          
         scope.cancelScheduleOrder = function(id){
@@ -1190,7 +1210,7 @@
         };
 
         scope.downloadDocument = function(documentId,index) {
-        	window.open($rootScope.hostUrl+ API_VERSION +'/clients/'+ routeParams.id +'/documents/'+ documentId +'/attachment?tenantIdentifier=default');
+        	window.open($rootScope.hostUrl+ API_VERSION +'/clients/'+ routeParams.id +'/documents/'+ documentId +'/attachment?tenantIdentifier='+TENANT);
             /*resourceFactory.clientDocumentsResource.get({clientId: routeParams.id, documentId: documentId}, '', function(data) {
                 scope.clientdocuments.splice(index,1);
             });*/
@@ -1474,7 +1494,7 @@
 	  					var fromDate = new Date($scope.start.date).getTime();
 	  					var toDate = new Date($scope.to.date).getTime();
 	  					var downloadType = $scope.formData.downloadType;
-	  					window.open($rootScope.hostUrl+ API_VERSION +'/financialTransactions/download/'+ routeParams.id +'?downloadType='+ downloadType +'&fromDate='+fromDate+'&toDate='+toDate+'&tenantIdentifier=default');
+	  					window.open($rootScope.hostUrl+ API_VERSION +'/financialTransactions/download/'+ routeParams.id +'?downloadType='+ downloadType +'&fromDate='+fromDate+'&toDate='+toDate+'&tenantIdentifier='+TENANT);
 	  					$modalInstance.close('delete');
 	  				};
 				
@@ -1607,6 +1627,8 @@
 	  			};
 	  			
 	  			var StaticIpPopController = function($scope, $modalInstance){
+	  				scope.errorDetails = [];
+	  				scope.errorStatus = [];
 	  				$scope.formData = {};
 	  				$scope.ipdata = {};
 	  				$scope.formData.poolName = "Adhoc";
@@ -1697,6 +1719,7 @@
       '$rootScope',
       'PermissionService', 
       'localStorageService', 
+      'TENANT',
       mifosX.controllers.ViewClientController
       ]).run(function($log) {
     	  $log.info("ViewClientController initialized");

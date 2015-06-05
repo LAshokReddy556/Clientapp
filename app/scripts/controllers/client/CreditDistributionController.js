@@ -29,14 +29,18 @@
         var selectedAvailAmount = [];
         var prevAvailAmountArray =[];
         var paymentAmount;
-        var paymentId;
+        var paymentId=0;
         var paymentIndex=0;
         var payAvailAmount = 0;
+        var checkBox = false;
         scope.creditdistributions = [];
         
        resourceFactory.creditDistributionTemplateResource.get({clientId : routeParams.id},function(data){
     		scope.invoiceDatas = data.invoiceDatas;
     		scope.paymentDatas = data.paymentDatas;
+    		for(var i in scope.invoiceDatas){
+    			scope.invoiceDatas[i].active=checkBox;
+    		}
     	});
         
         scope.showPayments = function(){
@@ -66,12 +70,12 @@
         	prevAvailAmountArray = [];
         };
         
+        //invoices selecting
         scope.selectedInvoices = function(invoiceId,amount,active,index){
-        	console.log(active);
         	if(active == true){
         		if(scope.paymentDatas[paymentIndex].availAmount == 0){
         			$('#'+invoiceId).prop('checked',false);
-        			
+        			scope.invoiceDatas[index].active=false;
         			$modal.open({
               			 templateUrl: 'alert.html',
               			 controller: alertController,
@@ -134,7 +138,7 @@
                });
         	}
         };
-        var alertController = function ($scope, $modalInstance) {
+        function alertController ($scope, $modalInstance) {
       	  $scope.approve = function () {
       		  $modalInstance.close('delete');
             };

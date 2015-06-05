@@ -61,7 +61,7 @@
 		   <label ng-hide="errorStatus" ng-repeat="error in errorDetails">{{error.code | translate}}</label>
 	    </div>
 	  <fieldset>
-		<legend>{{'label.client.creditcard' | translate}}</legend>
+		<legend>&nbsp;&nbsp;&nbsp;{{'label.client.creditcard' | translate}}</legend>
 	   <table>
 		 <tr>
 		   <td>
@@ -116,15 +116,15 @@
 		</tr>
 		<tr>
 			<td>
-				 <div class="control-group">
+				 <!-- <div class="control-group">
 					<label class="control-label" for="name">{{'label.client.creditcard.cvvNumber' | translate}}<span class="required">*</span></label>
 					<div class="controls">
 						 <input type="text" id="cardCvvNo" maxlength="3" class="input-small" name="cardCvvNo" 
 								 ng-focus="cardCvvNoErrorHide()" ng-model="formData.cvvNumber"/>
-						<!--  <span class="error" ng-show="cardCvvNoReq">This field is required.</span> -->
+						 <span class="error" ng-show="cardCvvNoReq">This field is required.</span>
 						<span class="error" ng-show="cardCvvNoDigit">Please enter only digits.</span>
 					</div>
-		  		</div>
+		  		</div> -->
 			</td>
 		</tr>
 		</table>

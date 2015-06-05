@@ -2,8 +2,7 @@
             
 		     scope.clientId 			= routeParams.clientId;
 		     scope.isConfigNationalId 	= angular.lowercase(routeParams.isConfigNationalId) == 'true';
-			 var clientData= localStorageService.get('clientTotalData');
-			 if(clientData){
+			 if(rootScope.selfcare_sessionData){
 				 scope.formData = {};
 				 RequestSender.clientResource.get({clientId: scope.clientId} , function(data) {
 					 scope.displayName					= data.displayName;
@@ -26,9 +25,9 @@
 				var name_array = new Array();
 				 name_array = (scope.displayName.split(" "));
 		            
-		          scope.formData.firstname = name_array[0];
-		          scope.formData.lastname = name_array[1];
-		            if(scope.formData.lastname == null){
+		          scope.formData.firstname = name_array.shift();
+		          scope.formData.lastname = name_array.join(' ');
+		            if(scope.formData.lastname == ""){
 		            	scope.formData.lastname=".";
 		            }
 				RequestSender.clientResource.update({clientId: scope.clientId},scope.formData, function(data) {

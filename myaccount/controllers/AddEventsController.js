@@ -1,4 +1,4 @@
-AddEventsController = function(scope,RequestSender,location,localStorageService,modal) {
+AddEventsController = function(scope,RequestSender,location,localStorageService,modal,rootScope) {
 		  
 		  scope.vodEventScreen 		= true;
 		  scope.eventDetailsPreview = false;
@@ -15,17 +15,18 @@ AddEventsController = function(scope,RequestSender,location,localStorageService,
 			var  two_checkoutPG		=	paymentGatewayNames.two_checkout || "";
 			
 			//getting locale value
-			 var temp 				= localStorageService.get('localeLang')||"";
-			 scope.optlang 			= temp || selfcareModels.locale;
+			 scope.optlang 			= rootScope.localeLangCode;
 		  
 		  var clientData = {};
-		  if(localStorageService.get("clientTotalData")){
-			  clientData  = localStorageService.get("clientTotalData");
-			  scope.clientId = clientData.id;
-			  scope.mediaDetails = [];
+		  if(rootScope.selfcare_sessionData){
+			  scope.clientId = rootScope.selfcare_sessionData.clientId;
+			  RequestSender.clientResource.get({clientId: scope.clientId} , function(data) {
+				  clientData = data;
+				  scope.mediaDetails = [];
 				  RequestSender.vodEventsResource.get({'filterType':'ALL','pageNo':0,clientType :clientData.categoryType},function(data){
 					  scope.mediaDetails = data.mediaDetails;
 				  });
+			  });
 		  }
 		  scope.mediaDatas = [];scope.totalAmount = 0;
 		  scope.selectedEventsFun = function(mediaData,active){
@@ -46,7 +47,7 @@ AddEventsController = function(scope,RequestSender,location,localStorageService,
 		  };
 	      
 	  function pgFun (){
-	      if(localStorageService.get("clientTotalData")){
+	      if(rootScope.selfcare_sessionData){
 			  scope.paymentgatewayDatas = [];
 			  RequestSender.paymentGatewayConfigResource.get(function(data) {
 				  if(data.globalConfiguration){
@@ -197,4 +198,5 @@ selfcareApp.controller('AddEventsController', ['$scope',
                                                '$location',
                                                'localStorageService',
                                                '$modal',
+                                               '$rootScope',
                                                AddEventsController]);

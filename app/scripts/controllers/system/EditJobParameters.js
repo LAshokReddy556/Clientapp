@@ -68,7 +68,7 @@
 				this.formData.Username = this.formData.jobparameters.username;
 				this.formData.Password = this.formData.jobparameters.password;				
 
-				if (this.formData.name == "INVOICING") {this.formData.processDate = dateFilter(scope.date.processDate,'dd MMMM yyyy');}
+				if (this.formData.name == "Invoicing") {this.formData.processDate = dateFilter(scope.date.processDate,'dd MMMM yyyy');}
 				if (this.formData.name == "Prepare Statements") {this.formData.dueDate = dateFilter(scope.date.dueDate, 'dd MMMM yyyy');}
 				if (this.formData.name == "Auto Exipiry") {this.formData.exipiryDate = dateFilter(scope.date.exipiryDate,'dd MMMM yyyy');}
 				if (this.formData.name == "Make PDFs") {this.formData.processDate = dateFilter(scope.date.processDate,'dd MMMM yyyy');}

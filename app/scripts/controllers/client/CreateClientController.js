@@ -35,7 +35,12 @@
         	scope.formData.entryType ='ORP';
         }
         
-
+        var global_configuration = webStorage.get("global_configuration");//is-selfcareuser
+        for(var i in global_configuration){
+        	if(global_configuration[i].name == 'is-selfcareuser'){
+        		scope.isSelfcareUser = global_configuration[i].enabled;
+        	}
+        }
 
         scope.propertyMaster = webStorage.get("is-propertycode-enabled");
         scope.clientAddInfo = webStorage.get("client-additional-data");

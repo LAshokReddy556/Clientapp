@@ -54,7 +54,7 @@
 			<li class="active">{{'label.adjustments' | translate}}</li>
 		</ul>
 	</div>
-	<form class="form-horizontal well" data-ng-submit="submit()">
+	<form  name="createadjustmentform" novalidate class="form-horizontal well" data-ng-submit="submit()">
 		<br>
 		 <div class="error" data-ng-show="errorStatus || errorDetails">
 		<label>{{'label.contract.error' | translate}}</label>
@@ -87,10 +87,13 @@
 				<div class="control-group">
            				<label class="control-label" for="adjustment_type">{{ 'label.adjustmentamount' | translate }}</label>
             			<div class="controls">
-              			<input type="text" id="amount_paid" data-ng-model="formData.amount_paid" style="width:111px;">
+              			<input type="number" id="amount_paid" name="adjustmentAmount" data-ng-model="formData.amount_paid" style="width:111px;" data-ng-pattern="/^[0-9\s]+$/">
               			<select data-ng-model="formData.adjustment_type" data-ng-options="discountOption.discountType as discountOption.discountType for discountOption in discountOptions" class="input-small" value="{{discountOption.discountType}}">
 	               	 	<!-- <option ng-repeat="datas in datass" value="{{datas.discountOptions.discountType}}">{{datas.discountOptions.discountType}}</option> -->
-	               	 	</select>
+	               	 	</select><br/>
+	               	 	<span  data-ng-show="createadjustmentform.adjustmentAmount.$invalid">
+			              	<small class="error" data-ng-show="createadjustmentform.adjustmentAmount.$error.pattern">Not Valid Amount!</small>
+			              </span>
             				</div>
           			</div>
           		</td></tr>
@@ -106,7 +109,7 @@
 	         
 			<tr><td align="right">
 				<a id="cancel"  href='#/viewclient/{{clientId}}' class="btn">Cancel</a>
-                <button id="submit" type="submit" class="btn btn-primary">Save</button>
+                <button id="submit" type="submit" class="btn btn-primary" data-ng-disabled="createadjustmentform.adjustmentAmount.$invalid">Save</button>
 			</td></tr>
 			</table>
 		</fieldset>

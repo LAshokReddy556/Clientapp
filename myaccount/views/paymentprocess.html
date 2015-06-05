@@ -50,6 +50,7 @@
 					<th>{{'header.plan.name'|translate}}</th>
 					<th>{{'header.contract.period'|translate}}</th>
 					<th>{{'header.price'|translate}}</th>
+					<th>{{'header.finalprice'|translate}}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -57,6 +58,7 @@
 					<td style="font-weight: inherit;color: #555555;" class="bigfont">{{planData.planCode}}</td>
 					<td class="bigfont">{{planData.duration}}</td>
 					<td class="bigfont">{{planData.price}}</td>
+					<td class="bigfont">{{price}}</td>
 				</tr>
 			</tbody>
 			
@@ -107,8 +109,8 @@
           	    </td>
        		 	<td style="padding-top: 30px;" >
       		 	   <div >
-					  <a class="btn btn-primary" data-ng-hide="termsAndConditions" data-ng-disabled="true">{{'btn.proceed' | translate}}</a>
-					  <a class="btn btn-primary" href="{{paymentURL}}" data-ng-show="termsAndConditions">
+					  <a class="btn btn-primary" data-ng-hide="termsAndConditions&&errorRecurring==''" data-ng-disabled="true">{{'btn.proceed' | translate}}</a>
+					  <a class="btn btn-primary" href="{{paymentURL}}" data-ng-show="termsAndConditions&&errorRecurring==''">
 					  	{{'btn.proceed' | translate}}
 					  </a>
 				   </div>
@@ -127,7 +129,7 @@
               <br/>
 	       <div class="pull-right">
 				<a data-ng-click="goBack()" class="btn">{{'btn.cancel' | translate}}</a> 
-				<a data-ng-click="finishBtnFun()" class="btn btn-primary animated fadeInUp">{{'btn.subscribe' | translate}}</a>
+				<a href="#/orderbookingscreen/{{screenName}}/{{clientId}}/{{planId}}/{{priceId}}?amount={{price}}" class="btn btn-primary animated fadeInUp">{{'btn.subscribe' | translate}}</a>
 			</div> 
 			 
 	   </div>
