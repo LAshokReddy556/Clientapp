@@ -86,7 +86,7 @@ accordion > div > div > div > a {
 accordion > div > div > div > a:hover,
 accordion > div > div > div > a:focus {
   color: #080808;
-  text-decoration: underline;
+  text-decoration: none; 
 }
 
 span > a {
@@ -1484,6 +1484,17 @@ ul.breadcrumb li a{
 	border-bottom: 1px solid #d3d3d3;
 }
 
+.newprepboxh{
+	height:116px;
+}
+
+.newpostpboxh{
+	height:148px;
+}
+
+.renewprepboxh{
+	height:148px;
+}
 /*new changes for selfcare ended*/
 
 

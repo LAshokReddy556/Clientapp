@@ -16,7 +16,7 @@ selfcareApp.config(function($httpProvider ,$translateProvider) {
 	 $translateProvider.preferredLanguage(selfcareModels.locale);
 });
 
-SelfcareMainController = function(scope, translate,sessionManager,RequestSender,authenticationService,location,modal,localStorageService,tmhDynamicLocale,webStorage){
+SelfcareMainController = function(scope, translate,sessionManager,RequestSender,authenticationService,location,modal,localStorageService,tmhDynamicLocale,route){
 	
 	//loading image is hide when we load this file
 	   scope.domReady = true;
@@ -81,6 +81,15 @@ scope.$watch(function () {
     return langCode;
 }, function () {
     scope.localeLangCode = langCode;
+});
+
+//watching isRedemptionConfig if modified then function executes else not execute
+var isRedeem = false;
+scope.$watch(function () {
+	isRedeem = localStorageService.get('isRedemptionConfig') == 'true';
+	return isRedeem;
+}, function () {
+	scope.isRedemptionConfig = isRedeem;
 });
  
  //cancel btn function ie going to previous page
@@ -150,6 +159,70 @@ scope.$watch(function () {
 			});
 	 };
 	 
+	//redemption popup controller
+ 	 var RedemptionPopupController = function($scope,$modalInstance,$filter){
+ 		 
+ 		 $scope.isProcessing = false;
+ 		 $scope.formData = {};
+ 		 var valid = false;
+ 		 $scope.voucherNumberValidationFun = function(voucherNumber){
+ 			 if(voucherNumber){
+ 				 RequestSender.VoucherResource.query({pinNumber:voucherNumber},function(data){
+ 					 if(data.length == 1){
+ 						 $scope.isInValidVoucher = false;
+ 						 var expiryDate  = $filter('DateFormat')(data[0].expiryDate);
+ 						 var todayDate	 = $filter('DateFormat')(new Date());
+ 						 if (new Date(expiryDate) < new Date(todayDate)) {
+ 							 delete $scope.formData.voucherNumber;
+ 							 $scope.isDateExpired = true;
+ 						 }else{
+ 							 $scope.isDateExpired = false;
+ 						 }
+ 					 }else{
+ 						 $scope.isDateExpired = false;
+ 						 $scope.isInValidVoucher = true;
+ 						 delete $scope.formData.voucherNumber;
+ 					 }
+ 					 valid = !$scope.isInValidVoucher && !$scope.isDateExpired;
+ 				 });
+ 			 }
+ 		 };
+ 		 
+ 		 $scope.confirm = function(voucherNumber){
+ 			 if(valid){
+ 			   var voucherData = {'pinNumber': voucherNumber};
+ 			   if(scope.selfcare_sessionData)
+ 				  voucherData.clientId = scope.selfcare_sessionData.clientId;
+ 			  
+ 				 $scope.isProcessing = true;$scope.voucherError = null;
+ 				 RequestSender.redemptionResource.save(voucherData,function(data){
+ 					 
+ 					 $scope.isProcessing = false;
+ 					 if('/profile' == location.path()) route.reload();
+ 					 else location.path('/profile');
+ 					 $modalInstance.close('delete');
+ 					 
+ 					 
+ 				 },function(errorData){
+ 					 $scope.voucherError = errorData.data.errors[0].userMessageGlobalisationCode;
+ 					 $scope.isProcessing = false;
+ 				 });
+ 			 }	 
+ 		};
+ 		
+ 		$scope.cancel = function(){
+ 			$modalInstance.dismiss('cancel');
+ 		};
+ 	 };
+ 	 
+ 	scope.redeemFun = function(){
+  	  modal.open({
+			 templateUrl: 'redemptionpop.html',
+			 controller: RedemptionPopupController,
+			 resolve:{}
+			});
+    };
+	 
 	//execute this fun when we click on header bar links 
 	 scope.isActive = function (route) {
 		 var active = route === location.path();
@@ -168,6 +241,7 @@ scope.$watch(function () {
 			  }
 	   };
 	   
+	   
 };
 
 selfcareApp.controller('SelfcareMainController',['$rootScope',
@@ -179,5 +253,5 @@ selfcareApp.controller('SelfcareMainController',['$rootScope',
                                                  '$modal',
                                                  'localStorageService',
                                                  'tmhDynamicLocale',
-                                                 'webStorage',
+                                                 '$route',
                                                  SelfcareMainController]);

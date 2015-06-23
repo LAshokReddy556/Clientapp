@@ -91,6 +91,12 @@ selfcareApp.config(function($routeProvider, $locationProvider) {
     })
     .when('/editprofile/:clientId/:isConfigNationalId',{
     	templateUrl: 'views/editprofile.html'
+    })
+    .when('/evointegration',{
+    	templateUrl: 'views/evointegration.html'
+    })
+    .when('/evosuccess',{
+    	templateUrl: 'views/evosuccess.html'
     });
        
     $locationProvider.html5Mode(false);

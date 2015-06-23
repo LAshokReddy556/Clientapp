@@ -33,6 +33,8 @@ document.write("<script type='text/javascript' src='./configurations/kennitala.j
 //CryptoJS folder js files
 document.write("<script type='text/javascript' src='./CryptoJS/aes.js'></script>");
 document.write("<script type='text/javascript' src='./CryptoJS/md5.js'></script>");
+document.write("<script type='text/javascript' src='./CryptoJS/hmac-sha256.js'></script>");
+document.write("<script type='text/javascript' src='./CryptoJS/enc-base64-min.js'></script>");
 
 //filters folder js files
 document.write("<script type='text/javascript' src='./filters/DateFormat.js'></script>");
@@ -85,3 +87,5 @@ document.write("<script type='text/javascript' src='./controllers/PaypalRecurrin
 document.write("<script type='text/javascript' src='./controllers/PaypalRedirectionController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/EventsController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/EditProfileController.js'></script>");
+document.write("<script type='text/javascript' src='./controllers/EvoIntegrationController.js'></script>");
+document.write("<script type='text/javascript' src='./controllers/EvoSuccessController.js'></script>");

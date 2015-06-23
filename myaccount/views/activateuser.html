@@ -33,13 +33,13 @@
 		</div>
 		 <fieldset>
 			<h3 >{{'label.registration.page' | translate}}</h3>
-			<table >
+			<table>
 	       	  <tr>
 	       	    <td valign="top">
           			<div class="control-group" style="margin-bottom:30px;">
           			   <label class="control-label">{{'label.customer.name' | translate}}&nbsp;<span class="required">*</span></label>
           			   <div class="controls">
-		                 <input data-ng-autofocus="true" name="fullName" type="text" data-ng-model="formData.fullName" placeholder= "{{'label.customer.name' | translate}}" required  data-late-Validate/>
+		                 <input data-ng-autofocus="true" name="fullName" type="text" data-ng-model="displayName" placeholder= "{{'label.customer.name' | translate}}" required  data-late-Validate/>
           			   </div>
       				</div>
        			</td>
@@ -121,7 +121,7 @@
        			    </div>
 	       	    </td>
        			<td valign="top">
-        		  <div class="control-group" style="margin-bottom:30px;">
+        		  <div class="control-group" >
         			<label class="control-label">{{'label.email' | translate}}&nbsp;</label>
         			<div class="controls">
         			   <input name="email" type="text" data-ng-model="existedEmail" placeholder= "{{'label.email' | translate}}" data-ng-disabled="true" required data-late-Validate><br/>
@@ -131,23 +131,21 @@
 	       	   </tr>
 	       	   <tr >
 	       		<td valign="top">
-                  <div class="control-group" >
+                  <div class="control-group">
 	                <label class="control-label" for="state">{{'label.state/province' | translate}}&nbsp;</label>
 		            <div class="controls">
 		              <input type="text" id="state" data-ng-model="formData.state" disabled required data-late-Validate/>
 		            </div>
         		  </div>
      			</td>
-	       		 <td data-ng-show="isDeviceEnabled==true && isCPE_TYPESale == true" valign="top">
-            	   <div class="control-group" style="margin-bottom:30px;margin-left: 10px;">
+     			<td valign="top">
+            	   <div class="control-group" style="margin-bottom:30px;padding-left: 0px;" data-ng-show="isDeviceEnabled==true && isCPE_TYPESale == true">
                      <label class="control-label">{{ 'label.macid' | translate }}&nbsp;<span class="required">*</span></label>
                      <div class="controls">
 	                   <input type="text" id="device" data-ng-model="formData.deviceNo" name="deviceNo" placeholder= "{{ 'placeholder.enter.device' | translate }}"/><br/>
                      </div>
                    </div>	
-	       		 </td>
-	       		 <td valign="top" data-ng-show="isDeviceEnabled==true && isCPE_TYPEOwn == true">
-            	   <div class="control-group" style="margin-bottom:0px;">
+            	   <div class="control-group" style="margin-bottom:0px;" data-ng-show="isDeviceEnabled==true && isCPE_TYPEOwn == true">
                     <label class="control-label">{{ 'label.macid' | translate }}&nbsp;<span class="required">*</span></label>
                     <div class="controls">
     	              <input type="text" data-ng-model="formData.deviceNo" name="deviceNo" placeholder= "{{ 'placeholder.enter.device' | translate }}" 
@@ -155,32 +153,36 @@
     	              <small class="error" data-ng-show="isInvalidMacId">{{'form.error.macid.invalid'|translate}}</small>
                     </div>
                    </div>	
-	         	   <strong class="offset7" >{{'label.heading.or' | translate}}</strong>
-	       		 </td>
+	         	   <strong class="offset7" data-ng-show="isDeviceEnabled==true && isCPE_TYPEOwn == true">{{'label.heading.or' | translate}}</strong>
+	       		</td>
 	       	   </tr>
-	       	   <tr data-ng-show="isDeviceEnabled==true && isCPE_TYPEOwn == true">
-	       	    <td valign="top"></td>
-	       		<td valign="top">
-            	  <div class="control-group">
-                   <label class="control-label">{{ 'label.serialnumber' | translate }}&nbsp;<span class="required">*</span></label>
-                   <div class="controls">
-    	             <input type="text" data-ng-model="provisioningSerialNumber" placeholder= "{{ 'placeholder.enter.serialnumber' | translate }}" 
-    	                   data-ng-onblur="getDataForSerialNumber(provisioningSerialNumber)" data-ng-disabled="isDisabledSerialNumber" /><br/>
-    	             <small class="error" data-ng-show="isInvalidSerialNumber">{{'form.error.serialnumber.invalid'|translate}}</small>
-                   </div>
-                  </div>	
-    			</td>
-	       	   </tr>
-	       	   <tr data-ng-show="isConfigPassport">
-	       	    <td valign="top">
-	       	       <div class="control-group" style="margin-bottom:30px;">
+	       	   <tr>
+	       	     <td valign="top">
+	       	      <div class="control-group" style="margin-bottom:30px;padding-left: 0px;" data-ng-show="isConfigPassport">
                     <label class="control-label" for="passport">{{ 'label.passport' | translate }}&nbsp;<span class="required">*</span></label>
                     <div class="controls" >
    	                  <input type="text" data-ng-model="formData.passport" id="passport" name="passport" placeholder= "{{ 'placeholder.enter.passport' | translate }}" required data-late-Validate/> 
                     </div>
                   </div>
-	       	    </td>
-	       		<td valign="top"></td>
+                  <div class="control-group" style="margin-bottom:30px;padding-left: 0px;width:400px;" data-ng-show="isConfigRedeem">
+                    <label class="control-label" for="voucherNumber">{{ 'label.voucher.number' | translate }}&nbsp;<span class="required">*</span></label>
+                    <div class="controls" >
+   	                  <input type="text" data-ng-model="voucherNumber" name="voucherNumber" data-ng-onblur="voucherNumberValidationFun(voucherNumber)" placeholder= "{{ 'placeholder.enter.voucher.number' | translate }}" required data-late-Validate/><br/>
+   	                  <small class="error" data-ng-show="isInValidVoucher">{{'error.invalid.voucher'|translate}}&nbsp;:{{voucher}}</small> 
+   	                  <small class="error" data-ng-show="isDateExpired">{{'error.voucher.dateexpiry'|translate}}</small> 
+                    </div>
+                  </div>
+	       	     </td>
+	       	   	 <td valign="top" data-ng-show="isDeviceEnabled==true && isCPE_TYPEOwn == true">
+	       	   		<div class="control-group">
+                      <label class="control-label">{{ 'label.serialnumber' | translate }}&nbsp;<span class="required">*</span></label>
+	                   <div class="controls">
+	    	             <input type="text" data-ng-model="provisioningSerialNumber" placeholder= "{{ 'placeholder.enter.serialnumber' | translate }}" 
+	    	                   data-ng-onblur="getDataForSerialNumber(provisioningSerialNumber)" data-ng-disabled="isDisabledSerialNumber" /><br/>
+	    	             <small class="error" data-ng-show="isInvalidSerialNumber">{{'form.error.serialnumber.invalid'|translate}}</small>
+	                   </div>
+                    </div>
+	       	   	 </td>
 	       	   </tr>
 	       	   <tr>
 	       	   	  <td align="right" colspan="2">

@@ -74,11 +74,30 @@
       	  });
         };
         
+        scope.invalidBuildingCode = false;
+        var createClientFormVal = false;
+        
+        scope.$watch(function(){
+        	return scope.invalidBuildingCode;
+        },function(){
+        	if(scope.invalidBuildingCode){
+        		scope.createclientform.$valid ?
+        				(createClientFormVal = scope.createclientform.$valid,scope.createclientform.$valid = !createClientFormVal) :
+        					scope.createclientform.$valid = false;
+        	}else{
+        		if(scope.createclientform.$valid) scope.createclientform.$valid = true;
+        		else {
+        			if(createClientFormVal) scope.createclientform.$valid = true;
+        			else scope.createclientform.$valid = false;
+        		}
+        	}
+        });
         //vacant properties
          scope.getPropertyDetails = function(existsProperty){   
             	   if(!angular.isUndefined(existsProperty)){
             		  for(var j in scope.propertyCodesData)  {
             			 if(existsProperty == scope.propertyCodesData[j].propertyCode){
+            				 scope.invalidBuildingCode = false;
             				 scope.formData.addressNo = scope.propertyCodesData[j].propertyCode;
             				 scope.formData.street = scope.propertyCodesData[j].street;
             				 scope.formData.city  =  scope.propertyCodesData[j].precinct; 
@@ -99,7 +118,7 @@
             		 delete scope.formData.zipCode;
         			 
             	   }
-            	   console.log(scope.status, scope.propetyId);
+            	  
                };        
              
              
@@ -120,16 +139,13 @@
 			  resourceFactory.propertyCodeTemplateResource.get(function(data) {
 				  $scope.propertyTypes = data.propertyTypes;
 				  if(Object.keys(scope.property).length >0){
-			    		 $scope.formData.precinct=scope.property.precinct;
-			    /*		 $scope.formData.buildingCode=scope.property.buildingCode;
-			    		 $scope.formData.unitCode=scope.property.unitCode;*/
 			    		 $scope.formData.propertyCode=scope.property.propertyCode;
 			    		 $scope.formData.street=scope.property.street;
 			    		 $scope.formData.state=scope.property.state;
 			    		 $scope.formData.country=scope.property.country;
 			    		 $scope.formData.poBox=scope.property.poBox;
 			    		 $scope.formData.propertyType=scope.property.propertyType;
-			    		 for( var i in scope.parcelData){
+			    		/* for( var i in scope.parcelData){
 			    			 if(scope.property.parcel == scope.parcelData[i].code){
 			    				 $scope.parcel = scope.parcelData[i].description;
 			    				 break;
@@ -140,7 +156,10 @@
 			    				 $scope.floor =scope.floorData[i].description;
 			    				 break;
 			    			 }
-			    		 }
+			    		 }*/
+			    		 $scope.formData.precinct=scope.property.precinctCode;
+			    		 $scope.parcel=scope.property.parcel;
+			    		 $scope.floor=scope.property.floor;
 			    		 $scope.buildingCode = scope.property.buildingCode;
 			    		 $scope.unitCode = scope.property.unitCode;
 			    		 
@@ -162,8 +181,9 @@
 				$scope.getPrecinctDetails = function(precinct){
 					if(precinct!=undefined){
 					    for(var i in $scope.precinctData){
-					    	if(precinct==$scope.precinctData[i].cityName){
+					    	if(precinct==$scope.precinctData[i].cityCode){
 					    		scope.property.precinctCode = $scope.precinctData[i].cityCode.substr(0,2);
+					    		scope.property.precinct = $scope.precinctData[i].cityName;
 				          		$scope.formData.state =  $scope.precinctData[i].state;
 				          		$scope.formData.country = $scope.precinctData[i].country;
 				          		$scope.getWatch(scope.property.precinctCode);
@@ -196,7 +216,7 @@
 	             $scope.getParcelDetails = function(parcel){
 	            	 if(parcel !=undefined){
 	                 for(var i in scope.parcelData){
-	                	 if(parcel== scope.parcelData[i].description){
+	                	 if(parcel== scope.parcelData[i].code){
 					    		scope.property.parcel = scope.parcelData[i].code.substr(0,2);
 					    		$scope.formData.street = scope.parcelData[i].referenceValue;
 					    		$scope.getWatch(scope.property.parcel);
@@ -217,10 +237,15 @@
 			        	      return scope.buildingData;
 			        	    });
 		             };   
-		             $scope.getbuildCode = function(buildingCode){
-		            	 if(!angular.isUndefined(buildingCode)){
-						    		scope.property.buildingCode = buildingCode.substr(0,3);
-						    		$scope.getWatch(scope.property.buildingCode);
+		         $scope.getbuildCode = function(building){
+		            	 if(!angular.isUndefined(building)){
+		            		  for(var i in scope.buildingData){
+			                    	 if(building==scope.buildingData[i].code ){
+			                    		 scope.property.buildingCode = scope.buildingData[i].code.substr(0,3);
+			                    		 $scope.getWatch(scope.property.buildingCode);
+							    		break;
+						            }	 
+			                     }
 					          }	 
 		             };  
 	             
@@ -240,7 +265,7 @@
 	             $scope.getFloorDetails = function(floor){
 	            	 if(floor!=undefined){
 	            		 for( var i in scope.floorData){
-	            			 if(floor==scope.floorData[i].description){
+	            			 if(floor==scope.floorData[i].code){
 						    		scope.property.floor = scope.floorData[i].code.substr(0,2);
 						    		$scope.getWatch(scope.property.floor);
 					          		break;
@@ -289,9 +314,7 @@
 			};
 			
 	    	 $scope.accept = function () {
-	    		 scope.property.precinct=$scope.formData.precinct; 
-	    		/* scope.property.buildingCode=$scope.formData.buildingCode;
-	    		 scope.property.unitCode=$scope.formData.unitCode;*/
+	    		// scope.property.precinct=$scope.formData.precinct; 
 	    		 scope.property.propertyType=$scope.formData.propertyType;
 	    		 scope.property.propertyCode=$scope.formData.propertyCode;
 	    		 scope.property.street=$scope.formData.street;
@@ -301,10 +324,11 @@
 	    		 
 	    		 scope.formData.addressNo = $scope.formData.propertyCode;
     			 scope.formData.street = $scope.formData.street;
-    			 scope.formData.city  =  $scope.formData.precinct; 
+    			 scope.formData.city  =   scope.property.precinct;// $scope.formData.precinct; 
     			 scope.formData.state =  $scope.formData.state;
     			 scope.formData.country = $scope.formData.country;
     			 scope.formData.zipCode = $scope.formData.poBox;
+    			 scope.invalidBuildingCode = false;
     			 $modalInstance.dismiss('delete');
     			 if(!angular.isUndefined(scope.formData.addressNo)){
     				 $('#propertyCode').attr("disabled","disabled");
@@ -347,6 +371,7 @@
 	     
 
 	        scope.getExistsProperty = function(query){
+	        	scope.invalidBuildingCode = true;
 	           	return http.get($rootScope.hostUrl+API_VERSION+'/property/propertycode/', {
 	           	      params: {
 	           	    	  		query: query

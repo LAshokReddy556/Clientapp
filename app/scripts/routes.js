@@ -983,7 +983,7 @@
       .when('/editRadService/:radiusVersion/:serviceId', {
         templateUrl: 'views/organization/editRadService.html'
       })
-       .when('/createNas', {
+       .when('/createNas/:version', {
         templateUrl: 'views/organization/createNas.html'
       })
       .when('/viewvouchers/:voucherId', {

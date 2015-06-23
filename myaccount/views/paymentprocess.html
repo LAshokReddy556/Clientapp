@@ -43,12 +43,13 @@
 		</td>
 	  </tr>
 	</table>
-    <div >
+    <div>
 		<table class="table">
 			<thead>
 		           <tr class="graybg">
 					<th>{{'header.plan.name'|translate}}</th>
 					<th>{{'header.contract.period'|translate}}</th>
+					<th data-ng-if="planData.isPrepaid=='N'">{{'header.contract.billingfrequency'|translate}}</th>
 					<th>{{'header.price'|translate}}</th>
 					<th>{{'header.finalprice'|translate}}</th>
 				</tr>
@@ -56,7 +57,9 @@
 			<tbody>
 				<tr>
 					<td style="font-weight: inherit;color: #555555;" class="bigfont">{{planData.planCode}}</td>
-					<td class="bigfont">{{planData.duration}}</td>
+					<td class="bigfont" data-ng-if="planData.isPrepaid=='Y'">{{planData.duration}}</td>
+					<td class="bigfont" data-ng-if="planData.isPrepaid=='N'">{{contractPeriod}}</td>
+					<td class="bigfont" data-ng-if="planData.isPrepaid=='N'">{{planData.billingFrequency}}</td>
 					<td class="bigfont">{{planData.price}}</td>
 					<td class="bigfont">{{price}}</td>
 				</tr>

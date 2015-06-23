@@ -115,6 +115,20 @@
  	"label.verify.recurringmsg.payment"	: "To complete the action of book this pack,a confirmation is needed from paypal.",
  	"label.verify.recurringmsg.waitmsg"	: "Please.. wait till that confirmation reached.",
  	
+ 	"#additionalinfo"  :  "--------------------------",
+ 	"label.client.gender"				: "Gender",
+ 	"label.client.nationality"			: "Nationality",
+ 	"label.client.jobtitle"				: "Job Title",
+ 	"label.client.dateofbirth"			: "Date Of Birth",
+ 	"label.client.preferlanguage"		: "Prefer Language",
+ 	"label.client.remarks"				: "Remarks",
+ 	"label.client.identificationtype"	: "Identification Type",
+ 	"label.client.identificationnumber"	: "Identification Number",
+ 	"label.client.agegroup"				: "Age Group",
+ 	"label.client.utscustomerid"		: "UTS Customer Id",
+ 	"label.client.financeid"			: "Finance Id",
+ 	"label.client.preferredcommunication": "Preferred Communication",
+ 	
  	"label.signup.newuser"			   			: "Signup new user ",
  	"label.or"			   						: " - or - ",
  	"label.login.existuser"			   			: " Login",
@@ -139,6 +153,7 @@
  	"header.change.plan" 			 : "Change Plan",
  	"header.action"				 	 : "Action",
  	"header.actions"			 	 : "Actions",
+ 	"header.contract.billingfrequency" : "Billing Frequency",
  	
  	"#errors " : "------------------------------------",
  	"error.login.failed"						:"Please try again, your credentials are not valid",
@@ -165,6 +180,7 @@
  	"link.address" 			 	 :  "Address",
  	"link.listofvods" 			 :  "List Of VODS",
  	"link.vod.add.event" 		 :  "Add Event",
+ 	"link.additionalinfo" 		 :  "Client Additional Info",
  	
  	"#place holders " : "------------------------------------",
  	"placeholder.enter.device"				: "ex: 1A:1B:1C:1D:1E:1F",
@@ -182,6 +198,7 @@
  	"placeholder.enter.serialnumber"		: "Enter Serial Number",
  	"placeholder.enter.text.search"			: "Search",
  	"placeholder.enter.passport"			: "Enter Passport",
+ 	"placeholder.enter.voucher.number"		: "Enter Voucher Number",
  	
  	
  	"#common labels " : "------------------------------------",
@@ -284,6 +301,10 @@
 	 "table.header.order.servicecode"		: "Service Code",
 	 "table.header.order.servicedescription": "Service Description",
 	 "table.header.order.servicetype"		: "Service Type",
+	 "label.prepaid"						: "Prepaid",
+	 "label.postpaid"						: "Postpaid",
+	 "label.contract.selection"				: "Contract Selection",
+	 "label.contract.period"				: "Contract Period",
 	 
 	 
 	  "#ListofVODSResources "	 :"------------------------------------",
@@ -360,6 +381,33 @@
 	 
 	 "#EditProfileResouces" :"------------------------------------",
 	 "label.edit.profile"								: "Edit Profile",
+	 "label.edit.info"								    : "Edit Info",
+	 
+	 "#EvoPaymentGatewayResources" :"------------------------------------",
+	 "label.evo.review.cart"		 : "Review Cart",
+	 "label.evo.billing.info"		 : "Billing Information",
+	 "label.evo.description"	 	 : "Description",
+	 "label.evo.unit.price"	 		 : "Unit Price",
+	 "label.evo.quantity"	 		 : "Quantity",
+	 "label.evo.numofitems"	 		 : "Number of Items",
+	 "label.evo.subtotal"	 		 : "Subtotal",
+	 "label.evo.current.total"	 	 : "Current Total ",
+	 "button.evo.continue.billinfo"	 : "Continue to Billing Information",
+	 "label.evo.fullname"	 		 : "Full Name",
+	 "label.evo.zipcode"	 		 : "Zip Code",
+	 "button.evo.continue.paymentmethod" : "Continue to Payment Method",
+	 
+	 
+	 "#RedemptionResources" :"------------------------------------",
+	 "label.voucher.number"			: "Voucher Number",
+	 "label.redeem"					: "Redeem",
+	 "validation.msg.redemption.clientId.cannot.be.blank"  : "Client Id cannot be blank",
+	 "validation.msg.redemption.pinNumber.cannot.be.blank" : "Voucher Number cannot be blank",
+	 "error.msg.client.id.invalid"						   : "Invalid Client Id",
+	 "error.invalid.voucher"							   : "Invalid Voucher Number",
+  	 "error.voucher.dateexpiry"							   : "Voucher Number Date Expired",
+  	 "error.msg.redemption.pinNumber.invalid"			   : "Invalid Voucher Number",
+  	 "error.msg.redemption.pinNumber.already.use"		   : "Voucher Number already used",
 	 
 	 
 	 "#Registration errors ":"-----------------------------------",
@@ -368,11 +416,13 @@
  "# common errors ":"....",
   "error.msg.billing.address.city.not.found"	    : "City Not Found",
   "error.internalPayment.invalidPin"				: "Invalid Voucher Pin :",
-  	
+  "error.plan.already.pending"						: "Existing Plan is already in pending state wait for complete action",
   
-  "error.msg.currency.duplicate.configuration"		:"Currency is already configured",
+  "error.msg.currency.duplicate.configuration"		: "Currency is already configured",
   "validation.msg.office.name.cannot.be.blank"		: "Office Name cannot be blank",
   "error.msg.not.authorized"						: "Insufficient privileges to perform this action.",
+  "error.msg.please.pair.hardware.with.plan"		: "Please pair hardware with plan.",
+  "error.msg.insufficient.amount.for.bookevent"		: "Insufficient Amount to Book The Event.",
 
   "#Admin users":"",
   "validation.msg.user.username.cannot.be.blank":"User Name cannot be blank",
@@ -483,9 +533,6 @@
   "validation.msg.eventorder.optType.cannot.be.blank":"Opt Type cannot be blank",
   "error.msg.movie.price.not.found":"No Price Found for This Client Type",
   "error.msg.insufficient.amount.amount":"Insufficient Amount to Book The Order",
-  
-  
-  
   
   
   "#chargecode":"....",
@@ -863,11 +910,6 @@
 "error.msg.ipaddress.already.allocated.please.select.another.iprange":"Ip addresses are already allocated.please select another ip range",
 "validation.msg.provisioning.IP_ADDRESS.cannot.be.empty":"Ip Address can not br blank",
 "validation.msg.null.statusType.cannot.be.blank":"Status Type cannot be blank",
-
-"#Redemption":".......",
-"validation.msg.redemption.clientId.cannot.be.blank":"Client id cannot be blank",
-"validation.msg.redemption.pinNumber.cannot.be.blank":"Pin Number cannot be blank",
-"error.msg.client.id.invalid":"Invalid Client Id",
 
 "#Add CreditCard":".....",
 

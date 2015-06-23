@@ -2,20 +2,22 @@ AddEventsController = function(scope,RequestSender,location,localStorageService,
 		  
 		  scope.vodEventScreen 		= true;
 		  scope.eventDetailsPreview = false;
-		  var encrytionKey 			= selfcareModels.encriptionKey;
 		  scope.isRedirecting 		= false;
+		  var encrytionKey 			= selfcareModels.encriptionKey;
+		  scope.optlang 			= rootScope.localeLangCode;
 		  
 		//getting Payment Gateway names form constans.js
-			var  kortaPG			=	paymentGatewayNames.korta || "";
-			var  dalpayPG			=	paymentGatewayNames.dalpay || "";
-			var  globalpayPG		=	paymentGatewayNames.globalpay || "";
-			var  paypalPG			=	paymentGatewayNames.paypal || "";
-			var  netellerPG			=	paymentGatewayNames.neteller || "";
-			var  internalPaymentPG	=	paymentGatewayNames.internalPayment || "";
-			var  two_checkoutPG		=	paymentGatewayNames.two_checkout || "";
+			var  kortaPG			=	paymentGatewayNames.korta || "",
+				 dalpayPG			=	paymentGatewayNames.dalpay || "",
+				 globalpayPG		=	paymentGatewayNames.globalpay || "",
+				 paypalPG			=	paymentGatewayNames.paypal || "",
+				 netellerPG			=	paymentGatewayNames.neteller || "",
+				 internalPaymentPG	=	paymentGatewayNames.internalPayment || "",
+				 two_checkoutPG		=	paymentGatewayNames.two_checkout || "",
+				 interswitchPG		=  paymentGatewayNames.interswitch || "",
+				 evoPG				=	paymentGatewayNames.evo || "";
 			
-			//getting locale value
-			 scope.optlang 			= rootScope.localeLangCode;
+			
 		  
 		  var clientData = {};
 		  if(rootScope.selfcare_sessionData){
@@ -47,107 +49,113 @@ AddEventsController = function(scope,RequestSender,location,localStorageService,
 		  };
 	      
 	  function pgFun (){
-	      if(rootScope.selfcare_sessionData){
 			  scope.paymentgatewayDatas = [];
 			  RequestSender.paymentGatewayConfigResource.get(function(data) {
-				  if(data.globalConfiguration){
 					  for(var i in data.globalConfiguration){
 						   if(data.globalConfiguration[i].enabled && data.globalConfiguration[i].name != 'is-paypal-for-ios'  
-							   && data.globalConfiguration[i].name != 'is-paypal'){
+							   && data.globalConfiguration[i].name != 'is-paypal' && data.globalConfiguration[i].name != 'paypal-recurring-payment-details'){
 							   scope.paymentgatewayDatas.push(data.globalConfiguration[i]);
 						   }
 					  }
 					 scope.paymentGatewayName = scope.paymentgatewayDatas.length>=1 ?scope.paymentgatewayDatas[0].name :"";
 					 scope.paymentGatewayFun(scope.paymentGatewayName);
-				  }
 			  });
-			}
 	  }
 	  
 	  scope.checkOutFun = function(){
 		  
 		  if(scope.mediaDatas.length != 0){
-			  scope.vodEventScreen = false;
-			  scope.eventDetailsPreview = true;
+			  scope.vodEventScreen = !(scope.eventDetailsPreview = true);
+			  localStorageService.add("storageData",{clientData:clientData,eventData:scope.mediaDatas});
 			  pgFun();
 			    
 		  }
 	  };
 		  
-	  var hostName = selfcareModels.selfcareAppUrl;
-		   scope.paymentGatewayFun  = function(paymentGatewayName){
+	  var hostName = selfcareModels.selfcareAppUrl,screenName = 'vod';
+	  scope.paymentGatewayFun  = function(paymentGatewayName){
+		  		  localStorageService.remove("N_PaypalData");
 			   	  scope.paymentGatewayName = paymentGatewayName;
 				  scope.termsAndConditions = false;
 				  var paymentGatewayValues = {};
 				  for (var i in scope.paymentgatewayDatas){
 				    if(scope.paymentgatewayDatas[i].name==paymentGatewayName && scope.paymentgatewayDatas[i].name !='internalPayment'){
-					  paymentGatewayValues =  JSON.parse(scope.paymentgatewayDatas[i].value);
+					  paymentGatewayValues =  angular.fromJson(scope.paymentgatewayDatas[i].value);
 					  break;
 				    }
 					  
 				  }
-		     switch(paymentGatewayName){
+		 switch(paymentGatewayName){
 				case dalpayPG :
-						var url = paymentGatewayValues.url+'?mer_id='+paymentGatewayValues.merchantId+'&pageid='+paymentGatewayValues.pageId+'&item1_qty=1&num_items=1';
+						var url = paymentGatewayValues.url+'?mer_id='+paymentGatewayValues.merchantId+'&pageid='+paymentGatewayValues.pageId+'&item1_qty=1&num_items='+scope.mediaDatas.length;
 					scope.paymentURL =  url+"&cust_name="+clientData.displayName+"&cust_phone="+clientData.phone+"&cust_email="+clientData.email+"&cust_state="+clientData.state+""+				
 					  	"&cust_address1="+clientData.addressNo+"&cust_zip="+clientData.zip+"&cust_city="+clientData.state+"&item1_desc=AddingEvents&item1_price="+scope.totalAmount+"" + 	  				
-					  	"&user1="+scope.clientId+"&user2="+hostName+"&user3=orderbookingscreen/vod"+scope.clientId+"/1/1";
+					  	"&user1="+scope.clientId+"&user2="+hostName+"&user3=orderbookingscreen/"+screenName+"/"+scope.clientId+"/0/0";
 						break;
 						
 				case kortaPG :
-					localStorageService.add("eventData",scope.mediaDatas);
-					var planData = {id:0,"price":scope.totalAmount,"planCode":"Adding Events"};
-				    var kortaStorageData = {clientData :clientData,planId:0,planData : planData,screenName :"vod",paymentGatewayValues:paymentGatewayValues};	
-				    var encodeURIComponentData = encodeURIComponent(JSON.stringify(kortaStorageData));
-					var encryptedData = CryptoJS.AES.encrypt(encodeURIComponentData,encrytionKey).toString();
 					
-					var token = clientData.selfcare.token;		    		
-					if(token != null && token != "") scope.paymentURL = "#/kortatokenintegration?key="+encryptedData;		    		 
-					else scope.paymentURL = "#/kortaintegration?key="+encryptedData;	    		
+					var planData = {id:0,planCode:"Adding Events"};
+					var kortaStorageData = {clientData :clientData,planId:0,planData : planData,screenName :screenName,paymentGatewayValues:paymentGatewayValues};	
+					var encryptedData = CryptoJS.AES.encrypt(encodeURIComponent(angular.toJson(kortaStorageData)),encrytionKey).toString();
+					
+					if(clientData.selfcare.token != null && clientData.selfcare.token != "") 
+						scope.paymentURL = "#/kortatokenintegration/"+scope.totalAmount+"?key="+encryptedData;		    		 
+					else scope.paymentURL = "#/kortaintegration/"+scope.totalAmount+"?key="+encryptedData;	    		
 					break;
 						
 				case paypalPG :
-					var mediaData = [];
-					for(var i in scope.mediaDatas){
-						mediaData.push({"eventId":scope.mediaDatas[i].eventId},{"formatType":scope.mediaDatas[i].quality},{"optType":scope.mediaDatas[i].optType});
-					}
-					var query = {clientId :scope.clientId,eventData:mediaData,
-							deviceId : clientData.hwSerialNumber,returnUrl:hostName, screenName:"vod"};
-				
+					
+					localStorageService.add("N_PaypalData",{clientId:scope.clientId,screenName :screenName,planId: 0,priceId:0});
 					scope.paymentURL = paymentGatewayValues.paypalUrl+'='+paymentGatewayValues.paypalEmailId+"&item_name=addingevents&amount="+scope.totalAmount+"" +	  	  				
-					  	  "&custom="+JSON.stringify(query);
+					  	  "&custom="+hostName;
 						break;
 						
 				case globalpayPG :
 					
-					var globalpayStorageData = {clientData :clientData,planId:0,screenName :"vod",price :scope.totalAmount,
-												 priceId : 0, globalpayMerchantId:paymentGatewayValues.merchantId};	
-				    var encodeURIComponentData = encodeURIComponent(JSON.stringify(globalpayStorageData));
-					var encryptedData = CryptoJS.AES.encrypt(encodeURIComponentData,encrytionKey).toString();
+				    var globalpayStorageData = {clientData :clientData,planId:0,screenName :screenName,price :scope.totalAmount,
+							 priceId : 0, globalpayMerchantId:paymentGatewayValues.merchantId};	
+				    var encryptedData = CryptoJS.AES.encrypt(encodeURIComponent(angular.toJson(globalpayStorageData)),encrytionKey).toString();
 					
 					scope.paymentURL = "#/globalpayintegration?key="+encryptedData;
 					break;
 				case netellerPG :
-					localStorageService.add("eventData",scope.mediaDatas);
-					var nettellerData = {currency:selfcareModels.netellerCurrencyType,total_amount:scope.totalAmount,screenName:'vod'};
-					var encodeURINetellerData = encodeURIComponent(JSON.stringify(nettellerData));
-					var encryptedData = CryptoJS.AES.encrypt(encodeURINetellerData,encrytionKey).toString();
+					
+					var nettellerData = {currency:selfcareModels.netellerCurrencyType,total_amount:scope.totalAmount,screenName:screenName};
+					var encryptedData = CryptoJS.AES.encrypt(encodeURIComponent(angular.toJson(nettellerData)),encrytionKey).toString();
+					
 					scope.paymentURL = "#/neteller/"+scope.clientId+"?key="+encryptedData;
 					break;
 					
 				case internalPaymentPG :
-					scope.paymentURL =  "#/internalpayment/vod/"+scope.clientId+"/0/0/"+scope.totalAmount;
+					
+					scope.paymentURL =  "#/internalpayment/"+screenName+"/"+scope.clientId+"/0/0/"+scope.totalAmount;
 					break;
 					
 				case two_checkoutPG :
-					localStorageService.add("twoCheckoutStorageData",{screenName:"vod",clientId:scope.clientId,
+					
+					localStorageService.add("twoCheckoutStorageData",{screenName:screenName,clientId:scope.clientId,
 																		planId:0,priceId:0});
-					localStorageService.add("eventData",scope.mediaDatas);
 					var zipCode = clientData.zip || clientData.city || "";
 					scope.paymentURL =  "https://sandbox.2checkout.com/checkout/purchase?sid="+paymentGatewayValues+"&mode=2CO&li_0_type=product&li_0_name=invoice&li_0_price="+scope.totalAmount
 										+"&card_holder_name="+clientData.displayName+"&street_address="+clientData.addressNo+"&city="+clientData.city+"&state="+clientData.state+"&zip="+zipCode
 										+"&country="+clientData.country+"&email="+clientData.email+"&quantity=1";
 					
+					break;
+					
+				case interswitchPG :
+					
+					scope.paymentURL =  "#/interswitchintegration/"+screenName+"/"+scope.clientId+"/0/0/"+scope.totalAmount+"/"+paymentGatewayValues.productId+"/"+paymentGatewayValues.payItemId;
+					
+					break;
+					
+				case evoPG :
+					
+					var evoData = {screenName:screenName,planId:0,priceId:0,price:scope.totalAmount,
+									clientData:clientData,planCode:"Adding Events", merchantId: paymentGatewayValues.merchantId,numOfItems:scope.mediaDatas.length};
+					var encryptedData = CryptoJS.AES.encrypt(encodeURIComponent(angular.toJson(evoData)),encrytionKey).toString();
+					
+					scope.paymentURL = "#/evointegration?key="+encryptedData;
 					break;
 					
 				default :
@@ -157,13 +165,12 @@ AddEventsController = function(scope,RequestSender,location,localStorageService,
 			  };
 			  
 		   scope.subscribeBtnFun =function(){
-			   localStorageService.add("eventData",scope.mediaDatas);
-			   location.path("/orderbookingscreen/vod/"+scope.clientId+"/0/amountZero");
+			   localStorageService.add("storageData",{clientData:clientData,eventData:scope.mediaDatas});
+			   location.path("/orderbookingscreen/"+screenName+"/"+scope.clientId+"/0/amountZero");
 		    };
 	    
 		  scope.cancelBtnFun = function(){
-			  scope.vodEventScreen = true;
-			  scope.eventDetailsPreview = false;
+			  scope.vodEventScreen =  !(scope.eventDetailsPreview = false);
 		  };
 		  
 		  var TermsandConditionsController = function($scope,$modalInstance){
@@ -176,7 +183,9 @@ AddEventsController = function(scope,RequestSender,location,localStorageService,
 		    			$scope.termsAndConditionsText = paypal[termsAndConditions] 	 		: (scope.paymentGatewayName == netellerPG)?
 		    			$scope.termsAndConditionsText = neteller[termsAndConditions] 	 	: (scope.paymentGatewayName == internalPaymentPG)?
 		    			$scope.termsAndConditionsText = internalPayment[termsAndConditions] : (scope.paymentGatewayName == two_checkoutPG)?
-		    			$scope.termsAndConditionsText = two_checkout[termsAndConditions]	: $scope.termsAndConditionsText = selectOnePaymentGatewayText[scope.optlang];
+		    			$scope.termsAndConditionsText = two_checkout[termsAndConditions]	: (scope.paymentGatewayName == interswitchPG)?
+		    	    	$scope.termsAndConditionsText = interswitch[termsAndConditions]		: (scope.paymentGatewayName == evoPG)?
+		    			$scope.termsAndConditionsText = evo[termsAndConditions]				: $scope.termsAndConditionsText = selectOnePaymentGatewayText[scope.optlang];
 		    	}
 			  $scope.done = function(){
 				  $modalInstance.dismiss('cancel');

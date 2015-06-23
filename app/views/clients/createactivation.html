@@ -62,7 +62,7 @@
             </td>
           <td data-ng-show="propertyMaster"> 
              <div class="control-group" >
-               <label class="control-label">{{'label.buildingcode' | translate}}<span class="required">*</span></label>
+               <label class="control-label">{{'label.propertycode' | translate}}<span class="required">*</span></label>
                  <div class="controls">
                   <input type="text" id="propertyCode" name="address" data-ng-model="formData1.addressNo" data-typeahead="propertyData.propertyCode as propertyData.propertyCode for propertyData in getExistsProperty($viewValue)"
                    autocomplete="off" data-typeahead-min-length="0"  data-typeahead-on-select="getPropertyDetails(formData1.addressNo)" data-typeahead-editable="false" /><br/>

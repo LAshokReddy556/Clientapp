@@ -164,6 +164,23 @@
 					+"Sú fyrsta - Open Billing System Hvern smell í wiki er í grundvallaratriðum a Page ..With í Page við höfum Relavent efni .. ",
 	};
 	
+	evo 	= {
+			
+			termsAndConditions_en_locale : "I will be showing how to create a Page and add content toit .ok sir Today I want all off you to start puting the feature" 
+				+"functionality that has been developed No matter on spelling / Sentence / Grammer .. Just add the data .. Will review as well we can get"
+				+"it reviewed by our Pavan if necessary .. If the information is available it will be easy for every on to know as Knowledge base .. and address"
+				+"the Enhancements Quickly .. Well now I will add One Page.1. How to add a Page 2. Basic Format to use while adding the content to that Page"
+				+"The Structure is like this .. First Main Page as landing Page .. http:wiki.openbillingsystem.com/mw19/ Here you can see 6 Sections .. But we are going to use"
+				+"the First one -- Open Billing System Every click in wiki is basically a Page ..With in the Page we have the relavent content ..",
+				
+				termsAndConditions_is_locale : "Ég mun vera að sýna hvernig á að búa til síðu og bæta við efni Toit .ok herra dag ÉG vilja allir burt þér að byrja puting aðgerðina" 
+					+"virkni sem hefur verið þróað Sama á stafsetningu / setning / málfræði .. Bara bæta gögn .. Mun endurskoða eins vel og við getum fengið"
+					+"það skoðað af Pavan okkar ef þörf krefur .. Ef upplýsingar liggja það verður auðvelt fyrir alla á að vita sem þekkingargrunn .. og heimilisfang"
+					+"að Aukahlutir Fljótt .. Jæja nú er ég mun bæta One Page.1. Hvernig á að bæta við 2. Basic snið til nota en bæta efni á þá síðu"
+					+"The Structure er svona .. First Main Page áfangasíðu .. http: wiki.openbillingsystem.com/mw19/ Hér getur þú séð 6 kafla .. En við erum að fara að nota"
+					+"Sú fyrsta - Open Billing System Hvern smell í wiki er í grundvallaratriðum a Page ..With í Page við höfum Relavent efni .. ",
+	};
+	
 	selectOnePaymentGatewayText  = {
 		
 		en	:  "Please select any one Payment Gateway",

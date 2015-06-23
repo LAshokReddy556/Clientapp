@@ -63,11 +63,11 @@ KortaSuccessController = function(rootScope,RequestSender,location,localStorageS
     					  var result = angular.uppercase(data.Result);
     		    		  location.$$search = {};
     		    		  localStorageService.remove("secretCode");
-						if(result == 'SUCCESS'){
-							location.path("/orderbookingscreen/"+screenName+"/"+formData.clientId+"/"+planId+"/"+priceId);
-						}else if(result == 'PENDING'){
+    		    		if(screenName == 'payment'){
+    							location.path('/paymentgatewayresponse/'+formData.clientId);
+    					}else if(result == 'SUCCESS'|| result == 'PENDING'){
 							localStorageService.add("gatewayStatus",result);
-								location.path("/orderbookingscreen/"+screenName+"/"+formData.clientId+"/"+planId+"/"+priceId);
+							location.path("/orderbookingscreen/"+screenName+"/"+formData.clientId+"/"+planId+"/"+priceId);
 						}else{	 
 							location.path('/paymentgatewayresponse/'+formData.clientId);
 						}
@@ -81,11 +81,11 @@ KortaSuccessController = function(rootScope,RequestSender,location,localStorageS
     					  var result = angular.uppercase(data.Result);
   							location.$$search = {};
   							localStorageService.remove("secretCode");
-  						if(result == 'SUCCESS'){
-  							location.path("/orderbookingscreen/"+screenName+"/"+formData.clientId+"/"+planId+"/"+priceId);
-  						}else if(result == 'PENDING'){
+  						if(screenName == 'payment'){
+  							location.path('/paymentgatewayresponse/'+formData.clientId);
+  						}else if(result == 'SUCCESS' || result == 'PENDING'){
   							localStorageService.add("gatewayStatus",result);
-  								location.path("/orderbookingscreen/"+screenName+"/"+formData.clientId+"/"+planId+"/"+priceId);
+  							location.path("/orderbookingscreen/"+screenName+"/"+formData.clientId+"/"+planId+"/"+priceId);
   						}else{	 
   							location.path('/paymentgatewayresponse/'+formData.clientId);
   						}

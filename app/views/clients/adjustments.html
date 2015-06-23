@@ -87,7 +87,7 @@
 				<div class="control-group">
            				<label class="control-label" for="adjustment_type">{{ 'label.adjustmentamount' | translate }}</label>
             			<div class="controls">
-              			<input type="number" id="amount_paid" name="adjustmentAmount" data-ng-model="formData.amount_paid" style="width:111px;" data-ng-pattern="/^[0-9\s]+$/">
+              			<input type="text" id="amount_paid" name="adjustmentAmount" data-ng-model="formData.amount_paid" style="width:111px;" data-ng-pattern="/^\d+(\.\d{1,2})?$/">
               			<select data-ng-model="formData.adjustment_type" data-ng-options="discountOption.discountType as discountOption.discountType for discountOption in discountOptions" class="input-small" value="{{discountOption.discountType}}">
 	               	 	<!-- <option ng-repeat="datas in datass" value="{{datas.discountOptions.discountType}}">{{datas.discountOptions.discountType}}</option> -->
 	               	 	</select><br/>

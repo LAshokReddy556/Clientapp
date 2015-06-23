@@ -9,7 +9,8 @@ PrepaidPaymentController = function(scope,routeParams,RequestSender,localStorage
 		  netellerPG		=  paymentGatewayNames.neteller || "",
 		  internalPaymentPG	=  paymentGatewayNames.internalPayment || "",
 		  two_checkoutPG	=  paymentGatewayNames.two_checkout || "",
-		  interswitchPG		=  paymentGatewayNames.interswitch || "";
+		  interswitchPG		=  paymentGatewayNames.interswitch || "",
+		  evoPG				=  paymentGatewayNames.evo || "";
 	 scope.optlang 			=  rootScope.localeLangCode;
 	 var encrytionKey 		=  selfcareModels.encriptionKey;
 	
@@ -47,7 +48,7 @@ PrepaidPaymentController = function(scope,routeParams,RequestSender,localStorage
 			}else{
 				scope.amountEmpty 		= false;
 				scope.planData.price 	= amount;
-				scope.planData.planCode = 'Pay';
+				scope.planData.planCode = 'Online Payment';
 				scope.planData.id 		= 0;
 				scope.paymentGatewayName = scope.paymentgatewayDatas.length>=1 ?scope.paymentgatewayDatas[0].name :"";
 				scope.paymentGatewayFun(scope.paymentGatewayName);
@@ -79,7 +80,7 @@ PrepaidPaymentController = function(scope,routeParams,RequestSender,localStorage
 					var url = paymentGatewayValues.url+'?mer_id='+paymentGatewayValues.merchantId+'&pageid='+paymentGatewayValues.pageId+'&item1_qty=1&num_items=1';
 				scope.paymentURL =  url+"&cust_name="+clientData.displayName+"&cust_phone="+clientData.phone+"&cust_email="+clientData.email+"&cust_state="+clientData.state+""+				
 				  	"&cust_address1="+clientData.addressNo+"&cust_zip="+clientData.zip+"&cust_city="+clientData.state+"&item1_desc="+scope.planData.planCode+"&item1_price="+scope.planData.price+"" + 	  				
-				  	"&user1="+scope.clientId+"&user2="+hostName+"&user3=orderbookingscreen/"+screenName+"/"+scope.clientId+"/"+0+"/"+0;
+				  	"&user1="+scope.clientId+"&user2="+hostName+"&user3=orderbookingscreen/"+screenName+"/"+scope.clientId+"/0/0";
 					break;
 					
 			case kortaPG :
@@ -93,6 +94,7 @@ PrepaidPaymentController = function(scope,routeParams,RequestSender,localStorage
 				break;
 					
 			case paypalPG :
+				
 				/*var query = {clientId :scope.clientId,returnUrl:hostName,screenName :screenName};*/
 				localStorageService.add("N_PaypalData",{clientId:scope.clientId,screenName :screenName});
 				scope.paymentURL = paymentGatewayValues.paypalUrl+'='+paymentGatewayValues.paypalEmailId+"&item_name="+scope.planData.planCode+"&amount="+scope.planData.price+"" +	  	  				
@@ -100,6 +102,7 @@ PrepaidPaymentController = function(scope,routeParams,RequestSender,localStorage
 					break;
 					
 			case globalpayPG :
+				
 				var globalpayStorageData = {clientData :clientData,planId:0,screenName :screenName,price :scope.planData.price,
 											 priceId : 0, globalpayMerchantId:paymentGatewayValues.merchantId};	
 				var encryptedData = CryptoJS.AES.encrypt(encodeURIComponent(angular.toJson(globalpayStorageData)),encrytionKey).toString();
@@ -108,16 +111,20 @@ PrepaidPaymentController = function(scope,routeParams,RequestSender,localStorage
 				break;
 				
 			case netellerPG :
+				
 				var nettellerData = {currency:selfcareModels.netellerCurrencyType,total_amount:scope.planData.price,screenName:screenName};
-				var encryptedData = CryptoJS.AES.encrypt(encodeURIComponent(JSON.stringify(nettellerData)),encrytionKey).toString();
+				var encryptedData = CryptoJS.AES.encrypt(encodeURIComponent(angular.toJson(nettellerData)),encrytionKey).toString();
+				
 				scope.paymentURL = "#/neteller/"+scope.clientId+"?key="+encryptedData;
 				break;
 				
 			case internalPaymentPG :
-				scope.paymentURL =  "#/internalpayment/"+screenName+"/"+scope.clientId+"/"+0+"/"+0+"/"+scope.planData.price;
+				
+				scope.paymentURL =  "#/internalpayment/"+screenName+"/"+scope.clientId+"/0/0/"+scope.planData.price;
 				break;
 				
 			case two_checkoutPG :
+				
 				localStorageService.add("twoCheckoutStorageData",{screenName:"payment",clientId:scope.clientId,
 				 											planId:0,priceId:0});
 				var zipCode = clientData.zip || clientData.city || "";
@@ -129,8 +136,17 @@ PrepaidPaymentController = function(scope,routeParams,RequestSender,localStorage
 				
 			case interswitchPG :
 				
-				scope.paymentURL =  "#/interswitchintegration/"+screenName+"/"+scope.clientId+"/"+0+"/"+0+"/"+scope.planData.price+"/"+paymentGatewayValues.productId+"/"+paymentGatewayValues.payItemId;
+				scope.paymentURL =  "#/interswitchintegration/"+screenName+"/"+scope.clientId+"/0/0/"+scope.planData.price+"/"+paymentGatewayValues.productId+"/"+paymentGatewayValues.payItemId;
 				
+				break;
+				
+			case evoPG :
+				
+				var evoData = {screenName:screenName,planId:0,priceId:0,price:scope.planData.price,
+								clientData:clientData,planCode:scope.planData.planCode, merchantId: paymentGatewayValues.merchantId};
+				var encryptedData = CryptoJS.AES.encrypt(encodeURIComponent(angular.toJson(evoData)),encrytionKey).toString();
+				
+				scope.paymentURL = "#/evointegration?key="+encryptedData;
 				break;
 					
 			default : break;
@@ -149,7 +165,8 @@ PrepaidPaymentController = function(scope,routeParams,RequestSender,localStorage
     			$scope.termsAndConditionsText = neteller[termsAndConditions] 	 	: (scope.paymentGatewayName == internalPaymentPG)?
     		    $scope.termsAndConditionsText = internalPayment[termsAndConditions] : (scope.paymentGatewayName == two_checkoutPG)?
     			$scope.termsAndConditionsText = two_checkout[termsAndConditions]	: (scope.paymentGatewayName == interswitchPG)?
-    			$scope.termsAndConditionsText = interswitch[termsAndConditions]		: $scope.termsAndConditionsText = selectOnePaymentGatewayText[scope.optlang];
+    			$scope.termsAndConditionsText = interswitch[termsAndConditions]		: (scope.paymentGatewayName == evoPG)?
+    	    	$scope.termsAndConditionsText = evo[termsAndConditions]				: $scope.termsAndConditionsText = selectOnePaymentGatewayText[scope.optlang];
     	}
     	$scope.done = function(){
     		$modalInstance.dismiss('cancel');

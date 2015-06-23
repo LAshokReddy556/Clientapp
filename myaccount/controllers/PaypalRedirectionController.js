@@ -37,7 +37,8 @@ PaypalRedirectionController = function(scope,RequestSender, location,localStorag
 	    			if(screenName == 'payment'){
 						location.path('/paymentgatewayresponse/'+formData.clientId);
 					}else if(result == 'SUCCESS' || result == 'PENDING'){
-						if(result == 'PENDING')localStorageService.add("gatewayStatus",formData.status);
+						localStorageService.add("gatewayStatus",formData.status);
+					  if(screenName != 'vod'){
 						var storageData = localStorageService.get("storageData")||{};
 						var orderId 	= storageData.orderId || 0;
 						RequestSender.getRecurringScbcriberIdResource.get({orderId:orderId},function(data){
@@ -54,6 +55,9 @@ PaypalRedirectionController = function(scope,RequestSender, location,localStorag
 								location.path("/orderbookingscreen/"+screenName+"/"+formData.clientId+"/"+planId+"/"+priceId);
 							}
 						});
+					  }else if(screenName == 'vod'){
+						  location.path("/orderbookingscreen/"+screenName+"/"+formData.clientId+"/"+planId+"/"+priceId);
+					  }
 						
 					}
 			  });

@@ -6,10 +6,10 @@
         </ul>
       </div>
       <form name="createcontractform" class="form-horizontal well"  data-ng-controller="CreateContractController" data-ng-submit="submit()">
-         <div class="error" data-ng-show="errorStatus || errorDetails">
-		<label>{{'label.contract.error' | translate}}</label>
-		<label data-ng-show="errorStatus">{{errorStatus}}</label>
-		<label data-ng-hide="errorStatus" data-ng-repeat="error in errorDetails">{{error.code | translate}}</label>
+     	<div class="error" data-ng-show="errorStatus || errorDetails">
+		 <label>{{'label.contract.error' | translate}}</label>
+		<label data-ng-show="errorStatus">{{errorStatus}}</label> 
+		 <label data-ng-hide="errorStatus" data-ng-repeat="error in errorDetails">{{error.code | translate}}</label> 
 	</div>
        
         <fieldset>
@@ -19,7 +19,10 @@
              <div class="control-group">
             <label class="control-label" for="subscriptionPeriod">{{ 'label.contract.contractperiod' | translate }}</label>
             <div class="controls">
-              <input type="text" id="subscriptionPeriod" data-ng-model="formData.subscriptionPeriod">
+              <input type="text" id="subscriptionPeriod" name="subscriptionPeriod" data-ng-model="formData.subscriptionPeriod" data-ng-pattern="/^[a-zA-Z0-9\s]+$/"/></br>
+              <span  data-ng-show="createcontractform.subscriptionPeriod.$invalid">
+              	<small class="error" data-ng-show="createcontractform.subscriptionPeriod.$error.pattern">alphanumeric and spaces only!</small>
+              </span>
             </div>
           </div>
           </td></tr>
@@ -36,9 +39,9 @@
           <div class="control-group">
             <label class="control-label" for="units">{{ 'label.contract.units' | translate }}</label>
             <div class="controls">
-              <input type="text" id="units" name="units" data-ng-model="formData.units" data-ng-pattern="{{'integer' | CodeValidate}}"></br>
+              <input type="text" id="units" name="units" data-ng-model="formData.units" data-ng-pattern="{{'integer' | CodeValidate}}" data-ng-maxlength="3"></br>
               <span data-ng-show="createcontractform.units.$dirty && createcontractform.units.$invalid">
-              	<small class="error-row">{{'error.not.numeric.validation' | translate}}</small>
+              	<small class="error-row">{{'error.code.definition.length.validation' | translate}}</small>
               </span>
             </div>
           </div>

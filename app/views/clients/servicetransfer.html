@@ -126,14 +126,15 @@
             <div class="control-group">
             	<label class="control-label" for="propertyCode">{{'label.propertycode' | translate }}</label>
             	<div class="controls">
-              		<input type="text" id="propertyCode" name="propertyCode"  data-ng-model="property.propertyCode"
+              		<input type="text" id="propertyCode" name="propertyCode"  data-ng-model="formData.newPropertyCode"
               		 data-typeahead="propertyData.propertyCode as propertyData.propertyCode for propertyData in getExistsProperty($viewValue)"
-                     autocomplete="off" data-typeahead-min-length="0"  data-typeahead-on-select="getPropertyDetails(property.propertyCode)" data-typeahead-editable="false"/>&nbsp;
+                     autocomplete="off" data-typeahead-min-length="0"  data-typeahead-on-select="getPropertyDetails(formData.newPropertyCode)"/>&nbsp;
                     <a data-ng-click="generatePropertyPopup()" data-popover-placement="right" data-popover="Generate New Property Code" data-popover-trigger="mouseenter"><i class="icon-plus icon-white"></i></a><br/>
                      <span  data-ng-show="servicetransferform.propertyCode.$invalid">
                       <small class="error" data-ng-show="servicetransferform.propertyCode.$error.req">{{'label.required.field' | translate}}</small>
-                      <small class="error" data-ng-show="servicetransferform.propertyCode.$error.editable&&!servicetransferform.propertyCode.$error.req">Invalid Property Code</small>
+                     <!--  <small class="error" data-ng-show="servicetransferform.propertyCode.$error.editable&&!servicetransferform.propertyCode.$error.req">Invalid Property Code</small> -->
                        </span>
+                        <small class="error" data-ng-show="invalidBuildingCode">Invalid BuildingCode</small>
             	 </div>
           	</div>
           	
@@ -182,7 +183,7 @@
       <td width="50%">
         	<div  class="control-group offset2">
             <a data-ng-click="goBack()"><button id="cancel" type="reset" class="btn">{{'button.cancel'| translate}}</button></a>
-            <button id="submit" type="submit" data-ng-disabled="(servicetransferform.$dirty && servicetransferform.$invalid)&&(shiftingCheckbox=='No')" class="btn btn-primary">{{'button.save'| translate}}</button>
+            <button id="submit" type="submit" data-ng-disabled="(!servicetransferform.$valid)&&(shiftingCheckbox=='No')" class="btn btn-primary">{{'button.save'| translate}}</button>
            </div>
       </td>
       </tr>
@@ -207,7 +208,7 @@
            <div class="control-group">
             <label class="control-label" for="precinct">{{'label.precinct' | translate }}<span class="required">*</span></label>
               <div class="controls">
-             <input type="text" id="precinct" name="precinct" data-ng-model="precinct" data-typeahead="precinct.cityName as precinct.cityName for precinct in getPrecinct($viewValue)"
+             <input type="text" id="precinct" name="precinct" data-ng-model="precinct" data-typeahead="precinct.cityCode as precinct.cityName for precinct in getPrecinct($viewValue)"
              autocomplete="off" data-typeahead-min-length="0" data-typeahead-on-select="getPrecinctDetails(precinct)"  data-typeahead-editable="false" required data-late-Validate/><br/>
              <span  data-ng-show="propertyform.precinct.$invalid">
               <small class="error" data-ng-show="propertyform.precinct.$error.req"> {{'label.required.field' | translate}}</small>
@@ -219,7 +220,7 @@
           	<div class="control-group">
             	<label class="control-label" for="parcel">{{'label.parcel' | translate }}<span class="required">*</span></label>
             	<div class="controls">
-              		<input type="text"  id="parcel" name="parcel" data-ng-model="parcel" data-typeahead="parcel.description as parcel.description for parcel in getParcel($viewValue)" 
+              		<input type="text"  id="parcel" name="parcel" data-ng-model="parcel" data-typeahead="parcel.code as parcel.description for parcel in getParcel($viewValue)" 
               		autocomplete="off" data-typeahead-min-length="0" data-typeahead-on-select="getParcelDetails(parcel)" data-typeahead-editable="false"  required data-late-Validate/><br/>
               		<span data-ng-show="propertyform.parcel.$invalid">
 					  <small class="error" data-ng-show="propertyform.parcel.$error.req">{{'label.required.field' | translate}} </small> 
@@ -241,7 +242,7 @@
          <div class="control-group">
             	<label class="control-label" for="buildingCode">{{'label.buildingcode' | translate }}<span class="required">*</span></label>
             	<div class="controls">
-              		<input type="text"  id="buildingCode" name="buildingCode" data-ng-model="buildingCode" data-typeahead="building.code as building.code for building in getBuild($viewValue)" 
+              		<input type="text"  id="buildingCode" name="buildingCode" data-ng-model="buildingCode" data-typeahead="building.code as building.description for building in getBuild($viewValue)" 
               		autocomplete="off" data-typeahead-min-length="0" data-typeahead-on-select="getbuildCode(buildingCode)" data-typeahead-editable="false"  required data-late-Validate/><br/>
               		<span data-ng-show="propertyform.buildingCode.$invalid">
 					  <small class="error" data-ng-show="propertyform.buildingCode.$error.req">{{'label.required.field' | translate}} </small> 
@@ -252,7 +253,7 @@
           	<div class="control-group">
             	<label class="control-label" for="floor">{{'label.floor' | translate }}<span class="required">*</span></label>
             	<div class="controls">
-              		<input type="text" id="floor" name="floor" data-ng-model="floor" data-typeahead="floor.description as floor.description for floor in getFloor($viewValue)" 
+              		<input type="text" id="floor" name="floor" data-ng-model="floor" data-typeahead="floor.code as floor.description for floor in getFloor($viewValue)" 
               	     autocomplete="off" data-typeahead-min-length="0" data-typeahead-on-select="getFloorDetails(floor)"  data-typeahead-editable="false"  required data-late-Validate/><br/>
               		<span data-ng-show="propertyform.floor.$invalid">
 		              <small class="error" data-ng-show="propertyform.floor.$error.req">{{'label.required.field' | translate}} </small>

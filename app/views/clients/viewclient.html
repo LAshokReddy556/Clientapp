@@ -68,7 +68,7 @@
       		<tab heading="{{'tab.general' | translate}}">
             	<div class="row-fluid">
                 	<div class="row-fluid primarydiv">
-                    	<div class="btn-group pull-right">
+                    	<div class="btn-group pull-left">
                         	<span data-ng-repeat="button in buttons">
                           	<a href="" class="btn btn-primary" data-ng-show="button.ngShow" data-ng-click="getMe(button.href,client.id,button.subhref)"><i class="{{button.icon}} icon-white" ></i>{{button.name | translate}}</a>
                           	 <!--<span  class="btn-group" ng-show="$index==buttons.length-2">
@@ -138,7 +138,11 @@
                         	<table  width="100%" > 
                             	<tr>
                               		<td width="35%">{{'label.Address' | translate}}</td>
-                              		<td width="65%"> {{client.addressNo}}<strong>,</strong>{{client.street}}</td>
+                              		<td width="65%"> {{client.addressNo}}</td>
+                            	</tr>
+                            	<tr>
+                              		<td width="35%">{{'label.street' | translate}}</td>
+                              		<td width="65%"> {{client.street}}</td>
                             	</tr>
                             	<tr>
                               		<td>{{'label.province' | translate}}</td>
@@ -774,7 +778,10 @@
                  								{{financialtransaction.amount}}
               								</td>
               								<td>
+                								<a data-ng-show="financialtransaction.transactionType == 'INVOICE'" data-ng-click="downloadInvoice(financialtransaction.transactionId)" popover="Print Invoice" popover-trigger="mouseenter"><i class=" icon-download-alt icon-white"></i></a>&nbsp;
+                								<a data-ng-show="financialtransaction.transactionType == 'PAYMENT'" data-ng-click="downloadPayment(financialtransaction.transactionId)" popover="Print Payment" popover-trigger="mouseenter"><i class=" icon-download-alt icon-white"></i></a>&nbsp;
                 								<a data-ng-hide="financialtransaction.flag==true" data-ng-click="cancelPayment(financialtransaction.transactionId)" popover="Cancel Payment" popover-trigger="mouseenter"><i class="icon-remove icon-white"></i></a>
+                								
               								</td>
            								</tr>
 									</tbody>
@@ -827,6 +834,7 @@
               								</td>
               								<td>
                 								<span data-ng-show="PermissionService.showMenu('CANCEL_PAYMENT')">
+                									<a data-ng-show="financialtransaction.transactionType == 'PAYMENT'" data-ng-click="downloadPayment(financialtransaction.transactionId)" popover="Print Payment" popover-trigger="mouseenter"><i class=" icon-download-alt icon-white"></i></a>&nbsp;
                 									<a data-ng-hide="financialtransaction.flag==true" data-ng-click="cancelPayment(financialtransaction.transactionId)" popover="Cancel Payment" popover-trigger="mouseenter"><i class="icon-remove icon-white"></i></a>
                 								</span>
               								</td>
@@ -852,7 +860,8 @@
                 							<th>{{'label.transaction.type' | translate}}</th>
                 							<th>{{'label.transaction.category' | translate}}</th>
                 							<th>{{'label.creditamount' | translate}}</th>
-                							<th>{{'label.denitamount' | translate}}</th>	
+                							<th>{{'label.denitamount' | translate}}</th>
+                							<th>{{'table.actions' | translate}}</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -878,6 +887,9 @@
               								</td>
               								<td class="pointer"  data-ng-click="routeTofinancial(financialtransaction.transactionId,client.id)">
                   								<any>{{financialtransaction.amount}}</any>
+              								</td>
+              								<td>
+              								<a ng-show="financialtransaction.transactionType == 'INVOICE'" data-ng-click="downloadInvoice(financialtransaction.transactionId)" popover="Print Invoice" popover-trigger="mouseenter"><i class=" icon-download-alt icon-white"></i></a>&nbsp;
               								</td>	
             							</tr>
 									</tbody>
@@ -927,6 +939,7 @@
               								<td>
                   								<any>{{financialtransaction.amount}}</any>
               								</td>
+              								
             							</tr>
 									</tbody>
 								</table>

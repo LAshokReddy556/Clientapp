@@ -18,7 +18,7 @@ GlobalPaySuccessController = function(RequestSender, location,localStorageServic
 	    			if(screenName == 'payment'){
 						location.path('/paymentgatewayresponse/'+formData.clientId);
 					}else if(result == 'SUCCESS' || result == 'PENDING'){
-						if(result=='PENDING')localStorageService.add("gatewayStatus",result);
+						localStorageService.add("gatewayStatus",result);
 						location.path("/orderbookingscreen/"+screenName+"/"+clientId+"/"+planId+"/"+priceId);
 					}
 	    		});

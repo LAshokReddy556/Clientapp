@@ -139,6 +139,7 @@
  	"header.change.plan" 			 : "Breyta áætlun",
  	"header.action"				 	 : "aðgerð",
  	"header.actions"				 : "aðgerðum",
+ 	"header.contract.billingfrequency" : "Innheimta Tíðni",
  	
  	"#errors " : "------------------------------------",
  	"error.login.failed"						:"Vinsamlegast reyndu aftur, eru persónuskilríki þín ekki gild",
@@ -182,6 +183,7 @@
  	"placeholder.enter.serialnumber"		: "Sláið inn raðnúmers",
  	"placeholder.enter.text.search"			: "Leita",
  	"placeholder.enter.passport"			: "Sláðu vegabréf",
+ 	"placeholder.enter.voucher.number"		: "Sláðu gjafabréfi Fjöldi",
  	
  	"#common labels " : "------------------------------------",
  	"label.home.page"				: "Þetta er upphafssíða...",
@@ -283,6 +285,10 @@
 	 "table.header.order.servicecode"		: "þjónusta Kóði",
 	 "table.header.order.servicedescription": "þjónusta Lýsing",
 	 "table.header.order.servicetype"		: "þjónusta Tegund",
+	 "label.prepaid"						: "Fyrirframgreiðsla",
+	 "label.postpaid"						: "eftirágreiðsla",
+	 "label.contract.selection"				: "samningur Val",
+	 "label.contract.period"				: "samningur Tímabil",
 	 
 	 
 	  "#ListofVODSResources "	 :"------------------------------------",
@@ -356,9 +362,49 @@
 	 "label.globalpay.phone"	    : "Símanúmer",
 	 "label.add.globalpay.Info"		: "GlobalPay Upplýsingar",
 	 
-	 "#paymentGatewayConfig" :"------------------------------------",
+	 "#EditProfileResouces" :"------------------------------------",
 	 "label.edit.profile"								: "Breyta prófíl",
 	 
+	 "#additionalinfo"  :  "--------------------------",
+ 	"label.client.gender"				: "kyn",
+ 	"label.client.nationality"			: "Þjóðerni",
+ 	"label.client.jobtitle"				: "Job Title",
+ 	"label.client.dateofbirth"			: "Fæðingardagur",
+ 	"label.client.preferlanguage"		: "vilja Tungumál",
+ 	"label.client.remarks"				: "athugasemdir",
+ 	"label.client.identificationtype"	: "Identification Tegund",
+ 	"label.client.identificationnumber"	: "Identification Number",
+ 	"label.client.agegroup"				: "Aldur Group",
+ 	"label.client.utscustomerid"		: "UTS Auðkenni viðskiptavinar",
+ 	"label.client.financeid"			: "Id Fjármál",
+ 	"label.client.preferredcommunication": "Valið Samskipti",
+ 	"link.additionalinfo" 		 		:  "Viðskiptavinur Aðrar upplýsingar",
+ 	"label.edit.info"					: "Breyta Info",
+	 
+	 "#EvoPaymentGatewayResources" :"------------------------------------",
+	 "label.evo.review.cart"		 : "umsögn Körfu",
+	 "label.evo.billing.info"		 : "greiðanda Upplýsingar",
+	 "label.evo.description"		 : "Lýsing",
+	 "label.evo.unit.price"	 		 : "eining verð",
+	 "label.evo.quantity"	 		 : "magn",
+	 "label.evo.numofitems"	 		 : "Fjöldi liðum",
+	 "label.evo.subtotal"	 		 : "Raða",
+	 "label.evo.current.total"	 	 : "Núverandi Samtals ",
+	 "button.evo.continue.billinfo"	 : "Halda áfram að Innheimtuupplýsinga",
+	 "label.evo.fullname"	 		 : "Fullt nafn",
+	 "label.evo.zipcode"	 		 : "póstnúmer",
+	 "button.evo.continue.paymentmethod" : "Halda áfram að greiðslumáta",
+	 
+	 "#RedemptionResources" :"------------------------------------",
+	 "label.voucher.number"			: "Úttektarmiðinn Fjöldi",
+	 "label.redeem"					: "innleysa",
+	 "validation.msg.redemption.clientId.cannot.be.blank"  : "Kenni viðskiptavinar má ekki vera autt",
+	 "validation.msg.redemption.pinNumber.cannot.be.blank" : "Úttektarmiðinn Númer má ekki vera auður",
+	 "error.msg.client.id.invalid"						   : "Ógilt Auðkenni viðskiptavinar",
+	 "error.invalid.voucher"							   : "Ógilt Úttektarmiðinn Fjöldi",
+     "error.voucher.dateexpiry"						       : "Úttektarmiðinn Fjöldi Dagsetning útrunnið",
+     "error.msg.redemption.pinNumber.invalid"			   : "Ógilt Úttektarmiðinn Fjöldi",
+     "error.msg.redemption.pinNumber.already.use"		   : "Úttektarmiðinn Númer þegar notað",
 	 
 	  "#Registration errors ":"-----------------------------------",
 	 "validation.msg.activationprocess.device.cannot.be.blank"		: "Mac auðkenni má ekki vera autt",
@@ -366,11 +412,13 @@
  "# common errors ":"....",
   "error.msg.billing.address.city.not.found"		: "borg ekki fann",
   "error.internalPayment.invalidPin"				: "Ógilt Úttektarmiðinn pinna :",
-  
+  "error.plan.already.pending"						: "Núverandi Plan er nú þegar í bið ástand bíða fyrir heill aðgerð",
   
   "error.msg.currency.duplicate.configuration"		:"Currency is already configured",
   "validation.msg.office.name.cannot.be.blank"		: "Office Name cannot be blank",
   "error.msg.not.authorized"						: "Insufficient privileges to perform this action.",
+  "error.msg.please.pair.hardware.with.plan"		: "Vinsamlegast para vélbúnaðinn við áætlun.",
+  "error.msg.insufficient.amount.for.bookevent"		: "Ófullnægjandi magn til bóka viðburð.",
 
   "#Admin users":"",
   "validation.msg.user.username.cannot.be.blank":"User Name cannot be blank",
@@ -861,11 +909,6 @@
 "error.msg.ipaddress.already.allocated.please.select.another.iprange":"Ip addresses are already allocated.please select another ip range",
 "validation.msg.provisioning.IP_ADDRESS.cannot.be.empty":"Ip Address can not br blank",
 "validation.msg.null.statusType.cannot.be.blank":"Status Type cannot be blank",
-
-"#Redemption":".......",
-"validation.msg.redemption.clientId.cannot.be.blank":"Client id cannot be blank",
-"validation.msg.redemption.pinNumber.cannot.be.blank":"Pin Number cannot be blank",
-"error.msg.client.id.invalid":"Invalid Client Id",
 
 "#Add CreditCard":".....",
 

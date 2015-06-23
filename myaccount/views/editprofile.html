@@ -85,4 +85,98 @@
 
 	</fieldset>
 </form>
+	<div class="span6">
+		<div><h3 style="text-transform: uppercase;"><b class="marginleft10 lightbluecolor">{{'link.additionalinfo'|translate}}:</b></h3>
+		</div>	
+	</div>
+	<div class="pull-right">
+		  <button type="button" class="btn btn-primary" ng-click="editInfoBtn = !editInfoBtn" data-ng-show="editInfoBtn" style="border-radius: 5px; margin-top:18px; margin-right:18px;"><i class=" icon-edit icon-white"></i>{{'label.edit.info' | translate}}</button>
+	</div>
+	<form name="editableForm" class="form-horizontal well"  data-ng-submit="addinfosubmit()">	
+		<fieldset>
+			<table>
+				<tr>
+					<td>
+	          			<div class="control-group" style="margin-bottom:30px;">
+	          			   <label class="control-label">{{'label.client.gender' | translate}}</label>
+	          			   <div class="controls">
+							 <select data-ng-model="clientData.gender" data-ng-options="genderData.id as genderData.mCodeValue for genderData in genderDatas" ng-disabled="editInfoBtn"></select>  
+	          			   </div>
+	      				</div>
+	       				<div class="control-group" style="margin-bottom:30px;">
+	          			   <label class="control-label">{{'label.client.nationality' | translate}}</label>
+	          			   <div class="controls">
+								<select data-ng-model="clientData.nationality"  data-ng-options="nationalityData.id as nationalityData.mCodeValue for nationalityData in nationalityDatas" ng-disabled="editInfoBtn"></select>
+	          			   </div>
+	      				</div>
+	      				<div class="control-group" style="margin-bottom:30px;">
+	          			   <label class="control-label">{{'label.client.jobtitle' | translate}}</label>
+	          			   <div class="controls">
+			                 <input  type="text" data-ng-model="clientData.jobTitle" ng-disabled="editInfoBtn"/>
+	          			   </div>
+	      				</div>
+	      				<div class="control-group" style="margin-bottom:30px;">
+	          			   <label class="control-label">{{'label.client.dateofbirth' | translate}}</label>
+	          			   <div class="controls">
+			                 <input type="text" datepicker-pop="dd MMMM yyyy" disabled data-ng-model="date.dateOfBirth"  is-open="opened" min="minDate" max="'2020-06-22'" date-disabled="disabled(date, mode)" ng-disabled="editInfoBtn"/>
+	          			   </div>
+	      				</div>
+	      				<div class="control-group" style="margin-bottom:30px;">
+	          			   <label class="control-label">{{'label.client.preferlanguage' | translate}}</label>
+	          			   <div class="controls">
+								<select data-ng-model="clientData.preferredLang" ng-disabled="editInfoBtn" data-ng-options="languagesData.id as languagesData.mCodeValue for languagesData in languagesDatas" ></select>
+	          			   </div>
+	      				</div>
+	      				<div class="control-group" style="margin-bottom:30px;">
+	          			   <label class="control-label">{{'label.client.remarks' | translate}}</label>
+	          			   <div class="controls">
+			                 <input  type="text" data-ng-model="clientData.remarks" ng-disabled="editInfoBtn"/>
+	          			   </div>
+	      				</div>
+	      			</td>
+	       			<td>
+	          			<div class="control-group" style="margin-bottom:30px;">
+	          			   <label class="control-label">{{'label.client.identificationtype' | translate}}</label>
+	          			   <div class="controls">
+								<select data-ng-model="clientData.idType" ng-disabled="editInfoBtn" data-ng-options="customeridentificationData.id as customeridentificationData.mCodeValue for customeridentificationData in customeridentificationDatas"></select>
+	          			   </div>
+	      				</div>
+	          			<div class="control-group" style="margin-bottom:30px;">
+	          			   <label class="control-label">{{'label.client.identificationnumber' | translate}}</label>
+	          			   <div class="controls">
+			                 <input  type="text" data-ng-model="clientData.idNumber" ng-disabled="editInfoBtn"/>
+	          			   </div>
+	      				</div>
+	          			<div class="control-group" style="margin-bottom:30px;">
+	          			   <label class="control-label">{{'label.client.agegroup' | translate}}</label>
+	          			   <div class="controls">
+								<select data-ng-model="clientData.ageGroup"  ng-disabled="editInfoBtn" data-ng-options="ageGroupData.id as ageGroupData.mCodeValue for ageGroupData in ageGroupDatas" ></select>
+	          			   </div>
+	      				</div>
+	          			<div class="control-group" style="margin-bottom:30px;">
+	          			   <label class="control-label">{{'label.client.utscustomerid' | translate}}</label>
+	          			   <div class="controls">
+			                 <input  type="text" data-ng-model="clientData.utsCustomerId" ng-disabled="editInfoBtn"/>
+	          			   </div>
+	      				</div>
+	          			<div class="control-group" style="margin-bottom:30px;">
+	          			   <label class="control-label">{{'label.client.financeid' | translate}}</label>
+	          			   <div class="controls">
+			                 <input  type="text" data-ng-model="clientData.financeId" ng-disabled="editInfoBtn"/>
+	          			   </div>
+	      				</div>
+	          			<div class="control-group" style="margin-bottom:30px;">
+	          			   <label class="control-label">{{'label.client.preferredcommunication' | translate}}</label>
+	          			   <div class="controls">
+	          			   		<select data-ng-model="clientData.preferredCommunication"  ng-disabled="editInfoBtn" data-ng-options="cummunitcationData.id as cummunitcationData.mCodeValue for cummunitcationData in cummunitcationDatas" ></select>
+	          			   </div>
+	      				</div>
+	       			</td>
+	       		</tr>
+		  <tr><td colspan="2" align="right">
+			 <button type="button" class="btn" ng-click="editInfoBtn = !editInfoBtn" data-ng-show="!editInfoBtn">{{'btn.cancel' | translate}}</button>	 
+			 <button type="submit" data-ng-show="!editInfoBtn" class="btn btn-primary">{{'btn.save' | translate}}</button> 
+		</td></tr></table>
+		</fieldset>	
+</form>
 </div>

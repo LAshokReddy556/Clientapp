@@ -75,11 +75,17 @@
 	                 for(var j in scope.propertyCodesData)  {
 	            			 if(existsProperty == scope.propertyCodesData[j].propertyCode){
 	            				 scope.formData1.addressNo = scope.propertyCodesData[j].propertyCode;
-	            				 scope.formData1.street = scope.propertyCodesData[j].street;
+	            				 if(scope.propertyCodesData[j].street.length > 0){
+	            					
+	            					 scope.formData1.street = scope.propertyCodesData[j].street;
+	            				 }
 	            				 scope.formData1.city  =  scope.propertyCodesData[j].precinct; 
 	            				 scope.formData1.state =  scope.propertyCodesData[j].state;
 	            				 scope.formData1.country = scope.propertyCodesData[j].country;
-	            				 scope.formData1.zipCode = scope.propertyCodesData[j].poBox;
+	            				 if(scope.propertyCodesData[j].poBox.length > 0){
+	            					
+	            					 scope.formData1.zipCode = scope.propertyCodesData[j].poBox;
+	            				 }
 	            				 scope.status=scope.propertyCodesData[j].status;
 	            				 scope.propetyId=scope.propertyCodesData[j].id;
 	            				 break;
@@ -383,7 +389,7 @@
 	           	var resourceId=null;
 	           	var paymentData=[];
 	           	paymentData=scope.formData6;
-	            
+	           
 	            resourceFactory.activationProcessResource.save(scope.ActivationData,function(data){
 	            	resourceId=data.resourceId;
 	            	//var resp = filter('ConfigLookup')('payment');

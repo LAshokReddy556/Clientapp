@@ -64,7 +64,7 @@
 				this.formData.messageTemplate = this.formData.jobparameters.messageTemplate;
 				this.formData.emailId = this.formData.jobparameters.emailId;
 				this.formData.URL = this.formData.jobparameters.url;
-				this.formData.ProvSystem = this.formData.jobparameters.provSystem;
+				this.formData.system = this.formData.jobparameters.provSystem;
 				this.formData.Username = this.formData.jobparameters.username;
 				this.formData.Password = this.formData.jobparameters.password;				
 

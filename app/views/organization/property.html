@@ -40,10 +40,9 @@
                     	<a data-ng-show="PermissionService.showMenu('READ_PROPERTY')" 
                     	    data-ng-click="propertyHistoryPopup(propertyCode.propertyCode)" data-popover="View Track" data-popover-trigger="mouseenter" >
                     	  <i class="icon-list"></i></a>&nbsp;
-						<!-- <a data-ng-show="PermissionService.showMenu('UPDATE_PROPERTY') && propertyCode.clientId == 'VACANT'"
+				          <a data-ng-show="PermissionService.showMenu('UPDATE_PROPERTY') && propertyCode.clientId == 'VACANT'"
 							href="#/editproperty/{{propertyCode.id}}" data-popover="{{'label.editproperty' | translate}}" data-popover-trigger="mouseenter">
-                    		<i class="icon-edit icon-white"></i></a>&nbsp; -->  
-                    
+                    		<i class="icon-edit icon-white"></i></a>&nbsp;
                     	<a data-ng-show="propertyCode.status=='VACANT'&&PermissionService.showMenu('DELETE_PROPERTY')"
                     	 	data-ng-click="deleteProperty(propertyCode.id)" data-popover="{{'label.deleteproperty' | translate}}" data-popover-trigger="mouseenter">
                     		<i class="icon-remove icon-white"></i>
@@ -97,7 +96,10 @@
 			</tbody>
 		</table>
 		<ul class="pager">
+		            <!-- <li class="previous" data-ng-click="firstPageNo()"><a  data-ng-click="propertyMasters.firstPage()" href="" data-ng-disabled="!propertyMasters.hasFirstPage()">First</a></li> -->
         			<li class="previous"><a data-ng-click="propertyMasters.previous()" href="" data-ng-disabled="!propertyMasters.hasPrevious()">&larr; Prev</a></li>
+        			 <!-- <strong>Page No:&nbsp;&nbsp;{{pageNo}}/{{totalPages}}</strong> -->
+        			 <!-- <li class="next" data-ng-click="lastPageNo()"><a  data-ng-click="propertyMasters.lastPage()" href="" data-ng-disabled="!propertyMasters.hasLastPage()">Last</a></li> -->
         			<li class="next" ><a data-ng-click="propertyMasters.next()" href=""  data-ng-disabled="!propertyMasters.hasNext()">Next &rarr;</a></li>
     	</ul>
 	</div>

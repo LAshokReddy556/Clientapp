@@ -501,6 +501,7 @@
   "currencyIdSelectAll":"Select A Currency",
   "validation.msg.report.reportName.cannot.be.blank":"Report Name cannot be blank",
   "validation.msg.report.reportSql.must.be.provided.when.reportType.is.Table":"SQL field cannot be Blank",
+  "error.message.report.incorrect.values.for.date.fields":"Please give startDate should be less than endDate",
 
   "#DataTables":"...",
   "apptable.m.client":"Client",
@@ -544,7 +545,7 @@
   "error.not.numeric.validation":"Enter Numeric Value",
   "error.not.decimal.validation":"Enter Decimal Value",
   "error.invalid.phone.validation":"MAX Length 15 Numbers",
-
+   
 
   "#Journal Entry Predefined Postings":"........",
   "label.select.accountingrule":"--Select accounting rule--",
@@ -738,6 +739,8 @@
   "label.contract.error":"Errors:",
   "validation.msg.subscriptoins.subscriptionPeriod.cannot.be.blank":"Contract Period Cannot be Blank",
   "validation.msg.subscriptoins.units.cannot.be.blank":"UNITS Cannot be Blank",
+  "error.msg.contract.code.duplicate.name":"A contract with the same name already exists. Please use a different name",
+   "error.code.definition.length.validation":"Value exceeded. Please enter a valid value",
   
   "#Plan":"......",
   "link.create.new.plan":"Add Plan",
@@ -780,6 +783,10 @@
   "validation.msg.plan.planDescription.cannot.be.blank":"Plan Description Cannot be Blank",
   "validation.msg.plan.billRule.cannot.be.blank":"Select Rule From List",
   "plan.is.already.exists.with.charge.code":"Price Already Exist With This Charge Code",
+  "error.msg.prepaid.chargecode.contract.should.be.same":"Chargecode and Duration values must be same",
+  "error.msg.contract.duration.cannot.be.null":"Please select Duration",
+  "error.msg.postpaid.billfrequency.less.than.contractperiod":" Billing Frequency must be less than Contract Period",
+  "error.msg.select.renewal.period.more.than":"Please select Renewal Period more than '{{params[0].value}}'",
     
   "#Price":".......",
   "label.creatprice":"Create Price",
@@ -2517,6 +2524,11 @@
 "link.create.new.nas":"Create NAS",
 "label.createnas":"Create NAS",
 "label.nas.message":"Delete NAS",
+"label.heading.shortname"		: "Short Name",
+"label.heading.ip"				: "IP",
+"lable.heading.secret"			: "Secret",
+"lable.heading.description"		: "Description",
+
 
 "#radService":".......",
 "tab.radService":"RadService",
