@@ -1154,6 +1154,14 @@
             	update: { method: 'PUT' }
             }),
             
+            propertydeviceMappingResource: defineResource(apiVer + "/property/allocatedevice/:clientId", {clientId:'@clientId'}, {
+            	update: { method: 'PUT' }
+            }),
+            
+            propertydeviceMappingTemaplateResource: defineResource(apiVer + "/property/propertycodes/:clientId", {clientId:'@clientId'}, {
+            	 get: {method: 'GET', params: {},isArray: true}
+            }),
+            
             propertyTemplateResource: defineResource(apiVer + "/propertymaster/template", {}, {
             	update: { method: 'PUT' }
             }),

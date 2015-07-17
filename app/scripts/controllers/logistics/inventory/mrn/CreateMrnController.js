@@ -35,7 +35,7 @@
         	delete this.formData.itemMasterData;
         	delete this.formData.officeData;
         	resourceFactory.mrnResource.save(this.formData,function(data){
-        			location.path('/viewmrn/'+data.resourceId);
+        			location.path('/inventory');
           });
         };
     }

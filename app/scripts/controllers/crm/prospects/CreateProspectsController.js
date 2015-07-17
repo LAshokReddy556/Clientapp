@@ -51,7 +51,7 @@
 				this.formData.city;
 								
 				resourceFactory.prospectResource.save(this.formData, function(data) {
-					location.path('/viewprospects/' + data.resourceId);										
+					location.path('/leads');										
 				});							
 			};						
 		}			

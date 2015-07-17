@@ -89,7 +89,7 @@ selfcareApp.config(function($routeProvider, $locationProvider) {
     .when('/events',{
     	templateUrl: 'views/events.html'
     })
-    .when('/editprofile/:clientId/:isConfigNationalId',{
+    .when('/editprofile/:clientId',{
     	templateUrl: 'views/editprofile.html'
     })
     .when('/evointegration',{

@@ -39,9 +39,10 @@
           <div class="control-group">
             <label class="control-label" for="units">{{ 'label.contract.units' | translate }}</label>
             <div class="controls">
-              <input type="text" id="units" name="units" data-ng-model="formData.units" data-ng-pattern="{{'integer' | CodeValidate}}" data-ng-maxlength="3"></br>
+              <input type="text" id="units" name="units" data-ng-model="formData.units" data-ng-pattern="/0?[1-9]/" data-ng-maxlength="3" data-late-Validate></br>
               <span data-ng-show="createcontractform.units.$dirty && createcontractform.units.$invalid">
-              	<small class="error-row">{{'error.code.definition.length.validation' | translate}}</small>
+              	<small class="error-row" data-ng-show="createcontractform.units.$error.pattern && !createcontractform.units.$error.maxlength">Units should not be 0</small>
+                <small class="error-row" data-ng-show="!createcontractform.units.$error.pattern && createcontractform.units.$error.maxlength">{{'error.code.definition.length.validation' | translate}}</small>  
               </span>
             </div>
           </div>

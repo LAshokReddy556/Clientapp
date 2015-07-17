@@ -34,6 +34,7 @@
 		scope.categoryType = clientData.categoryType;
 		scope.email = clientData.email;
 		scope.phone = clientData.phone;
+		
         if(scope.imagePresent){
         	scope.image=clientData.image;
 		}  
@@ -44,21 +45,54 @@
        scope.precinctData = [];
        scope.parcelData = [];
        scope.floorData = [];
-       
+       scope.serialNumber ='';
        scope.shiftingCheckbox = "Yes";
        scope.clientId = routeParams.clientId;
        scope.serviceTransferRequestData = {};
        scope.propertyCodesData = [];scope.feeMasterData = [];
        resourceFactory.serviceTransferRequestResource.get({clientId:routeParams.clientId},function(data){
     	  scope.serviceTransferRequestData = data;
+    	  scope.existingProperty=data.propertyCode;
     	  scope.feeMasterData  = data.feeMasterData;
     	  scope.propertyTypes  = data.propertyTypes;
     	  scope.propertyId=scope.serviceTransferRequestData.id;
+    	  scope.propertyCodes = data.propertyCodes;
+    	  
     	  if(scope.feeMasterData){
     		  scope.formData.shiftChargeAmount = scope.feeMasterData.defaultFeeAmount;
     		  scope.formData.chargeCode = scope.feeMasterData.chargeCode;
     	  }
+    	  scope.deviceMappingDatas = data.deviceMappingDatas; 
+    	  scope.propertyCodeId = scope.deviceMappingDatas[0].id;
+    	   scope.serialNumber=scope.deviceMappingDatas[0].serialNumber;
        });
+       
+       scope.changeProperty = function(id){
+    	   var propertyCode;
+    	   
+    	   for(var i in scope.deviceMappingDatas){
+    		   if(scope.deviceMappingDatas[i].id == id){
+    			   propertyCode = scope.deviceMappingDatas[i].propertycode;
+    			   scope.serialNumber=scope.deviceMappingDatas[i].serialNumber;
+    		   }
+    		   
+    	   }
+    	   resourceFactory.serviceTransferRequestResource.get({clientId:routeParams.clientId,propertyCode:propertyCode},function(data){
+    	    	  scope.serviceTransferRequestData = data;
+    	    	  scope.serviceTransferRequestData.propertyCode = data.addressNo;
+    	    	  scope.feeMasterData  = data.feeMasterData;
+    	    	  scope.propertyTypes  = data.propertyTypes;
+    	    	  scope.propertyId=scope.serviceTransferRequestData.id;
+    	    	  scope.propertyCodes = data.propertyCodes;
+    	    	  if(scope.feeMasterData){
+    	    		  scope.formData.shiftChargeAmount = scope.feeMasterData.defaultFeeAmount;
+    	    		  scope.formData.chargeCode = scope.feeMasterData.chargeCode;
+    	    	  }
+    	    	  scope.propertyCodes = data.propertyCodes;
+    	    	  scope.deviceMappingDatas = data.deviceMappingDatas; 
+    	       });
+    	  
+       };
        
        
        scope.invalidBuildingCode = false;
@@ -340,9 +374,10 @@
        
        scope.submit = function(){
     	   scope.formData.oldPropertyCode = scope.serviceTransferRequestData.propertyCode; 
+    	   scope.formData.serialNumber = scope.serialNumber
     	   scope.formData.locale = "en"; 
     	   if(scope.shiftingCheckbox == "Yes"){
-    		   scope.formData.newPropertyCode = scope.serviceTransferRequestData.propertyCode; 
+    		  scope.formData.newPropertyCode = scope.existingProperty; 
     	   }/*else if(scope.shiftingCheckbox == "No"){
     		   scope.formData.newPropertyCode = scope.formData.propertyCode; 
     	   }*/

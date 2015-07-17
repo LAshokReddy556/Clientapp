@@ -25,7 +25,7 @@
 		</tr>
 		<tr>
 			<td width="20%">{{'table.header.statement.dueamount'|translate}}</td>
-			<td width="70%">{{statementDatas[0].dueAmount}}</td>
+			<td width="70%">{{statementDatas[0].dueAmount}}({{currencyCode}})</td>
 		</tr>
    </table>
     <br/>
@@ -38,7 +38,7 @@
 		  <thead>
               <tr>
                   <td width="50%" class="borderbottom">{{ 'label.statement.transactiontype' | translate }}</td>
-                  <td width="50%" class="borderbottom">{{ 'table.header.statement.amount' | translate }}</td>
+                  <td width="50%" class="borderbottom">{{ 'table.header.statement.amount' | translate }}({{currencyCode}})</td>
               </tr>
           </thead>
 			<tr data-ng-repeat="statementData in statementDatas">

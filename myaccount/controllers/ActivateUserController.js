@@ -35,7 +35,7 @@ ActivateUserController = function(scope,RequestSender,rootScope,routeParams,sess
 	  					  
 	  					//getting data from c_configuration for isRegister_plan and isisDeviceEnabled
 	  					 var configurationDatas = [];var registrationListing = {};
-	  					  RequestSender.configurationResource.get(function(data){
+	  					  RequestSender.configurationResource.get({tenant:selfcareModels.tenantId},function(data){
 
 	  						configDeviceAgreeType = JSON.parse(data.clientConfiguration);
 	  						scope.isConfigNationalId 	= configDeviceAgreeType.nationalId;
@@ -226,7 +226,6 @@ ActivateUserController = function(scope,RequestSender,rootScope,routeParams,sess
 		  		
 			//function called when clicking on Register button in Registration Page
 			scope.registerBtnFun =function(){
-			  if(valid){	
 				scope.clientData = {};
 				 //deviceNo added to form data when isDeviceEnabled true
 					 if(scope.formData.deviceNo){
@@ -281,7 +280,6 @@ ActivateUserController = function(scope,RequestSender,rootScope,routeParams,sess
 							 }
 		      	      
 					 });
-			}
 		};
     };
     

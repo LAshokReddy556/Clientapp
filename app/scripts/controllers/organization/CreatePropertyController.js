@@ -169,7 +169,7 @@
 			scope.submit = function() { 
 				scope.formData.precinct=scope.cityName;
 				resourceFactory.propertyCodeResource.save(scope.formData,function(data){
-				location.path('/viewproperty/'+data.resourceId);
+				location.path('/property');
 				});
 			}; 
 		}

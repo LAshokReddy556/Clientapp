@@ -46,7 +46,7 @@
         	delete this.formData.provisionSysData;
         	
             resourceFactory.serviceMappingResource.save(scope.formData,function(data){
-            		location.path('/viewServiceMapping/' + data.resourceId);
+            		location.path('/mappingconfig');
           });
         };
     }

@@ -17,7 +17,7 @@
 			<tr>
 				<td width="50%">
 					<div class="control-group">
-						<label class="control-label" for="regionCode"> {{'label.region.regioncode' | translate }} </label>
+						<label class="control-label" for="regionCode"> {{'label.region.regioncode' | translate }}<span class="required" >*</span></label>
 						<div class="controls">
 							<input type="text" id="regionCode" name="regionCode" data-ng-model="formData.regionCode" data-ng-maxlength="{{ 'code' | CodeValidate }}">
 							<span data-ng-show="createregionsform.regionCode.$dirty && createregionsform.regionCode.$invalid">
@@ -32,7 +32,7 @@
 			<tr>
 				<td width="50%">
 					<div class="control-group">
-						<label class="control-label" for="regionName"> {{'label.region.regionname' | translate }} </label>
+						<label class="control-label" for="regionName"> {{'label.region.regionname' | translate }}<span class="required" >*</span> </label>
 						<div class="controls">
 							<input type="text" id="regionName" data-ng-model="formData.regionName">
 						</div>

@@ -25,7 +25,8 @@
 		   <table>
 		   	  <tr data-ng-hide="paymentGatewayName==''"><td align="right" class="bigfont" valign="top" >
 		   	  	  <span >{{'label.prepaid.amount' | translate }}<span class="required">*&nbsp;</span>:</span></td>
-		   	  <td><input type="text" data-ng-model="amount" data-ng-autofocus="true" data-ng-onblur="amountFieldFun(amount)" required/> 
+		   	  <td><input type="text" data-ng-model="amount" data-ng-autofocus="true" data-ng-onblur="amountFieldFun(amount)" required/>
+		   	  <strong style="font-size: 20px;">({{currencyCode}})</strong> 
 		   	  </td></tr>
 			  <tr>
    				<td width="42%" class="bigfont" valign="top" style="padding-top: 20px;">

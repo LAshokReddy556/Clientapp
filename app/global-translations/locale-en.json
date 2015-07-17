@@ -65,6 +65,7 @@
   "label.utsCustomerId":"UTS Customer Id",
   "label.preferredCommunication":"Preferred Communication",
   "tab.additionalinfo":"Additional Info",  
+  "tab.addressinfo":"Address Info",
   
 
  "# common table headings":"....",
@@ -250,7 +251,7 @@
   "table.heading.new.name":"New Name",
   "table.heading.new.code":"New Code",
   "table.heading.associatedwith":"Associated With",
-  "button.createdatatable":"Create Datatable",
+  "button.createdatatable":"Create Data Table",
   "label.edit.datatable":"Edit Datatable",
   "dialog.dataTable.title.message":"Delete Datatable",
   "validation.msg.datatable.length.not.greater.than.zero":"Please provide string length value",
@@ -749,7 +750,7 @@
   "table.plan.code":"Plan Code",
   "table.plan.description":"Plan Description",
   "table.plan.status":"Status",
-  "table.plan.provision system":"Provision System",
+  "table.plan.provision system":"Provisioning System",
   "label.plans":"Manage Plans",
   "label.createplan":"Create Plan",
   "label.plan.plancode":"Plan Code",
@@ -787,6 +788,7 @@
   "error.msg.contract.duration.cannot.be.null":"Please select Duration",
   "error.msg.postpaid.billfrequency.less.than.contractperiod":" Billing Frequency must be less than Contract Period",
   "error.msg.select.renewal.period.more.than":"Please select Renewal Period more than '{{params[0].value}}'",
+  "error.msg.select.renewal.period.must.be":"Please select Renewal Period must be '{{params[0].value}}'",
     
   "#Price":".......",
   "label.creatprice":"Create Price",
@@ -1069,6 +1071,7 @@
   "table.heading.pinType":"Pin Type",
   "table.heading.pinValue":"Pin Value",
   "table.heading.expiryDate":"Expiry Date",
+  "table.heading.propertycode":"Property Code",
   
   "#Discounts":"....",
   "link.create.new.discount":"Create Discounts",
@@ -1192,6 +1195,7 @@
   "table.heading.country":"Country",
   "table.heading.currency":"Currency",
   "table.heading.status":"Status",
+  "table.heading.isd":"ISD",
   "label.currencydetails":"Currency Details",
   "label.viewcurrencydetails":"View Currencydetails",
   "label.editcurrencydetails":"Edit",
@@ -1201,6 +1205,7 @@
   "label.basecurrency":"Base Currency",
   "label.conversionrate":"Conversion Rate",
   "label.status":"Status",
+  "label.isd":"ISD",
   "label.currencyconfig":"Currency configuration",
   "label.editcurrencyconfig":"Edit Currecny Configuration",
   "error.msg.countrycurrency.duplicate.configuration":"Country with '{{params[0].value}}' already configured",
@@ -1394,6 +1399,7 @@
   "validation.msg.chargecode.billFrequencyCode.not.zero.or.greater":"Missing Bill Frequency Code",
   "validation.msg.chargecode.chargeType.not.zero.or.greater":"Missing Charge Type",
   "validation.msg.chargecode.durationType.not.zero.or.greater":"Missing Duration Type",
+  "validation.msg.chargecode.chargeDuration.not.greater.than.zero":"Charge Duration should not Greaterthan Zero",
   "error.msg.chargecode.duplicate.name":"Charge Code already exist with this name",
   "error.msg.chargecode.can not.delete or update already use":"Charge code in use, cannot delete or update",
   "validation.msg.taxmap.chargeCode.not.zero.or.greater":"Missing Charge code",
@@ -1704,6 +1710,7 @@
   "error.msg.billing.address.city.not.found":"City Not Found",
   "label.addaddress":"Add Address",
   "label.addotheraddress":"Add Other Address",
+  "label.addProperty":"Add Property",
   
   "#link.scheduler":"....",
   "link.scheduler":"Scheduler",
@@ -2500,6 +2507,7 @@
 "table.addons.price":"Price",
 "validation.msg.addons.planId.cannot.be.blank":"Select Plan from the List",
 "validation.msg.addons.chargeCode.cannot.be.blank":"Select charge code",
+"error.msg.select.addon.period.more.than":"contract is not applicable for this chargecode.",
 "validation.msg.addons.priceRegionId.cannot.be.blank":"Select price region",
 "validation.msg.addons.addons.not.greater.than.zero":"Add at-least one service from category's",
 "validation.msg.addons.null.not.greater.than.zero":"Select at-least one service",
@@ -2650,10 +2658,11 @@
 "label.anchor.edittemplate":"Edit Template",
 "label.anchor.deletetemplate":"Delete Template",
 "label.heading.text":"Text",
-"validation.msg.template.name.cannot.be.blank":"template name cannot be blank",
-"error.msg.tempalte.duplicate.name":"template name already exists",
+"validation.msg.template.name.cannot.be.blank":"Template name cannot be blank",
+"error.msg.tempalte.duplicate.name":"Template name already exists",
 
 "#Property Definition":"........",
+"label.current.device" :"Device",
 "table.heading.propertycode":"Property Code",
 "table.heading.propertytype":"Property Type",
 "table.heading.parcel":"Parcel",
@@ -2665,6 +2674,8 @@
 "label.propertycode":"Property Code",
 "label.unitcode":"Unit Code",
 "label.floor":"Floor / Level",
+"label.devices" :"Devices",
+"label.shifting.address":"Shifting To",
 "label.buildingcode":"Building Code",
 "label.parcel":"Parcel",
 "label.precinct":"Precinct",
@@ -2791,15 +2802,17 @@
 "label.feemaster.selete.regionname" :  "Select Region Name",
 
 "#Fee Master  ":".......",
-"validation.msg.feemaster.feeCode.cannot.be.blank"    		 : "Fee Code can not be blank",
-"validation.msg.feemaster.feeDescription.cannot.be.blank"    : "Fee Description can not be blank",
-"validation.msg.feemaster.transactionType.cannot.be.blank"   : "Transaction Type can not be blank",
-"validation.msg.feemaster.chargeCode.cannot.be.blank"  		 : "Charge Code can not be blank",
-"validation.msg.feemaster.defaultFeeAmount.cannot.be.blank"  : "Default Fee Amount can not be blank",
+"validation.msg.feemaster.feeCode.cannot.be.blank"    		 : "Fee Code cannot be blank",
+"validation.msg.feemaster.feeDescription.cannot.be.blank"    : "Fee Description cannot be blank",
+"validation.msg.feemaster.transactionType.cannot.be.blank"   : "Transaction Type cannot be blank",
+"validation.msg.feemaster.chargeCode.cannot.be.blank"  		 : "Charge Code cannot be blank",
+"validation.msg.feemaster.defaultFeeAmount.cannot.be.blank"  : "Default Fee Amount cannot be blank",
 "error.msg.feemaster.regional.price.not.found":"No Regional Price found for this Service Transfer",
 "validation.msg.feemaster.regionPrices.not.greater.than.zero" :"Please add atleast one region price",
 "label.pgconfig.editconfig":"Edit Configurations",
-"label.form.module":"Module"
+"label.form.module":"Module",
+"error.msg.fee.code.duplicate.name":"Fee Code already exists",
+"error.msg.fee.transaction.alredy.exists":"A Fee with this transaction already exists,Please Update it"
 
 
 

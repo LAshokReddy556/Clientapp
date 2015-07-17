@@ -88,7 +88,7 @@
 	          if(scope.radiusVersion == 'version-2'){
 	        	   scope.serviceCodes = [];
 	        	   resourceFactory.radServiceTemplateResource.query(function(data) {
-	        		   scope.serviceCodes = data;
+	        		   scope.serviceCodes = JSON.parse(data[0].radService);
 	        		   //console.log(scope.serviceCodes);
 	               });
 	           }

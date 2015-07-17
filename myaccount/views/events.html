@@ -28,7 +28,7 @@
 	            <tr data-ng-repeat="vodData in VODSDatas.currentPageItems  | filter:filterText1" >
 	                <td style="font-weight: inherit;color: #555555;">{{vodData.eventName}}</td>
 	                <td>{{vodData.bookedDate | DateFormat}}</td>
-	                <td>{{vodData.eventPrice}}</td>
+	                <td>{{vodData.eventPrice}}({{currencyCode}})</td>
 	                <td><i class="icon-stop {{vodData.status | StatusLookup}}"></i>&nbsp;{{vodData.status}}</td>
 	            </tr>
 	        </tbody>

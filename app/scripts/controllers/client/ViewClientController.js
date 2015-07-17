@@ -339,6 +339,52 @@
       
         getDetails();
         
+        scope.allocateProperty = function(serialnum){
+      	  scope.errorStatus=[];scope.errorDetails=[];
+      	  scope.serialnum = serialnum;
+      	  $modal.open({
+                templateUrl: 'allocateproperty.html',
+                controller: AllocatePropertyController,
+                resolve:{}
+            });
+        };
+        
+        
+        var AllocatePropertyController = function ($scope, $modalInstance) {
+            
+      	  $scope.propertycodes = [];
+            resourceFactory.propertydeviceMappingTemaplateResource.get({'clientId': routeParams.id},function(data) {
+                $scope.propertycodes = data;
+            });
+      	  
+      	  $scope.approveAllocate = function () {
+      		  $scope.flagOrderDisconnect=true;
+      		  
+      		  if(this.formData == undefined || this.formData == null){
+      			 /// this.formData = {"disconnectReason":""};
+      		  }
+      		this.formData.serialNumber=scope.serialnum;
+      		  resourceFactory.propertydeviceMappingResource.update({'clientId': routeParams.id},this.formData,function(data){
+      	            /*location.path('/viewclient/'+scope.orderPriceDatas[0].clientId);
+      	            location.path('/vieworder/'+data.resourceId);*/
+      			  resourceFactory.oneTimeSaleResource.getOneTimeSale({clientId: routeParams.id}, function(data) {
+                  	scope.onetimesales = data.oneTimeSaleData;
+                      scope.eventOrders = data.eventOrdersData;
+                  });
+      	            $modalInstance.close('delete');
+      	        },function(orderErrorData){
+      	        	 $scope.flagOrderDisconnect=false;
+      	        	$scope.orderError = orderErrorData.data.errors[0].userMessageGlobalisationCode;
+      	        });
+      		  
+            };
+            $scope.cancelAllocate = function () {
+                $modalInstance.dismiss('cancel');
+            };
+            
+            
+        };
+        
         var Approve = function($scope, $modalInstance){
         	 scope.errorDetails = [];
         	 scope.errorStatus = [];
@@ -561,6 +607,8 @@
         	scope.indentitiesSubTab = "active";
         	scope.documnetsUploadsTab = "";
         	scope.additionaldataSubTab = "";
+        	scope.additionaladdressdataSubTab="";
+        	scope.additionaladdressdataSubTab = "";
         	scope.creditCardDetailsTab = "";
         	scope.ACHDetailsTab = "";
         	scope.ChildDetailsTab = "";
@@ -568,6 +616,7 @@
         	if(scope.displayTab == "documents"){
         		scope.indentitiesSubTab = "";
         		scope.additionaldataSubTab = "";
+        		scope.additionaladdressdataSubTab = "";
             	scope.documnetsUploadsTab = "active";
             	scope.creditCardDetailsTab = "";
             	scope.ACHDetailsTab = "";
@@ -579,14 +628,27 @@
         		scope.indentitiesSubTab = "";
             	scope.documnetsUploadsTab = "";
             	scope.additionaldataSubTab = "active";
+            	scope.additionaladdressdataSubTab = "";
             	scope.creditCardDetailsTab = "";
             	scope.ACHDetailsTab = "";
             	scope.ChildDetailsTab="";
             	scope.displayTab = "";
             	scope.additionalDataTabFun();
+        	}else if(scope.displayTab == "additionaladdress"){
+        		scope.indentitiesSubTab = "";
+            	scope.documnetsUploadsTab = "";
+            	scope.additionaldataSubTab = "";
+            	scope.additionaladdressdataSubTab = "active";
+            	scope.creditCardDetailsTab = "";
+            	scope.ACHDetailsTab = "";
+            	scope.ChildDetailsTab="";
+            	scope.displayTab = "";
+            	scope.additionalDataTabFun();
+            	scope.additionalAddressTabFun();
         	}else if(scope.displayTab == "creditCardDetails"){
         		scope.indentitiesSubTab = "";
             	scope.documnetsUploadsTab = "";
+            	scope.additionaladdressdataSubTab = "";
             	scope.additionaldataSubTab = "";
             	scope.creditCardDetailsTab = "active";
             	scope.ACHDetailsTab = "";
@@ -597,6 +659,7 @@
         	}else if(scope.displayTab == "ACHDetailsTab"){
         		scope.indentitiesSubTab = "";
             	scope.documnetsUploadsTab = "";
+            	scope.additionaladdressdataSubTab = "";
             	scope.additionaldataSubTab = "";
             	scope.creditCardDetailsTab = "";
             	scope.ACHDetailsTab = "active";
@@ -605,6 +668,7 @@
             	scope.ACHDetailsTabFun();
         	}else if(scope.displayTab == "ChildDetailsTab"){
         		scope.indentitiesSubTab = "";
+        		scope.additionaladdressdataSubTab = "";
             	scope.documnetsUploadsTab = "";
             	scope.creditCardDetailsTab = "";
             	scope.additionaldataSubTab = "";
@@ -667,6 +731,7 @@
         	
         	scope.indentitiesSubTab = "active";
         	scope.additionaldataSubTab ="";
+        	scope.additionaladdressdataSubTab = "";
         	scope.documnetsUploadsTab = "";
         	scope.creditCardDetailsTab = "";
         	scope.ACHDetailsTab = "";
@@ -689,6 +754,7 @@
         scope.documnetsUploadsTabFun = function(){
         	
         	scope.indentitiesSubTab = "";
+        	scope.additionaladdressdataSubTab = "";
         	scope.documnetsUploadsTab = "active";
         	scope.additionaldataSubTab ="";
         	scope.creditCardDetailsTab = "";
@@ -705,6 +771,7 @@
         scope.creditCardDetailsTabFun = function(){
         	
         	scope.indentitiesSubTab = "";
+        	scope.additionaladdressdataSubTab = "";
         	scope.documnetsUploadsTab = "";
         	scope.additionaldataSubTab ="";
         	scope.creditCardDetailsTab = "active";
@@ -765,8 +832,10 @@
         };
         
            scope.additionalDataTabFun = function(){
+        	   
         	scope.indentitiesSubTab = "";
         	scope.documnetsUploadsTab = "";
+        	scope.additionaladdressdataSubTab = "";
         	scope.creditCardDetailsTab = "";
         	scope.additionaldataSubTab = "active";
         	scope.ACHDetailsTab = "";
@@ -806,11 +875,32 @@
 	        });
         };
         
+        scope.additionalAddressTabFun = function(){
+        	
+        	scope.indentitiesSubTab = "";
+        	scope.documnetsUploadsTab = "";
+        	scope.creditCardDetailsTab = "";
+        	scope.additionaladdressdataSubTab = "active";
+        	scope.additionaldataSubTab = "";
+        	scope.ACHDetailsTab = "";
+        	scope.ChildDetailsTab = "";
+        	
+        	scope.clientAdditionalData = webStorage.get("client-additional-data");
+        	//credit card details
+        	 scope.additionaladdressDatas = {};
+        	 resourceFactory.addressEditResource.get({clientId: routeParams.id,addressType:'BILLING'}, function(data) {
+        		 scope.additionaladdressDatas=data.datas;
+        	 });
+        };
+        
+        
+        
         scope.ACHDetailsTabFun = function(){
         	
         	scope.indentitiesSubTab = "";
         	scope.documnetsUploadsTab = "";
         	scope.creditCardDetailsTab = "";
+        	scope.additionaladdressdataSubTab = "";
         	scope.additionaldataSubTab ="";
         	scope.ACHDetailsTab = "active";
         	scope.ChildDetailsTab = "";
@@ -871,6 +961,7 @@
         scope.childsFun = function(){
         	
         	scope.indentitiesSubTab = "";
+        	cope.additionaladdressdataSubTab = "";
         	scope.documnetsUploadsTab = "";
         	scope.creditCardDetailsTab = "";
         	scope.additionaldataSubTab ="";
@@ -1520,6 +1611,28 @@
 	  					$modalInstance.dismiss('cancel');
 	  				};
 	  			};
+	  			
+	  			
+	  			 scope.deleteaddress = function (id){
+			    	 scope.id=id;
+			    	 $modal.open({
+			    		 templateUrl: 'deletePopup.html',
+			  	         controller: approve3,
+			  	         resolve:{}
+			  	     });
+			     };
+			          
+			     function  approve3($scope, $modalInstance) {
+			    	 $scope.approve = function () {
+			    		 resourceFactory.addressResource.remove({clientId:scope.id} , {} , function(data) {
+			    			 $modalInstance.dismiss('delete');
+			    			  route.reload();
+			             });
+			      	 };
+			         $scope.cancel = function () {
+			        	 $modalInstance.dismiss('cancel');
+			         };
+			     }
 	  			
 	  			
 	  			/**

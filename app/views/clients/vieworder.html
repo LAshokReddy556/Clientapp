@@ -80,7 +80,7 @@
 		     <a ng-show ="config.changeplan=='true'&&(orderData.status == 'ACTIVE')&&PermissionService.showMenu('CHANGEPLAN_ORDER')" href="#/neworder/{{orderData.pdid}}/{{clientId}}" class="btn btn-primary"><i class="icon-cog"></i>Change Plan</a>
 		     <a ng-show ="orderData.status == 'PENDING' && orderServicesData[0].isAutoProvision == 'N'" href="#/provision/{{orderData.id}}/{{clientId}}/{{orderServicesData[0].serviceId}}" class="btn btn-primary"><i class="icon-cog"></i>Provision It</a>
 		     <a ng-show ="orderData.status == 'ACTIVE' && orderServicesData[0].isAutoProvision == 'N' " href="#/editprovison/{{orderData.id}}/{{clientId}}/{{orderServicesData[0].serviceId}}" class="btn btn-primary"><i class="icon-cog"></i>Edit Provision</a>
-		     <a ng-show="(orderData.status == 'DISCONNECTED')&&PermissionService.showMenu('RECONNECT_ORDER')" ng-click="terminate()" class="btn btn-primary"><i class=" icon-repeat icon-white"></i> Terminate</a> 
+		     <a ng-show="config.terminate=='true'&&((orderData.status == 'DISCONNECTED')&&PermissionService.showMenu('RECONNECT_ORDER'))" ng-click="terminate()" class="btn btn-primary"><i class=" icon-repeat icon-white"></i> Terminate</a> 
 		     <a ng-show="orderData.status == 'SUSPENDED'" ng-click="reactive()" class="btn btn-primary"><i class=" icon-repeat icon-white"></i> ReActive</a>
 	        	<span  class="btn-group">
               		<a class="btn btn-primary dropdown-toggle" ng-show="(orderData.status == 'ACTIVE')&&PermissionService.showMenu('RETRACKOSDMESSAGE_ORDER')">

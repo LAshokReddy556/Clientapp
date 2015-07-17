@@ -16,7 +16,7 @@
 				this.formData.locale = $rootScope.locale.code;
 								
 				resourceFactory.VendorLemplateResource.save(this.formData, function(data) {
-					location.path('/viewvendormanagement/' + data.resourceId);										
+					location.path('/vendormanagement');										
 				});							
 			};						
 		}			

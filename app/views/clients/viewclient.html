@@ -154,7 +154,8 @@
                             	</tr>
                              	<tr>
                             		<td colspan="2"><a data-ng-show="PermissionService.showMenu('UPDATE_ADDRESS')&&PermissionService.showMenu('READ_ADDRESS') && !propertyMaster" href="#/editaddress/{{client.id}}" class="btn btn-primary"><i class="icon-edit icon-white" ></i>{{'label.editaddress' | translate}}</a>
-                             		<a data-ng-show="PermissionService.showMenu('UPDATE_ADDRESS')&&PermissionService.showMenu('READ_ADDRESS')" href="#/addaddress/{{client.id}}" class="btn btn-primary"><i class="icon-plus-sign icon-white" ></i>{{'label.addotheraddress' | translate}}</a></td>
+                             		<a data-ng-show="PermissionService.showMenu('UPDATE_ADDRESS')&&PermissionService.showMenu('READ_ADDRESS') && !propertyMaster" href="#/addaddress/{{client.id}}" class="btn btn-primary"><i class="icon-plus-sign icon-white" ></i>{{'label.addotheraddress' | translate}}</a>
+                             	    <a data-ng-show="PermissionService.showMenu('UPDATE_ADDRESS')&&PermissionService.showMenu('READ_ADDRESS') && propertyMaster" href="#/addaddress/{{client.id}}" class="btn btn-primary"><i class="icon-plus-sign icon-white" ></i>{{'label.addProperty' | translate}}</a></td>
                             	</tr>
                           	</table>
                       	</div>
@@ -296,6 +297,7 @@
   					<ul class="nav nav-tabs">
 				    	<li class={{indentitiesSubTab}}><a data-ng-click="indentitiesTabFun()" data-toggle="tab" >{{'tab.identities' | translate}}</a></li>
 				    	<li class={{additionaldataSubTab}}><a data-ng-click="additionalDataTabFun()" data-toggle="tab" >{{'tab.additionalinfo' | translate}}</a></li>
+				    	<li class={{additionaladdressdataSubTab}}><a data-ng-click="additionalAddressTabFun()" data-toggle="tab" >{{'tab.addressinfo' | translate}}</a></li>
 				    	<li class={{documnetsUploadsTab}}><a data-ng-click="documnetsUploadsTabFun()" data-toggle="tab">{{'tab.documentsuploads' | translate}}</a></li>
     			 		<li class={{creditCardDetailsTab}}><a data-ng-click="creditCardDetailsTabFun()" data-toggle="tab">{{'tab.creditCarddetails' | translate}}</a></li>
     			 		<li class={{ACHDetailsTab}}><a data-ng-click="ACHDetailsTabFun()" data-toggle="tab">{{'label.client.achcard' | translate}}</a></li>
@@ -339,8 +341,8 @@
 			          		</table>
 			  			</div>
 			  			
-			  			<div id="pane2" class="tab-pane" data-ng-class="{active: additionaldataSubTab}">
-			  				<div class="pull-right" data-ng-show="clientAdditionalData && !editAdditionalDatasBtn">
+			  			<div id="pane2" class="tab-pane" data-ng-class="{active:additionaldataSubTab }">
+			  				<div class="pull-right" data-ng-show="additionaladdress">
 	         			 		<a href="#/clientadditionalinfo/{{clientId}}" class="btn btn-primary"><i class="icon-plus icon-white"></i>{{'label.add.additionalinfo' | translate}}
 			 			 		</a>
 	        				</div>
@@ -373,7 +375,37 @@
 			          		</table>
 			  			</div>
 			  			
-			    		<div id="pane3" class="tab-pane" data-ng-class="{active: documnetsUploadsTab}">
+			  			<div id="pane3" class="tab-pane" data-ng-class="{active: additionaladdressdataSubTab}">
+					         <br/>
+			        		<table class="table" data-ng-show="additionaladdressDatas">
+			            		<thead>
+			              			<tr class="graybg">
+			                			<th>{{'table.heading.propertycode' | translate}}</th>
+			                			<th>{{'label.street' | translate}}</th>
+			                			<th>{{'label.city' | translate}}</th>
+			                			<th>{{'label.state' | translate}}</th>
+			                			<th>{{'label.country' | translate}}</th>
+			                			<th>{{'table.heading.actions' | translate}}</th>
+			              			</tr>
+			            		</thead>
+			            		<tbody>
+			              			<tr ng-repeat="additionaladdressData in additionaladdressDatas">
+			                			<td>{{additionaladdressData.addressNo}}</td>
+			                			<td>{{additionaladdressData.street}}</td>
+			                			<td>{{additionaladdressData.city}}</td>
+			                			<td>{{additionaladdressData.state}}</td>
+			                			<td>{{additionaladdressData.country}}</td>
+			                			<td>
+			                  				<a data-ng-click="deleteaddress(additionaladdressData.id)" data-popover="Vacate" data-popover-trigger="mouseenter">
+                    		                 <i class="icon-remove icon-white"></i>
+                    	                               </a>
+			                			</td>
+			              			</tr>
+			            		</tbody>
+			          		</table>
+			  			</div>
+			  			
+			    		<div id="pane4" class="tab-pane" data-ng-class="{active: documnetsUploadsTab}">
 			    
 			    	 		<div class="pull-right">
           						<a data-ng-show=" PermissionService.showMenu('CREATE_DOCUMENT')" href="#/addclientdocument/{{client.id}}" class="btn btn-primary"><i class="icon-plus icon-white"></i>{{'button.documentuploads' | translate}}
@@ -403,7 +435,7 @@
 			          		</table>
 			    		</div>
 			    		
-		     			<div id="pane4" class="tab-pane" data-ng-class="{active: creditCardDetailsTab}">
+		     			<div id="pane5" class="tab-pane" data-ng-class="{active: creditCardDetailsTab}">
 		    
 			          		<div class="pull-right">
 			         	 		<a href="#/addcreditcarddetails/{{client.id}}" class="btn btn-primary"><i class="icon-plus icon-white"></i>{{'tab.creditCarddetails' | translate}}</a>
@@ -428,7 +460,7 @@
 			          		</table>
 		        		</div>
 		        		
-			    		<div id="pane5" class="tab-pane" data-ng-class="{active: ACHDetailsTab}">
+			    		<div id="pane6" class="tab-pane" data-ng-class="{active: ACHDetailsTab}">
 			    
 			        		<div class="pull-right">
 			          			<a href="#/addachdetails/{{client.id}}" class="btn btn-primary"><i class="icon-plus icon-white"></i>{{'label.client.achcard' | translate}}</a>
@@ -455,7 +487,7 @@
 			          		</table>
 			    		</div>
 			    
-			    		<div id="pane6" class="tab-pane" data-ng-class="{active: ChildDetailsTab}">
+			    		<div id="pane7" class="tab-pane" data-ng-class="{active: ChildDetailsTab}">
 			  		
 			        		<table class="table" data-ng-show="parentCount">
 			            		<thead>
@@ -543,7 +575,9 @@
 											<th>{{'table.heading.totalprice' | translate}}</th>
 											<th>{{'table.heading.warrantyDate' | translate}}</th>
 											<th>{{'table.heading.allocate' | translate}}</th>
+											<th ng-show="propertyMaster">{{'table.heading.propertycode' | translate}}</th>
 											<th colspan="2">{{'table.heading.actions' | translate}}</th>
+											
 										</tr>
 									</thead>
 									<tbody>
@@ -557,6 +591,7 @@
 											<td class="pointer" data-ng-click="routeToItemSale(onetimesale.id,client.id)">{{onetimesale.totalPrice}}</td> 
 											<td class="pointer" data-ng-click="routeToItemSale(onetimesale.id,client.id)">{{onetimesale.warrantyDate| DateFormat}}</td>
 											<td class="pointer" ng-show="onetimesale.units=='PIECES'" data-ng-click="routeToItemSale(onetimesale.id,client.id)">{{onetimesale.hardwareAllocated}}</td>
+											<td class="pointer" ng-show="propertyMaster">{{onetimesale.propertyCode}}</td>
 							    			<td>
 							    			<a href="#/allocatehardwareonetimesale/{{onetimesale.itemCode}}/{{onetimesale.quantity}}/{{client.id}}/{{onetimesale.id}}" popover="Assign Device" popover-trigger="mouseenter"
 							    			data-ng-show="(onetimesale.hardwareAllocated == 'UNALLOCATED')&&(PermissionService.showMenu('READ_ALLOCATION') && PermissionService.showMenu('CREATE_ALLOCATION')) && (onetimesale.units=='PIECES')" >
@@ -568,6 +603,9 @@
 							    			<a href="" data-ng-click="deletePopUp(onetimesale.id,'',$index,'Cancel Sale')" popover="Cancel Sale" popover-trigger="mouseenter"
 							    			data-ng-show="(onetimesale.hardwareAllocated == 'UNALLOCATED')&&(PermissionService.showMenu('DELETE_ONETIMESALE')) && (onetimesale.units=='PIECES')" 
 							    			 ><i class="icon-remove"></i></a>
+							    			 <a href="" ng-show="propertyMaster && !onetimesale.propertyCode && onetimesale.serialNo" data-ng-click="allocateProperty(onetimesale.serialNo)" popover="Allocate Property" popover-trigger="mouseenter"
+							    			    data-ng-show="(onetimesale.hardwareAllocated == 'ALLOCATED')&&(PermissionService.showMenu('DELETE_ONETIMESALE')) && (onetimesale.units=='PIECES')" 
+							    			 ><i class="icon-lock"></i></a>
 							    			 </td> 
 										</tr>
 									</tbody>
@@ -632,7 +670,8 @@
                 				<td class="pointer" data-ng-click="routeToticket(clientId,ticket.id)">{{ticket.priority}}</td>  
                 				<td class="pointer" data-ng-click="routeToticket(clientId,ticket.id)">{{ticket.ticketDate | DateFormat}}</td>
                 				<td class="pointer" data-ng-click="routeToticket(clientId,ticket.id)">{{ticket.problemDescription}}</td>
-                				<td class="pointer" data-ng-click="routeToticket(clientId,ticket.id)">{{ticket.status}}</td>
+                				<td data-ng-show="(ticket.status == 'OPEN') && ticket.ticketstatus" class="pointer" data-ng-click="routeToticket(clientId,ticket.id)">{{ticket.ticketstatus}}</td>
+                				<td data-ng-show="(ticket.status == 'CLOSED') || !ticket.ticketstatus" class="pointer" data-ng-click="routeToticket(clientId,ticket.id)">{{ticket.status}}</td>
                 				<td class="pointer" data-ng-click="routeToticket(clientId,ticket.id)">{{ticket.userName}}</td>  
                 				<td class="pointer" data-ng-click="routeToticket(clientId,ticket.id)">{{ticket.lastComment}}</td>
                 				<td>
@@ -1469,6 +1508,51 @@
             	<button class="btn btn-primary" ng-click="approve()">{{'label.confirm' | translate}}</button>
         	</div>
    		</script>
+   		
+   <script type="text/ng-template" id="allocateproperty.html">
+		
+	<div class="modal-header silver">
+        <h3 class="bolder">{{'label.allocateproperty' | translate}}</h3>
+    </div>
+    <div class="modal-body" style="height:100px;">
+       	<fieldset>
+     		<div class="control-group">
+	            <label class="control-label" style="color:red;" ng-show="orderError.length>0">{{orderError | translate}}</label>
+            	<div class="controls"></div>
+        	</div>
+     <div class="control-group">
+            	<label class="control-label" for="status">{{ 'label.property' | translate }}<span class="required">*</span></label>
+            	<div class="controls">
+              		<select ng-model="formData.propertCode"  ng-options="propertycode as propertycode for propertycode in propertycodes" value="{{propertCode}}"></select>
+            	</div>
+     </div>
+   </fieldset>
+</div>
+<div class="modal-footer">
+        <button id="cancel" class="btn btn-warning" ng-click="cancelAllocate()">{{'button.cancel' | translate}}</button>
+     	<button id="submit" class="btn btn-primary" ng-click="approveAllocate()" ng-disabled="flagOrderDisconnect">{{'label.confirm' | translate}}</button>
+</div>
+</script>
+
+	<script type="text/ng-template" id="deletePopup.html">
+    	<div class="modal-header silver">
+        	<h3 class="bolder">Delete Property Master</h3>
+        </div>
+        <div class="error" ng-show="errorStatus || errorDetails">
+				<label>{{'label.contract.error' | translate}}</label>
+				<label ng-show="errorStatus">{{errorStatus}}</label>
+				<label ng-hide="errorStatus" ng-repeat="error in errorDetails">{{error.code | translate}}</label>
+	   		</div>
+        <div class="modal-body style="height:60px;">
+            <h4>Are you sure?</h4>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn" ng-click="cancel()">{{'button.cancel' | translate}}</button>
+            <button class="btn btn-primary" ng-click="approve()">{{'label.confirm' | translate}}</button>
+        </div>
+   </script>
+   		
    		
    		<script type="text/ng-template" id="Staticip.html">
     	<div class="modal-header silver">

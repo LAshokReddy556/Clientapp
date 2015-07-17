@@ -71,7 +71,18 @@
 									</div>
 								</div>
 							</td>
-							<td align="right">
+							<td>
+								<div class="control-group">
+									<label class="control-label" for="status">{{
+										'label.isd' | translate }}</label>
+									<div class="controls">
+										<input type="text" id="currencyISD" data-ng-model="formData.countryISD">
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" colspan="2">
 								<div class="controls">
 									<a href="#/currencydetails"><button id="cancel" type="reset" class="btn">{{'button.cancel'| translate}}</button></a>
 									<button id="submit" type="submit" class="btn btn-primary">{{'button.save'| translate}}</button>

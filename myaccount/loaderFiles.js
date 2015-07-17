@@ -89,3 +89,5 @@ document.write("<script type='text/javascript' src='./controllers/EventsControll
 document.write("<script type='text/javascript' src='./controllers/EditProfileController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/EvoIntegrationController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/EvoSuccessController.js'></script>");
+document.write("<script type='text/javascript' src='./controllers/PrepaidPlansController.js'></script>");
+document.write("<script type='text/javascript' src='./controllers/PostpaidPlansController.js'></script>");

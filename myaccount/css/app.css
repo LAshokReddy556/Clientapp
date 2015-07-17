@@ -1489,11 +1489,174 @@ ul.breadcrumb li a{
 }
 
 .newpostpboxh{
-	height:148px;
+	height:126px;
 }
 
 .renewprepboxh{
 	height:148px;
+}
+
+.taglabel {
+    float: left;
+    height: 30px;
+    margin-left: -5px;
+    margin-top: -6px;
+    /* position: relative; */
+    top: -15px;
+    width: 73px;
+}
+
+.images .ribbon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: all 0.2s ease 0.3s;
+    z-index: 1;
+}
+.ribbon {
+   /*  position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 4; */
+}
+.ribbon .text, .ribbon .banner, .ribbon a {
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    font-size: 100%;
+    margin: 0;
+    outline: 0 none;
+    padding: 0;
+    vertical-align: baseline;
+}
+.ribbon a {
+    color: #fff;
+    text-decoration: none;
+}
+.no-css-transforms .ribbon {
+    font-size: 1em;
+    position: relative;
+    width: 100%;
+}
+.ribbon .banner {
+    color: #fff;
+    display: block;
+    float: left;
+    position: relative;
+    left: -2px;
+    top: 10px;
+    -webkit-transform: rotate(322deg);
+ 	-moz-transform:    rotate(322deg);
+  	-ms-transform:     rotate(322deg);
+  	-o-transform:      rotate(322deg);
+  	transform:         rotate(322deg);
+    width: 65px;
+}
+.ribbon .banner:after, .ribbon .banner:before {
+    content: "";
+    display: block;
+    height: 6px;
+    position: absolute;
+    width: 20px;
+}
+.ribbon .banner:before {
+    left: -30px;
+    top: -5px;
+    -webkit-transform: skewY(-45deg) translate(50%, 15px);
+ 	-moz-transform:    skewY(-45deg) translate(50%, 15px);
+  	-ms-transform:     skewY(-45deg) translate(50%, 15px);
+  	-o-transform:      skewY(-45deg) translate(50%, 15px);
+  	transform:         skewY(-45deg) translate(50%, 15px);
+    -webkit-transform-origin: 100% center 0;
+ 	-moz-transform-origin: 100% center 0;
+  	-ms-transform-origin: 100% center 0;
+  	-o-transform-origin: 100% center 0;
+  	transform-origin: 100% center 0;
+}
+.ribbon .banner:after {
+    right: -12px;
+    top: 18px;
+    -webkit-transform: translate(100%, -100%) skewY(45deg) translateX(-58%);
+ 	-moz-transform:    translate(100%, -100%) skewY(45deg) translateX(-58%);
+  	-ms-transform:     translate(100%, -100%) skewY(45deg) translateX(-58%);
+  	-o-transform:      translate(100%, -100%) skewY(45deg) translateX(-58%);
+  	transform:         translate(100%, -100%) skewY(45deg) translateX(-58%);
+    -webkit-transform-origin: 0 center 0;
+ 	-moz-transform-origin: 0 center 0;
+  	-ms-transform-origin: 0 center 0;
+  	-o-transform-origin: 0 center 0;
+  	transform-origin: 0 center 0;
+}
+.no-css-transforms .ribbon .banner {
+    float: none;
+    font-size: 10px;
+    position: static;
+    width: 100%;
+}
+.ribbon .text {
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 14px;
+    min-height: 14px;
+    padding: 3px 0;
+    position: relative;
+    text-overflow: ellipsis;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    white-space: nowrap;
+    z-index: 2;
+}
+.ribbon .text:before, .ribbon .text:after {
+    content: "";
+    display: block;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: -1;
+}
+.ribbon .text:before {
+    -webkit-transform: translateX(-15%) skewX(-45deg);
+ 	-moz-transform:    translateX(-15%) skewX(-45deg);
+  	-ms-transform:     translateX(-15%) skewX(-45deg);
+  	-o-transform:      translateX(-15%) skewX(-45deg);
+  	transform:         translateX(-15%) skewX(-45deg);
+}
+.ribbon .text:after {
+    -webkit-transform: translateX(15%) skewX(45deg);
+ 	-moz-transform:    translateX(15%) skewX(45deg);
+  	-ms-transform:     translateX(15%) skewX(45deg);
+  	-o-transform:      translateX(15%) skewX(45deg);
+  	transform:         translateX(15%) skewX(45deg);
+}
+.no-css-transforms .ribbon .text {
+    height: 25px;
+    padding: 3px;
+}
+.ribbon .banner:after, .ribbon .banner:before {
+    /* background-color: #51a351; */
+    background-color: #7adc7a;
+}
+.ribbon .text:before, .ribbon .text:after, .no-css-transforms .ribbon .text {
+    /* background-color: #62c462; */
+    background-color: #7adc7a;
+}
+.ribbonblue .banner:after, .ribbonblue .banner:before {
+    background-color: #2d5b98;
+}
+.ribbonblue .text:before, .ribbonblue .text:after, .no-css-transforms .ribbonblue-mms .text {
+    background-color: #367ab3;
+}
+.ribbonred .banner:after, .ribbonred .banner:before {
+    background-color: #FA8258;
+}
+.ribbonred .text:before, .ribbonred .text:after, .no-css-transforms .ribbonred .text {
+    background-color: #FA8258;
+}
+.ribbonorange .banner:after, .ribbonorange .banner:before {
+    background-color: #f89406;
+}
+.ribbonorange .text:before, .ribbonorange .text:after, .no-css-transforms .ribbonorange .text {
+    background-color: #fbb450;
 }
 /*new changes for selfcare ended*/
 

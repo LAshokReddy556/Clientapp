@@ -1,0 +1,42 @@
+<div data-ng-controller="PrepaidPlansController">
+	 <div style="height:430px;overflow-y:auto;">
+	 	<div data-ng-repeat="plan in plansData track by $index" data-ng-show="plan.pricingData.length!=0"> 
+	 	  <div class="packbox6" style="height:210px;" data-ng-if="plan.isPrepaid == 'Y'">
+	 	  	 <div class="ribbon ribbon-small ribbongreen">
+				<div class="banner">
+					<div class="text">prepaid</div>
+				</div>
+			</div>
+			<h1 style="line-height: 25px;">{{plan.planCode}}
+			<a data-ng-click="viewPlanServices(plan.planId)" style="color:#fff;text-transform: lowercase;"> ({{'label.view' | translate}}) </a></h1>
+			<ul style="margin: 0 0 0 0px;padding: 5px 2px 0px 2px;" class="newprepboxh" data-ng-class="{renewprepboxh:screenName == 'renewalorder'}">
+			  <li data-ng-repeat="priceData in plan.pricingData track by $index" class="nonecontent" style="margin-left: 15px;">
+				<input type="radio" name="addPackRadio" style="vertical-align: sub;" data-ng-model="priceId" data-ng-click="durationSelectionFun(priceData,plan.planId)" data-ng-value="priceData.id">&nbsp;
+				<span style="font-size: 14px;">
+					<span>{{priceData.duration}}</span><span style="color:blue;">({{priceData.price}}&nbsp;{{currencyCode}})</span>
+				</span>
+			  </li>
+			</ul>
+			<div>
+			   <table data-ng-show="(screenName == 'additionalorders'||screenName == 'changeorder')" ><tr>
+				<td valign="top" style="padding-top: 0px;"><strong class="lightbluecolor">{{'label.autorenew'|translate}} :</strong></td>
+				<td><switch name="yesNo" ng-model="plan.autoRenew"  on="Yes" off="No" class="wide"></switch></td>
+			   </tr></table>
+			  <button data-ng-show="screenName == 'additionalorders'" data-ng-click="checkingRecurringStatus(plan.autoRenew)"
+					class="btn btn-primary" style="margin-left: 15px;padding:1px 5px; "><i class="icon-plus icon-white"></i>
+				{{'btn.add.pack' | translate}}
+			  </button>
+			  <button data-ng-show="screenName == 'changeorder'" data-ng-click="checkingRecurringStatus(plan.autoRenew)"
+					class="btn btn-primary" style="margin-left: 15px; padding:1px 5px;"><i class="icon-retweet icon-white"></i>
+				{{'btn.change.pack' | translate}}
+			  </button>
+			  <button data-ng-show="screenName == 'renewalorder'" data-ng-click="checkingRecurringStatus(plan.autoRenew)"
+					class="btn btn-primary" style="margin-left: 15px; padding:1px 5px;"><i class="icon-arrow-up icon-white"></i>
+				{{'btn.topup.pack' | translate}}
+			  </button>
+			</div>
+			
+		 </div>
+	   </div>
+	 </div>
+</div>

@@ -83,15 +83,6 @@ scope.$watch(function () {
     scope.localeLangCode = langCode;
 });
 
-//watching isRedemptionConfig if modified then function executes else not execute
-var isRedeem = false;
-scope.$watch(function () {
-	isRedeem = localStorageService.get('isRedemptionConfig') == 'true';
-	return isRedeem;
-}, function () {
-	scope.isRedemptionConfig = isRedeem;
-});
- 
  //cancel btn function ie going to previous page
  scope.goBack = function(){
 	  window.history.go(-1);

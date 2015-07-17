@@ -13,7 +13,9 @@ define(['underscore'], function() {
       'chosen.min',
       'multiple-select',
       'bootstrap-switch',
-      'additional'
+      'additional',
+      'fullcalendar',
+      'fullcalendar.print'
       
     ]
   };

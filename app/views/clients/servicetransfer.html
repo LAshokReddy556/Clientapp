@@ -69,10 +69,22 @@
          	<tr>
          		<td width="50%">
          			<table class="fullwidth">
-         				<tr>
-         					<td colspan="3"><strong>{{ 'label.current.address' | translate }}&nbsp;:</strong>
-         						<hr style="margin: 10px 0;border-width: 2px 0;border-style: groove inset;width:190px;"></td>
+         			<tr>
+         					<td><strong>{{ 'label.current.device' | translate }}&nbsp;</strong>
+         						</td>
+         						<td><strong>:</strong></td>
+         						<td>
+              					<select id="propertyCode" data-ng-model="propertyCodeId"  
+              					data-ng-options="deviceMappingData.id as deviceMappingData.serialNumber for deviceMappingData in deviceMappingDatas" ng-change="changeProperty(propertyCodeId)"></select>
+            				      </td>
          				</tr>
+         				<tr>
+         					<td><strong>{{ 'label.current.address' | translate }}&nbsp;:</strong>
+         						</td>
+         						<td>
+         						</td>
+         				</tr>
+         				<tr><td><hr style="margin: 10px 0;border-width: 2px 0;border-style: groove inset;width:190px;"></td></tr>
          				<tr>
          					<td width="45%" ><strong>{{ 'label.property.code' | translate }}</strong></td>
          					<td width="10%" ><strong>:</strong></td>
@@ -104,6 +116,16 @@
          					<td data-ng-hide="serviceTransferRequestData.floorDesc">{{serviceTransferRequestData.floor}}</td>
          					<td data-ng-show="serviceTransferRequestData.floorDesc">{{serviceTransferRequestData.floorDesc}}</td>
          				</tr>
+         				<tr><td><hr style="margin: 10px 0;border-width: 2px 0;border-style: groove inset;width:190px;"></td></tr>
+         				<tr data-ng-hide="shiftingCheckbox == 'No'">
+         					<td><strong>{{ 'label.shifting.address' | translate }}&nbsp;:</strong>
+         						</td>
+         						<td>:</td>
+         						<td >
+              					<select id="propertyCode" data-ng-model="existingProperty"  
+              					data-ng-options="propertyCode as propertyCode for propertyCode in propertyCodes"></select>
+            				      </td>
+         				</tr>
          				
          			</table> 
          		</td>
@@ -115,7 +137,8 @@
           	    <input type="checkbox" data-ng-model="shiftingCheckbox" data-ng-true-value="Yes" data-ng-false-value="No">&nbsp;&nbsp;
           	    <span style="color:#0f82f5"><strong>{{shiftingCheckbox}}</strong></span>
           	    </div><br/></td>
-          	    </tr></table>
+          	    </tr>
+          	    </table>
          		</td>
          	</tr>
          </table><br><br/>

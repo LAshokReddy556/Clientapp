@@ -109,11 +109,11 @@
 					   		   <tr>
 						   		 <td><i class="icon-user lightbluecolor"></i><br><br></td>
 						   		 <td><input data-ng-autofocus="true" type="text" data-ng-model="loginCredentials.username" class="input-xtra-large" 
-					   					data-ng-disabled="signInProcessLoading" placeholder="{{'label.email' | translate}}" required><br><br></td>
+					   					data-ng-disabled="signInProcessLoading" placeholder="{{'label.email' | translate}}"><br><br></td>
 				   			   <tr>
 				   				<td><i class="icon-key lightbluecolor"></i></td>
 				   				<td><input id="pwd"  type="password" data-ng-model="loginCredentials.password"  class="input-xtra-large"
-				           			data-ng-disabled="signInProcessLoading" placeholder="{{ 'label.password' | translate }}" required></td></tr>
+				           			data-ng-disabled="signInProcessLoading" placeholder="{{ 'label.password' | translate }}"></td></tr>
 				           		</table>
 				           		<div class="pull-right forgotpwd" data-ng-click="forgotPwdPopup()"><a>{{'label.forgot.password' | translate}}</a></div>
 				           		 <button type="submit"  class="btn btn-primary loginbtn " data-ng-hide="isProcessing" data-ng-click="login()">
@@ -129,6 +129,7 @@
 		  </table>
 		 </div>
 	   </div>
+	   
 	 <!--  <span class="pull-right" style="padding-right:325px;margin-top:-25px;">Thor Telecom - Dalvegur 16b - 201 Kópavogur - Sími 5 100 500 -
 	    <a  style="color:#007fff;" href="http://thortelecom.is" target="_blank">http://thortelecom.is/</a></span> -->
 	  <!-- <span class="pull-right" style="padding-right:212px;margin-top:-25px;">Thor Telecom – Avda. Antonio Pedrera Soler Local 20 – 03619 Algorfa (Alicante) – Tlf. 966 111 676 -

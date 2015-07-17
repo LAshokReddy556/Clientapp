@@ -43,7 +43,7 @@
           	scope.formData.locale = $rootScope.locale.code;
           	scope.formData.defaultFeeAmount=0;
              resourceFactory.feeMasterResource.save(scope.formData,function(data){
-              location.path('/viewfeemaster/'+data.resourceId);
+              location.path('/viewfeemaster/' + data.resourceId);
             });
           };
           

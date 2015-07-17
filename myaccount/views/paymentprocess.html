@@ -60,8 +60,8 @@
 					<td class="bigfont" data-ng-if="planData.isPrepaid=='Y'">{{planData.duration}}</td>
 					<td class="bigfont" data-ng-if="planData.isPrepaid=='N'">{{contractPeriod}}</td>
 					<td class="bigfont" data-ng-if="planData.isPrepaid=='N'">{{planData.billingFrequency}}</td>
-					<td class="bigfont">{{planData.price}}</td>
-					<td class="bigfont">{{price}}</td>
+					<td class="bigfont">{{planData.price}}({{currencyCode}})</td>
+					<td class="bigfont">{{price}}({{currencyCode}})</td>
 				</tr>
 			</tbody>
 			

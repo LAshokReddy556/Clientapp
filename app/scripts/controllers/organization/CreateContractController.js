@@ -13,7 +13,7 @@
         
         scope.submit = function() {   
             resourceFactory.contractResource.save(scope.formData,function(data){
-            	  location.path('/viewContract/'+data.resourceId);
+            	  location.path('/contract');
           });
         };
     }

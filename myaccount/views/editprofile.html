@@ -85,6 +85,7 @@
 
 	</fieldset>
 </form>
+<div data-ng-if="isClientAdditionalData">
 	<div class="span6">
 		<div><h3 style="text-transform: uppercase;"><b class="marginleft10 lightbluecolor">{{'link.additionalinfo'|translate}}:</b></h3>
 		</div>	
@@ -118,7 +119,7 @@
 	      				<div class="control-group" style="margin-bottom:30px;">
 	          			   <label class="control-label">{{'label.client.dateofbirth' | translate}}</label>
 	          			   <div class="controls">
-			                 <input type="text" datepicker-pop="dd MMMM yyyy" disabled data-ng-model="date.dateOfBirth"  is-open="opened" min="minDate" max="'2020-06-22'" date-disabled="disabled(date, mode)" ng-disabled="editInfoBtn"/>
+			                 <input type="text" datepicker-pop="dd MMMM yyyy" disabled data-ng-model="date.dateOfBirth"  is-open="opened" min="minDate" max="maxDate" date-disabled="disabled(date, mode)" ng-disabled="editInfoBtn"/>
 	          			   </div>
 	      				</div>
 	      				<div class="control-group" style="margin-bottom:30px;">
@@ -173,10 +174,11 @@
 	      				</div>
 	       			</td>
 	       		</tr>
-		  <tr><td colspan="2" align="right">
-			 <button type="button" class="btn" ng-click="editInfoBtn = !editInfoBtn" data-ng-show="!editInfoBtn">{{'btn.cancel' | translate}}</button>	 
-			 <button type="submit" data-ng-show="!editInfoBtn" class="btn btn-primary">{{'btn.save' | translate}}</button> 
+		  <tr><td colspan="2" align="right" data-ng-show="!editInfoBtn">
+			 <button type="button" class="btn" ng-click="editInfoBtn = !editInfoBtn">{{'btn.cancel' | translate}}</button>	 
+			 <button type="submit" class="btn btn-primary">{{'btn.save' | translate}}</button> 
 		</td></tr></table>
 		</fieldset>	
 </form>
+</div>
 </div>

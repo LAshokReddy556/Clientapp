@@ -19,10 +19,11 @@ PrepaidPaymentController = function(scope,routeParams,RequestSender,localStorage
 	scope.isRedirecting 	= false;
 	
 	var clientData			= {};
-	RequestSender.clientResource.get({clientId: scope.clientId} , function(data) {
+	if(scope.clientId){
+	 RequestSender.clientResource.get({clientId: scope.clientId} , function(data) {
 		clientData = data;
-	  scope.paymentgatewayDatas = [];
-	  RequestSender.paymentGatewayConfigResource.get(function(data) {
+		scope.paymentgatewayDatas = [];
+	   RequestSender.paymentGatewayConfigResource.get(function(data) {
 		  for(var i in data.globalConfiguration){
 			   if(data.globalConfiguration[i].enabled && data.globalConfiguration[i].name != 'is-paypal-for-ios'  
 				   && data.globalConfiguration[i].name != 'is-paypal' && data.globalConfiguration[i].name != 'paypal-recurring-payment-details'){
@@ -30,8 +31,9 @@ PrepaidPaymentController = function(scope,routeParams,RequestSender,localStorage
 			   }
 		  }
 		  scope.paymentgatewayDatas.length==0 ?scope.paymentGatewayName="" : "";
+	   });
 	  });
-	});
+	}
 	
 	//this function calls when comeout from amount field
 	scope.planData			= {};

@@ -28,30 +28,39 @@
         	scope.subscriptiondatas=data.contractPeriods;
         	/* removing contracts from drop down of contract period label which have no end date..... */
         	for (var i=scope.subscriptiondatas.length -1; i>=0; i--){
-        		if(scope.subscriptiondatas[i].Contractdata=="Perpetual" || scope.subscriptiondatas[i].Contractdata=="No Exipriy"){
-        			 scope.subscriptiondatas.splice(i, 1);
-        		}
+        	//	if(scope.subscriptiondatas[i].Contractdata=="Perpetual" || scope.subscriptiondatas[i].Contractdata=="No Exipriy"){
+        			// scope.subscriptiondatas.splice(i, 1);
+        	//	}
         	}
         	scope.addonsPriceDatas=data.addonsPriceDatas;
-        	
+        	scope.serviceCategoryDatas = [];
+            angular.forEach(scope.addonsPriceDatas,function(value,key){
+             scope.serviceCategoryDatas.push({serviceCode:value.serviceCode});
+            });
+            scope.serviceCategoryDatas = _.uniq(scope.serviceCategoryDatas,function(item){
+             return item.serviceCode;
+            });
         });
         
-        scope.isSelected = function(id,isActive,price,index){
-        
+            
+        scope.isSelected = function(id,isActive,price,chargeCodeId,index){
         	if(isActive =="Y"){
         		 scope.addonServices.push({
    				  "serviceId":id,
    				 "locale":"en",
+   				"chargeCodeId":chargeCodeId,
    				  "price":price
    				 
    			  });
 				
         	}else{
         		
-        	   scope.addonServices.splice(index, 1);
-        		/*scope.addonServices =  scope.addonServices.filter(function( obj ) {
-        			return obj != id;
-					});*/
+        	   //scope.addonServices.splice(index, 1);
+        		angular.forEach(scope.addonServices,function(value,key){
+        			if(value.serviceId == id && value.chargeCodeId == chargeCodeId){
+        				scope.addonServices.splice(key, 1);
+        			}
+        		});
 			  }
 			  
 		  };
