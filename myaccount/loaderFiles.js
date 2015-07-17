@@ -33,6 +33,8 @@ document.write("<script type='text/javascript' src='./configurations/kennitala.j
 //CryptoJS folder js files
 document.write("<script type='text/javascript' src='./CryptoJS/aes.js'></script>");
 document.write("<script type='text/javascript' src='./CryptoJS/md5.js'></script>");
+document.write("<script type='text/javascript' src='./CryptoJS/hmac-sha256.js'></script>");
+document.write("<script type='text/javascript' src='./CryptoJS/enc-base64-min.js'></script>");
 
 //filters folder js files
 document.write("<script type='text/javascript' src='./filters/DateFormat.js'></script>");
@@ -55,10 +57,8 @@ document.write("<script type='text/javascript' src='./services/SessionManager.js
 document.write("<script type='text/javascript' src='./controllers/SignUpFormController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/SignInFormController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/ActivateUserController.js'></script>");
-document.write("<script type='text/javascript' src='./controllers/AdditionalOrdersController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/OrderBookingScreenController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/ChangeKortaTokenController.js'></script>");
-document.write("<script type='text/javascript' src='./controllers/ChangeOrderController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/ChangePasswordController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/CreateTicketController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/EventDetailsPreviewScreenController.js'></script>");
@@ -69,8 +69,6 @@ document.write("<script type='text/javascript' src='./controllers/KortaSuccessCo
 document.write("<script type='text/javascript' src='./controllers/KortaTokenController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/PaymentGatewayResponseController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/ProfileController.js'></script>");
-document.write("<script type='text/javascript' src='./controllers/RenewalOrderController.js'></script>");
-document.write("<script type='text/javascript' src='./controllers/RenewalOrderPreviewScreenController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/ServicesController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/StatementsController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/TicketsController.js'></script>");
@@ -89,3 +87,7 @@ document.write("<script type='text/javascript' src='./controllers/PaypalRecurrin
 document.write("<script type='text/javascript' src='./controllers/PaypalRedirectionController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/EventsController.js'></script>");
 document.write("<script type='text/javascript' src='./controllers/EditProfileController.js'></script>");
+document.write("<script type='text/javascript' src='./controllers/EvoIntegrationController.js'></script>");
+document.write("<script type='text/javascript' src='./controllers/EvoSuccessController.js'></script>");
+document.write("<script type='text/javascript' src='./controllers/PrepaidPlansController.js'></script>");
+document.write("<script type='text/javascript' src='./controllers/PostpaidPlansController.js'></script>");

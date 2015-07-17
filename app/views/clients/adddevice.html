@@ -149,8 +149,29 @@
 						</div>
 					</td>
 				</tr>
+				<!-- <tr>
+					<td colspan = "2" align="left">
+						<div class="control-group">
+            			<label class="control-label" for="addDeposit">Add Deposit</label>
+            			<div class="controls">
+              			<label class="checkbox">
+                		<input type="checkbox" id="addDeposit" data-ng-model="formData.addDeposit">
+              			</label>
+            			</div>
+          				</div>
+					</td>
+				</tr>
+				<tr data-ng-show = "formData.addDeposit" >
+					<td colspan = "2" align="left">
+						<div class="control-group">
+						<label class="control-label" for="totalPrice">Deposit Amount </label>
+						<div class="controls">
+						<input type="text" id="amount" data-ng-model="formData.amount" style="background-color: #FFFFFF;" readonly/>
+						</div>
+						</div></td>
+				</tr> -->
 				<tr>
-					<td colspan="2">
+					<td colspan="2" align="left">
 						<div class="offset3" align="right">
 							<a id="cancel" href="#/viewclient/{{clientId}}">
 								<button type="reset" class="btn" data-ng-click="reset123()">{{'button.cancel' | translate}}</button>

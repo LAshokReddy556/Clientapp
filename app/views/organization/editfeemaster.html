@@ -77,6 +77,33 @@
           		  </div>
 				</td>
 			</tr>
+	<!-- 		<tr data-ng-show = "formData.transactionType == 'Deposit'">
+				<td valign="top">
+					<div class="control-group">
+           	 			<label class="control-label" for="itemId">Item&nbsp;<span class="required">*</span></label>
+            			<div class="controls">
+              				<select id="transactionType" data-ng-model="formData.itemId" name="itemId" 
+              				 	data-ng-options="itemTypeData.id as itemTypeData.itemDescription for itemTypeData in itemTypeDatas"  required data-late-Validate>
+              				</select><br/>
+              				<span data-ng-show = "createfeemasterform.itemId.$invalid">
+		              			<small class="error" data-ng-show="createfeemasterform.itemId.$error.req">
+			                      {{'label.required.field' | translate}}
+			                    </small>
+              				</span>
+            			</div>
+          			</div>
+				</td>
+				<td>
+					<div class="control-group">
+            			<label class="control-label" for="isRefundable">Refundable</label>
+                		<div class="controls">
+                			<label class="checkbox">
+                    		<input type="checkbox" data-ng-model="formData.isRefundable">
+                    		</label>
+                		</div>
+             		</div>
+				</td>
+			</tr> -->
 			<tr>
 				<!-- <td colspan="2" valign="top">
 					<div class="control-group">

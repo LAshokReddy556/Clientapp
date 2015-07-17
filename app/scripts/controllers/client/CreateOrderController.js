@@ -23,8 +23,10 @@
         scope.clientId=routeParams.id;
         scope.formData =[];
         scope.walletConfig = webStorage.get('is-wallet-enable');
+        scope.clientConfiguration = webStorage.get('client_configuration');
+        var isAutoRenew = scope.clientConfiguration.isAutoRenew== 'true';
 
-        $("[name='autoRenewCheckbox']").bootstrapSwitch('state', false, true);
+        $("[name='autoRenewCheckbox']").bootstrapSwitch('state', isAutoRenew, true);
         var clientData = webStorage.get('clientData');
         scope.displayName=clientData.displayName;
         scope.statusActive=clientData.statusActive;
@@ -78,10 +80,9 @@
            scope.subscriptiondatas=data.subscriptiondata;
            scope.paytermdatas=data.paytermdata;
            scope.clientId = routeParams.id;
-           
            scope.formData = {
              		billAlign: true,
-             		autoRenew : false
+             		autoRenew : isAutoRenew
                    };
     	   
        });
@@ -90,7 +91,7 @@
         scope.setBillingFrequency = function(value) {
         	  $('plancode').css({"color":"red"});
         	scope.paytermdatas=undefined;
-        	 resourceFactory.orderResource.get({planId:value, template: 'true'} , function(data) {
+        	 resourceFactory.orderResource.get({planId:value,'clientId': routeParams.id,template: 'true'} , function(data) {
         		 scope.paytermdatas=data.paytermdata;
         		 scope.formData.isPrepaid=data.isPrepaid;
         		 scope.isPrepaidPlan=data.isPrepaid;

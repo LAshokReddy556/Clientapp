@@ -15,6 +15,12 @@
 	            scope.transactionTypeDatas 		= data.transactionTypeDatas;
 	            scope.chargeDatas 				= data.chargeDatas;
 	            scope.feeMasterRegionPricesDatas = data.feeMasterRegionPricesDatas;
+	            /*scope.itemTypeDatas = data.itemCodes;*/
+	            scope.formData.itemId = scope.feeMasterData.itemId;
+	            if(scope.feeMasterData.isRefundable != undefined){
+	            	scope.formData.isRefundable = scope.feeMasterData.isRefundable == 'Y'?true:false;
+	            }
+	            
 	            for(var i in scope.feeMasterRegionPricesDatas){
 	            	
 	            	scope.regionPrices.push({
@@ -61,6 +67,17 @@
 	                    	 							});
 	                   };
 	                 }
+	          	if(scope.formData.transactionType == 'Deposit'){
+	          		var tempValue = scope.formData.isRefundable;
+	          		if(tempValue){
+	          			scope.formData.isRefundable = 'Y';
+	          		}else{
+	          			scope.formData.isRefundable = 'N';
+	          		}
+	          	}else{
+	          		delete scope.formData.itemId;
+	          		delete scope.formData.isRefundable;
+	          	}
 	          	scope.formData.locale = $rootScope.locale.code;
 	          	scope.formData.defaultFeeAmount=0;
 	             resourceFactory.feeMasterResource.update({id:routeParams.id},scope.formData,function(data){

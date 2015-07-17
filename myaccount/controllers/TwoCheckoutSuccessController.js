@@ -40,10 +40,12 @@ TwoCheckoutSuccessController = function(scope,RequestSender, location,localStora
 			    		RequestSender.paymentGatewayResource.update(formData, function(data){
 			    			localStorageService.remove("twoCheckoutStorageData", data);
 			    			localStorageService.add("paymentgatewayresponse", {data:data});
+			    			var result = angular.uppercase(data.Result) || "";
 			    			location.$$search = {};
 			    			if(screenName == 'payment'){
 								location.path('/paymentgatewayresponse/'+formData.clientId);
 							}else {
+								localStorageService.add("gatewayStatus",result);
 								location.path("/orderbookingscreen/"+screenName+"/"+formData.clientId+"/"+planId+"/"+priceId);
 							}
 			    		});

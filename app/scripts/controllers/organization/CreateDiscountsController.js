@@ -45,7 +45,7 @@
 	             this.formData.discountPrices = scope.discountPrices;
 	             
 	            resourceFactory.discountResource.save(this.formData, function(data){
-	            		location.path('/viewdiscounts/' + data.resourceId);
+	            		location.path('/discounts');
 	          });
 	          
 	        };

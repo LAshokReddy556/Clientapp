@@ -18,7 +18,7 @@
                 <th>{{ 'label.feemaster.description' | translate }}</th>
                 <th>{{ 'label.feemaster.transactiontype' | translate }}</th>
                 <th>{{ 'label.chargecode' | translate }}</th>
-                <th>{{ 'label.feemaster.defaultfeeamount' | translate }}</th>
+                <!-- <th>{{ 'label.feemaster.defaultfeeamount' | translate }}</th> -->
                 <th>{{ 'table.heading.actions' | translate }}</th>
             </tr>
         </thead>
@@ -28,7 +28,7 @@
                 <td class="pointer"  data-ng-click="routeTo(feeMasterData.id)">{{feeMasterData.feeDescription}}</td>        
                 <td class="pointer"  data-ng-click="routeTo(feeMasterData.id)">{{feeMasterData.transactionType}}</td>
                 <td class="pointer"  data-ng-click="routeTo(feeMasterData.id)">{{feeMasterData.chargeCode}}</td>
-                <td class="pointer"  data-ng-click="routeTo(feeMasterData.id)">{{feeMasterData.defaultFeeAmount}}</td>
+               <!--  <td class="pointer"  data-ng-click="routeTo(feeMasterData.id)">{{feeMasterData.defaultFeeAmount}}</td> -->
                 <td class="pointer">
                  <a data-ng-show="PermissionService.showMenu('UPDATE_FEEMASTER')" href="#/editfeemaster/{{feeMasterData.id}}"
                     data-popover="{{'button.edit' | translate}}" data-popover-trigger="mouseenter" class="icon-edit"></a>&nbsp;

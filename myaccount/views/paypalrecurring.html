@@ -1,22 +1,31 @@
 <div data-ng-controller="PaypalRecurringController">
+<br/><br/><br/>
+<div class="alert alert-success">
+	   <table><tr>
+	   		<td><span><img src="../images/info-icon.png" width="30"></span></td>
+        		<td><span><strong class="marginleft40" ><i class="icon-refresh icon-spin"></i>
+        				{{'title.redirecting'|translate}}</strong><br/>
+        			</span>
+        		</td></tr>
+	   </table> 
+</div>
 <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top" >
-<input type="text" name="cmd" value="_xclick-subscriptions">
-<input type="text" name="business" value="{{emailId}}">
-<input type="text" name="lc" value="US">
-<input type="text" name="item_name" value="billing">
-<!--<input type="text" name="no_note" value="123">-->
-<input type="text" name="src" value="1">
-<input type="text" name="a3" value="{{price}}">
-<input type="text" name="p3" value="{{period}}">
-<input type="text" name="t3" value="{{time}}">
-<input type="text" name="currency_code" value="USD">
-<!-- <input type="text" name="srt" value=""> -->
-<input type="text" name="rm" value="2">
-<input type="text" name="custom" value='{{customValue}}'>
-<input type="text" name="return" value="{{returnURL}}">
-
-<input type="text" name="bn" value="PP-SubscriptionsBF:btn_subscribeCC_LG.gif:NonHostedGuest">
-<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_subscribeCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+	<input type="hidden" name="cmd" value="_xclick-subscriptions">
+	<input type="hidden" name="business" value="{{emailId}}">
+	<input type="hidden" name="lc" value="US">
+	<input type="hidden" name="item_name" value="billing">
+	<!--<input type="hidden" name="no_note" value="123">-->
+	<input type="hidden" name="src" value="1">
+	<input type="hidden" name="a3" value="{{price}}">
+	<input type="hidden" name="p3" value="{{period}}">
+	<input type="hidden" name="t3" value="{{time}}">
+	<input type="hidden" name="currency_code" value="USD">
+	<input type="hidden" name="srt" value="">
+	<input type="hidden" name="rm" value="2">
+	<input type="hidden" name="custom" value='{{customValue}}'>
+	<input type="hidden" name="return" value="{{returnURL}}">
+	<input type="hidden" name="bn" value="PP-SubscriptionsBF:btn_subscribeCC_LG.gif:NonHostedGuest">
+	
+<button id="submitPaypalRecurringBtn" type="submit" class="btn btn-primary" data-ng-hide="true">submit</button>
 </form>
 </div>

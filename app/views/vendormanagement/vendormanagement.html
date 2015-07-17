@@ -1,8 +1,8 @@
 <div  data-ng-controller="VendorController">
     <ul class="breadcrumb">
+    	<li><a href="#/organization">{{'link.admin.organisation' | translate}}</a> <span class="divider">/</span></li>
         <li class="active">{{'label.vendor.vendormanagement' | translate}}</li>
     </ul>
-
     <a href="#/createvendormanagement" class="btn btn-primary pull-right" data-ng-show="PermissionService.showMenu('CREATE_TEMPLATE')"><i class="icon-plus icon-white"></i>{{'button.create' | translate}}</a>
     <input data-ng-autofocus="true" data-ng-model="filterText" data-ng-keyup="onFilter()" type="text" class="span marginbottom0px form-control" placeholder="{{ 'label.input.filterbyname' | translate }}">
 
@@ -34,7 +34,7 @@
              <td class="pointer" data-ng-click="routeTo(template.id)">{{template.vendorCountryName}}</td>
             <td>
 				<a data-ng-show="PermissionService.showMenu('UPDATE_VENDOR')" 
-					href="#/editvendormanagement/{{template.id}}" data-popover="editvendor" 
+					href="#/editvendormanagement/{{template.id}}" data-popover="Edit Vendor" 
 					data-popover-trigger="mouseenter">
                     <i class="icon-edit icon-white"></i>
                 </a>     	

@@ -1,38 +1,35 @@
 KortaSuccessController = function(rootScope,RequestSender,location,localStorageService,routeParams) {
  
-    		
-			var formData = {};
-			
 			//getting routeParams values
-			var screenName 			= routeParams.screenName;
-			var planId 				= routeParams.planId;
-			var priceId 			= routeParams.priceId;
-			var secretCode 			= localStorageService.get("secretCode");
+			var screenName 			= routeParams.screenName,
+				planId 				= routeParams.planId,
+				priceId 			= routeParams.priceId,
+				secretCode 			= localStorageService.get("secretCode");
 			
     		//values getting form constants.js file
-    		var kortaServer 		= selfcareModels.kortaServer;
-    		var kortaAmountField 	= selfcareModels.kortaAmountField;
-   		    var kortaclientId 		= selfcareModels.kortaclientId;
-   		    var kortaPaymentMethod 	= selfcareModels.kortaPaymentMethod;
-   		    var kortaTokenValue		= selfcareModels.kortaTokenValue;
-    		var encrytionKey 		= selfcareModels.encriptionKey;
+    		var kortaServer 		= selfcareModels.kortaServer,
+    			kortaAmountField 	= selfcareModels.kortaAmountField,
+    			kortaclientId 		= selfcareModels.kortaclientId,
+    			kortaPaymentMethod 	= selfcareModels.kortaPaymentMethod,
+    			kortaTokenValue		= selfcareModels.kortaTokenValue,
+    			encrytionKey 		= selfcareModels.encriptionKey;
     		 
-    		var downloadmd5		 	= location.search().downloadmd5;         
-    		var reference 		  	= location.search().reference;        	
-    		var checkvaluemd5 	  	= location.search().checkvaluemd5;
-    		var cardbrand	 	  	= location.search().cardbrand;
-    		var card4 	  			= location.search().card4;
-    		var encryptedData     	= location.search().key;
-    		var cardbrand 	  		= location.search().cardbrand;
-    		var card4 	  			= location.search().card4;
+    		var downloadmd5		 	= location.search().downloadmd5,         
+    			reference 		  	= location.search().reference,      	
+    			checkvaluemd5 	  	= location.search().checkvaluemd5,
+    			cardbrand	 	  	= location.search().cardbrand,
+    			card4 	  			= location.search().card4,
+    			encryptedData     	= location.search().key;
+    			
+    		var formData = {};
         	var decryptedData     	= CryptoJS.AES.decrypt(encryptedData, encrytionKey).toString(CryptoJS.enc.Utf8);
-        	var	kortaStorageData 	= JSON.parse(decodeURIComponent(decryptedData));
+        	var	kortaStorageData 	= angular.fromJson(decodeURIComponent(decryptedData));
         	formData.total_amount 	= kortaStorageData[kortaAmountField];
         	formData.clientId 		= kortaStorageData[kortaclientId];
         	formData.locale 		= kortaStorageData.locale;
         	formData.emailId 		= kortaStorageData.email;
         	formData.transactionId	= reference;
-        	formData.source 		= 'korta';	
+        	formData.source 		= paymentGatewaySourceNames.korta;	
         	formData.otherData 		= '{"paymentId":'+reference+'}';
        	 	formData.device 		= '';
        	 	formData.currency 		= selfcareModels.kortaCurrencyType;
@@ -51,28 +48,28 @@ KortaSuccessController = function(rootScope,RequestSender,location,localStorageS
         	        	
         	if(downloadmd5String == downloadmd5){
 	        	
-        		if(PaymentMethod == "STNOCAP"){
+        		if(PaymentMethod == selfcareModels.changeKortaTokenDoActionMsg){
         			localStorageService.remove("secretCode");
         			RequestSender.updateKortaToken.update({clientId : formData.clientId},{kortaToken: kortaToken},function(data){
         				location.$$search = {};
         				location.path('/profile');
         			});
-        		}else if(PaymentMethod == "STORAGE"){
+        		}else if(PaymentMethod == selfcareModels.kortaDoActionMsg){
         				
     				RequestSender.updateKortaToken.update({clientId : formData.clientId},{kortaToken: kortaToken},function(data){
     				  RequestSender.paymentGatewayResource.update({},formData,function(data){
     					  localStorageService.add("paymentgatewayresponse", {data:data,cardType:formData.cardType,cardNumber:formData.cardNumber});
     					  rootScope.iskortaTokenAvailable = true;
-    					  var result = data.Result.toUpperCase() || "";
-    		    		  localStorageService.add("gatewayStatus",result);
-						location.$$search = {};
-						if(screenName == 'payment'){
-							location.path('/paymentgatewayresponse/'+formData.clientId);
-						}else if(result == 'SUCCESS'){
+    					  var result = angular.uppercase(data.Result);
+    		    		  location.$$search = {};
+    		    		  localStorageService.remove("secretCode");
+    		    		if(screenName == 'payment'){
+    							location.path('/paymentgatewayresponse/'+formData.clientId);
+    					}else if(result == 'SUCCESS'|| result == 'PENDING'){
+							localStorageService.add("gatewayStatus",result);
 							location.path("/orderbookingscreen/"+screenName+"/"+formData.clientId+"/"+planId+"/"+priceId);
 						}else{	 
 							location.path('/paymentgatewayresponse/'+formData.clientId);
-
 						}
 					  });     	  		
     				});
@@ -81,16 +78,16 @@ KortaSuccessController = function(rootScope,RequestSender,location,localStorageS
         		}else{
     				RequestSender.paymentGatewayResource.update({clientId : formData.clientId},formData,function(data){
     					  localStorageService.add("paymentgatewayresponse", {data:data,cardType:formData.cardType,cardNumber:formData.cardNumber});
-    					  var result = data.Result.toUpperCase() || "";
-    		    		  localStorageService.add("gatewayStatus",result);
-  						location.$$search = {};
+    					  var result = angular.uppercase(data.Result);
+  							location.$$search = {};
+  							localStorageService.remove("secretCode");
   						if(screenName == 'payment'){
   							location.path('/paymentgatewayresponse/'+formData.clientId);
   						}else if(result == 'SUCCESS' || result == 'PENDING'){
+  							localStorageService.add("gatewayStatus",result);
   							location.path("/orderbookingscreen/"+screenName+"/"+formData.clientId+"/"+planId+"/"+priceId);
   						}else{	 
   							location.path('/paymentgatewayresponse/'+formData.clientId);
-
   						}
       				});
           		  }

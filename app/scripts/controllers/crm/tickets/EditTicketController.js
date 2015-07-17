@@ -20,11 +20,19 @@
 							resourceFactory.editTicketResource.get({clientId: routeParams.clientId, id: routeParams.id} , function(data) {	
                                 scope.formData=data;                            
 								scope.statusTypes = data.statusType;
-								 for(var i = 0; i < scope.statusTypes.length; i++){
+								if(data.statusCode){
+									scope.formData.status = data.statusCode;
+								}else{
+									
+									for(var i = 0; i < scope.statusTypes.length; i++){
 					                	if(scope.statusTypes[i].mCodeValue == 'Working'){
 					                		scope.formData.status = scope.statusTypes[i].id;
 					                	}
 					              }
+								}
+								 
+								scope.problemsDatas = data.problemsDatas;
+								scope.priorityTypes = data.priorityType;
 								scope.usersData = data.usersData;
 								//scope.formData.status=14;
 								scope.clientId=routeParams.clientId;
@@ -42,6 +50,8 @@
 								this.data.assignedTo=this.formData.userId;
 								this.data.comments=this.formData.comments;
 								this.data.status=this.formData.status;
+								this.data.priority = this.formData.priority;
+								this.data.problemCode = this.formData.problemCode;
 								this.data.ticketURL=locationOrigin+''+locationPathname+"#/viewTicket/"+scope.clientId+"/";
 								$upload.upload({
 						          url: $rootScope.hostUrl+ API_VERSION +'/clients/'+routeParams.clientId+'/documents/'+routeParams.id+'/attachment', 

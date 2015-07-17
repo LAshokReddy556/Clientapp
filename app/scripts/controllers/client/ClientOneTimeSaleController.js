@@ -61,6 +61,7 @@
 	        		scope.formData.itemId=itemId;
 	        		scope.formData.discountId = scope.discountMasterDatas[0].discountMasterId;
 	        		scope.formData.officeId=officeId;
+	        		scope.formData.amount = data.feeMasterData[0].defaultFeeAmount;
 	        		scope.truefalse = false;
 	        		 if(scope.saleType == 'DEVICERENTAL'){
 	 	            	scope.formData.totalPrice=0;
@@ -68,7 +69,7 @@
 		        });	
 	        };
 	        
-	        scope.itemDataQuantity=function(quantity,itemId,officeId,units){
+	        scope.itemDataQuantity=function(quantity,itemId,officeId,units,amount){
 	        	this.data.unitPrice=this.formData.unitPrice;
 	        	this.data.locale=$rootScope.locale.code;
 	        	this.data.quantity=quantity;
@@ -80,6 +81,7 @@
 	        		scope.formData.itemId=itemId;
 	        		scope.formData.discountId = scope.discountMasterDatas[0].discountMasterId;
 	        		scope.formData.officeId=officeId;
+	        		scope.formData.amount = amount;
 		            
 	        		 if(scope.saleType == 'DEVICERENTAL'){
 	 	            	scope.formData.totalPrice=0;
@@ -132,6 +134,7 @@
 	             delete this.formData.units;
 	             delete this.formData.itemCode;
 	             delete this.formData.id;
+	             delete this.formData.feeMasterData;
 	         
 	             if(scope.unitsValue == 'PIECES'){
 	            	 var temp1 = new Array();

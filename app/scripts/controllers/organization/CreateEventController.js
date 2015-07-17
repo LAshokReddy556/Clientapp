@@ -123,8 +123,8 @@
 
 								resourceFactory.eventResource.save(
 										this.formData, function(data) {
-												location.path('/viewEvent/'
-														+ data.resourceId);
+												location.path('/event');
+														
 										});
 							};
 						}

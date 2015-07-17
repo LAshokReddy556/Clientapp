@@ -1,11 +1,13 @@
 ChangePasswordController = function(scope,RequestSender,rootScope,localStorageService,sessionManager) {
 		 
-		  scope.pwdData = {};
-		  scope.formData = {};
-		  scope.retype_pwd_valid = false;
-		  var clientData = localStorageService.get("clientTotalData");
-		  if(clientData){
-			  scope.email = clientData.email;
+		  
+		  scope.formData = {};scope.pwdData = {};
+		  if(rootScope.selfcare_sessionData){
+			RequestSender.clientResource.get({clientId: rootScope.selfcare_sessionData.clientId} , function(data) {
+			  scope.email = data.selfcare.uniqueReference;
+			  scope.userName = data.selfcare.userName;
+			  scope.password = data.selfcare.password;
+		    });
 		  }
 		  
 		  scope.passwordCheck = function(){
@@ -18,11 +20,21 @@ ChangePasswordController = function(scope,RequestSender,rootScope,localStorageSe
 				 }
 			 }
 		  };
+		  
+		  scope.currentPasswordCheck = function(){
+			  if(scope.currentPassword === scope.password){
+				  scope.retype_currentpwd_valid = false;
+			  }
+			  else{
+				  scope.retype_currentpwd_valid = true;
+			  }
+		  };
 		  scope.submit = function(){
-			  if(scope.retype_pwd_valid == false){
+			  if(scope.retype_pwd_valid == false && scope.retype_currentpwd_valid==false){
 				  rootScope.infoMsgs  =[];
 				  scope.formData.password = scope.pwdData.newPassword;
 				  scope.formData.uniqueReference = scope.email;
+				  scope.formData.userName = scope.userName;
 				  RequestSender.changePwdResource.update(scope.formData,function(data){
 					  var sessionData = localStorageService.get('loginHistoryId');
 					  if(sessionData){

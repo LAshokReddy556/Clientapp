@@ -1,7 +1,7 @@
 (function(module) {
   mifosX.controllers = _.extend(module, {
 
-	  RunReportsController: function(scope, routeParams, resourceFactory, location, dateFilter,API_VERSION,$rootScope) {
+	  RunReportsController: function(scope, routeParams, resourceFactory, location, dateFilter,API_VERSION,$rootScope,TENANT) {
 
       scope.isCollapsed = false; //displays options div on startup
       scope.hideTable = true; //hides the results div on startup
@@ -322,7 +322,7 @@ function buildReportParms(){
         		scope.hidePentahoReport = true;
                 scope.hideChartReport = true;
                 scope.baseURL = $rootScope.hostUrl+ API_VERSION +"/runreports/"+ encodeURIComponent(scope.reportName); 
-                scope.baseURL += "?output-type="+encodeURIComponent(scope.formData.outputType)+"&tenantIdentifier=default&exportCSV=true";
+                scope.baseURL += "?output-type="+encodeURIComponent(scope.formData.outputType)+"&tenantIdentifier="+TENANT+"&exportCSV=true";
                 var inQueryParameters = buildReportParms();
                 if (inQueryParameters > "") scope.baseURL += "&" + inQueryParameters;
         	}
@@ -331,7 +331,7 @@ function buildReportParms(){
         		scope.hidePentahoReport = true;
                 scope.hideChartReport = true;
                 scope.baseURL = $rootScope.hostUrl+ API_VERSION+"/runreports/"+ encodeURIComponent(scope.reportName); 
-                scope.baseURL += "?output-type="+encodeURIComponent(scope.formData.outputType)+"&tenantIdentifier=default&exportPDF=true";
+                scope.baseURL += "?output-type="+encodeURIComponent(scope.formData.outputType)+"&tenantIdentifier="+TENANT+"&exportPDF=true";
                 var inQueryParameters = buildReportParms();
                 if (inQueryParameters > "") scope.baseURL += "&" + inQueryParameters;
         	}
@@ -349,7 +349,7 @@ function buildReportParms(){
             scope.hidePentahoReport = false;
             scope.hideChartReport = true;
             scope.baseURL =$rootScope.hostUrl+ API_VERSION+"/runreports/" + encodeURIComponent(scope.reportName); 
-            scope.baseURL += "?output-type="+encodeURIComponent(scope.formData.outputType)+"&tenantIdentifier=default";
+            scope.baseURL += "?output-type="+encodeURIComponent(scope.formData.outputType)+"&tenantIdentifier="+TENANT;
             var inQueryParameters = buildReportParms();
             if (inQueryParameters > "") scope.baseURL += "&" + inQueryParameters;
           break;
@@ -399,7 +399,7 @@ function buildReportParms(){
     };
    }
   });
-  mifosX.ng.application.controller('RunReportsController', ['$scope', '$routeParams', 'ResourceFactory', '$location', 'dateFilter','API_VERSION','$rootScope', mifosX.controllers.RunReportsController]).run(function($log) {
+  mifosX.ng.application.controller('RunReportsController', ['$scope', '$routeParams', 'ResourceFactory', '$location', 'dateFilter','API_VERSION','$rootScope','TENANT', mifosX.controllers.RunReportsController]).run(function($log) {
     $log.info("RunReportsController initialized");
   });
 }(mifosX.controllers || {}));

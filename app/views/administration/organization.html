@@ -1,6 +1,10 @@
 <div class="row paddedleft paddedtop" ng-controller="OfficesModuleController">
   <div class="span6">
 	  <div class="list-group">
+	  	<a class="list-group-item" href="#/addressmanage" ng-show="PermissionService.showMenu('READ_LOCATION')">
+	      <h4 class="list-group-item-heading"><i class="icon-list icon-large"></i>&nbsp;&nbsp;Address Master</h4>
+	      <p class="list-group-item-text">Manage Geographical Address heirarchy</p>
+	    </a> 
 	    <a class="list-group-item" href="#/offices" ng-show="PermissionService.showMenu('READ_OFFICE')">
 	      <h4 class="list-group-item-heading"><i class="icon-building icon-large"></i>&nbsp;&nbsp;Manage Offices</h4>
 	      <p class="list-group-item-text">Add or Modify or Inactivate Office or Modify Hierarchy </p>
@@ -10,17 +14,17 @@
 	      <p class="list-group-item-text">Create Employees of the Organisation</p>
 	    </a>
 	    </a>
-	     <a class="list-group-item" href="#/addressmanage" ng-show="PermissionService.showMenu('READ_LOCATION')">
-	      <h4 class="list-group-item-heading"><i class="icon-list icon-large"></i>&nbsp;&nbsp;Address Master</h4>
-	      <p class="list-group-item-text">Manage Geographical Address heirarchy</p>
-	    </a> 
+	    <a class="list-group-item" href="#/property">
+	      <h4 class="list-group-item-heading"><i class="icon-sitemap icon-large"></i>&nbsp;&nbsp;Property Definition</h4>
+	      <p class="list-group-item-text">Define Property masters </p>
+	    </a>
+	    <a class="list-group-item" href="#/vendormanagement">
+	      <h4 class="list-group-item-heading"><i class="icon-globe icon-large"></i>&nbsp;&nbsp;VendorManagement</h4>
+	      <p class="list-group-item-text">Vendor Management and Agreements</p>
+	    </a>
 	     <a class="list-group-item" href="#/voucherpins" ng-show="PermissionService.showMenu('READ_RANDAMGENERATOR')">
 	      <h4 class="list-group-item-heading"><i class="icon-gift icon-large"></i>&nbsp;&nbsp;Voucher Pins</h4>
 	      <p class="list-group-item-text">Generate Voucher Pins for Redemption</p>
-	    </a>
-	     <a class="list-group-item" href="#/message" ng-show="PermissionService.showMenu('READ_MESSAGE')">
-	      <h4 class="list-group-item-heading"><i class="icon-book icon-large"></i>&nbsp;&nbsp; Message Template</h4>
-	      <p class="list-group-item-text">Define the Message Templates</p>
 	    </a>
 	     <a class="list-group-item" href="#/ipPooling">
 	      <h4 class="list-group-item-heading"><i class="icon-list icon-large"></i>&nbsp;&nbsp;IP Management</h4>
@@ -30,20 +34,14 @@
 	      <h4 class="list-group-item-heading"><i class="icon-gift icon-large"></i>&nbsp;&nbsp;Closed User Group</h4>
 	      <p class="list-group-item-text">Manage CUG Innformation</p>
 	    </a>
-	    
 	   <a class="list-group-item" href="#/radius">
 	      <h4 class="list-group-item-heading"><i class="icon-globe icon-large"></i>&nbsp;&nbsp;Radius</h4>
 	      <p class="list-group-item-text">Define AAA for Users</p>
 	    </a>
-	    <a class="list-group-item" href="#/property">
-	      <h4 class="list-group-item-heading"><i class="icon-sitemap icon-large"></i>&nbsp;&nbsp;Property Definition</h4>
-	      <p class="list-group-item-text">Define Property masters </p>
+	    <a class="list-group-item" href="#/message" ng-show="PermissionService.showMenu('READ_MESSAGE')">
+	      <h4 class="list-group-item-heading"><i class="icon-book icon-large"></i>&nbsp;&nbsp; Message Template</h4>
+	      <p class="list-group-item-text">Define the Message Templates</p>
 	    </a>
-	     <a class="list-group-item" href="#/vendormanagement">
-	      <h4 class="list-group-item-heading"><i class="icon-globe icon-large"></i>&nbsp;&nbsp;VendorManagement</h4>
-	      <p class="list-group-item-text">Vendor Management and Agreements</p>
-	    </a>
-	    
 	  </div>    
   </div>
   <div class="span6">
@@ -64,23 +62,14 @@
 	      <h4 class="list-group-item-heading"><i class="icon-globe icon-large"></i>&nbsp;&nbsp;Price Region</h4>
 	      <p class="list-group-item-text">Define the region for price variations</p>
 	      </a>
-	     <a class="list-group-item" href="#/mediadetails" ng-show="PermissionService.showMenu('READ_MEDIAASSET')">
-	      <h4 class="list-group-item-heading"><i class="icon-film icon-large"></i>&nbsp;&nbsp;Media Details</h4>
-	      <p class="list-group-item-text">Manage various Media Asset Information</p>
-	    </a>
-	    <a class="list-group-item" href="#/event" ng-show="PermissionService.showMenu('READ_EVENT')">
-	      <h4 class="list-group-item-heading"><i class="icon-eye-open icon-large"></i>&nbsp;&nbsp;Event & Pricing</h4>
-	      <p class="list-group-item-text">Define the Media Asset and it's Pricing</p>
-	    </a>
-	       <a class="list-group-item" href="#/services" ng-show="PermissionService.showMenu('READ_SERVICE')">
+	      <a class="list-group-item" href="#/services" ng-show="PermissionService.showMenu('READ_SERVICE')">
 	      <h4 class="list-group-item-heading"><i class="icon-large icon-cogs"></i>&nbsp;&nbsp;Services</h4>
 	      <p class="list-group-item-text">Define various types of Services</p>
 	    </a>
-	     <a class="list-group-item" href="#/plans" ng-show="PermissionService.showMenu('READ_PLAN')">
+	    <a class="list-group-item" href="#/plans" ng-show="PermissionService.showMenu('READ_PLAN')">
 	      <h4 class="list-group-item-heading"><i class="icon-certificate icon-large"></i>&nbsp;&nbsp;Plan & Pricing</h4>
 	      <p class="list-group-item-text">Define Plans for customers service</p>
 	     </a>
-	     
 	     <a class="list-group-item" href="#/addons">
 	      <h4 class="list-group-item-heading"><i class="icon-gift icon-large"></i>&nbsp;&nbsp;Add Ons</h4>
 	      <p class="list-group-item-text">Define Optional services to the Plan</p>
@@ -89,7 +78,14 @@
 	      <h4 class="list-group-item-heading"><i class="icon-book icon-large"></i>&nbsp;&nbsp;Fee Master</h4>
 	      <p class="list-group-item-text">Operators charge some additional fees to customer for the additional services rendered</p>
 	     </a>
-	       
+	     <a class="list-group-item" href="#/mediadetails" ng-show="PermissionService.showMenu('READ_MEDIAASSET')">
+	      <h4 class="list-group-item-heading"><i class="icon-film icon-large"></i>&nbsp;&nbsp;Media Details</h4>
+	      <p class="list-group-item-text">Manage various Media Asset Information</p>
+	    </a>
+	    <a class="list-group-item" href="#/event" ng-show="PermissionService.showMenu('READ_EVENT')">
+	      <h4 class="list-group-item-heading"><i class="icon-eye-open icon-large"></i>&nbsp;&nbsp;Event & Pricing</h4>
+	      <p class="list-group-item-text">Define the Media Asset and it's Pricing</p>
+	    </a>  
 	    <!-- <a class="list-group-item" href="#/currconfig" ng-show="PermissionService.showMenu('READ_CURRENCY')">
 	      <h4 class="list-group-item-heading"><i class="icon-large icon-cogs"></i>&nbsp;&nbsp;Currency Configuration</h4>
 	      <p class="list-group-item-text">Currencies available across organization for different products</p>

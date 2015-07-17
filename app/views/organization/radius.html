@@ -9,11 +9,35 @@
 	<tabset style="margin-bottom: 0px;"> 
 	<tab heading="{{'tab.nas' | translate}}" select="getNas()">
 	<div class="pull-right">
-		<a href="#/createNas" class="btn btn-primary"><i class="icon-plus icon-white"></i>{{ 'link.create.new.nas' | translate }}</a>
+		<a href="#/createNas/{{radiusVersion}}" class="btn btn-primary"><i class="icon-plus icon-white"></i>{{ 'link.create.new.nas' | translate }}</a>
 	</div>
 	<div>
 		<input data-ng-model="filterText" type="text" class="span marginbottom0px" placeholder="Enter text to search"> <br>
-		<table class="table">
+		<table class="table" data-ng-if="radiusVersion=='version-1'">
+			<thead>
+				<tr class="graybg">
+					<th>{{'label.heading.shortname' | translate }}</th>
+					<th>{{'label.heading.ip' | translate}}</th>
+					<th>{{'lable.heading.secret' | translate }}</th>
+					<th>{{'lable.heading.description' | translate }}</th>
+					<th>{{'table.heading.actions' | translate}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="pointer-main" data-ng-repeat="nasData in nasDatas | filter:filterText">
+					<td>{{nasData.shortname}}</td>
+					<td>{{nasData.nasname}}</td>
+					<td>{{nasData.secret}}</td>
+					<td>{{nasData.description}}</td>
+					<td>
+                    	<a data-ng-click="deleteNas(nasData.id)" data-popover="{{'label.nas.message' | translate}}" data-popover-trigger="mouseenter">
+                    		<i class="icon-remove icon-white"></i>
+                    	</a> 
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<table class="table" data-ng-if="radiusVersion=='version-2'">
 			<thead>
 				<tr class="graybg">
 					<th>{{ 'table.heading.shortName' | translate }}</th>

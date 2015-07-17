@@ -315,7 +315,7 @@
       
       scope.getAllProvisioningDetails = function (orderNo) {
           
-          
+          scope.orderNumber = orderNo;
           resourceFactory.provisioningtemplateMappingResource.query({orderNo:orderNo} , function(data) {
               scope.provisioningdatas = data;
               scope.sentMessagesData = [];
@@ -479,12 +479,13 @@
             		this.formData = {};
             	}
             	  resourceFactory.confirmProvisioningDetailsResource.update({'provisioningId':scope.provId},{},function(data){
-            		resourceFactory.getSingleOrderResource.get({orderId: routeParams.id} , function(data) {
+            		/*resourceFactory.getSingleOrderResource.get({orderId: routeParams.id} , function(data) {
                         scope.orderPriceDatas= data.orderPriceData;
                         scope.orderHistorydata=data.orderHistory;
                         scope.orderData=data.orderData;
                     });
-            		location.path('/vieworder/'+routeParams.id+"/"+scope.clientId);
+            		location.path('/vieworder/'+routeParams.id+"/"+scope.clientId);*/
+            		  scope.getAllProvisioningDetails(scope.orderNumber);
                     $modalInstance.close('delete');
                 },function(errData){
 	        		$scope.flagApproveReconnect = false;
@@ -577,7 +578,8 @@
         	            
         	        },function(renewalErrorData){
         	      	  $scope.flagOrderRenewal=false;
-        	        	$scope.renewError = renewalErrorData.data.errors[0].userMessageGlobalisationCode;
+        	        	//$scope.renewError = renewalErrorData.data.errors[0].userMessageGlobalisationCode;
+        	        	//$scope.errorArg = renewalErrorData.data.errors[0].args;
         	        });
         	  };
         	  $scope.cancelRenewal = function(){

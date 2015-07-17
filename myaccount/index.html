@@ -31,17 +31,6 @@
     <div data-ng-hide="isLandingPage || currentSession.user != null" data-ng-cloak >
       <div class="container well margintop20" style="height: 580px;margin-bottom: 0;">
         <div class="row form-search paddedbottom" >
-       <!--  <div id="header" style="padding:15px 10px 18px 15px;-webkit-box-shadow: 0 6px 4px -4px #BABABA;box-shadow: 0 6px 4px -4px #BABABA;">
-			<div class="pull-left" style="margin: 0px 0px;background:#fff;">
-				<img src="../images/logo.png" alt="Billing">
-			</div> 
-			<div id="lang-ch" class="dropdown pull-right colorwhite" style="margin-top:8px;margin-right:10px;">{{ 'label.change.language' | translate }}
-			  <a class="dropdown-toggle btn btn-primary ">{{localeLang.name}}<i class="icon-sort-down"></i></a>
-			  <ul class="dropdown-menu"><li data-ng-repeat="lang in langs">
-					<a data-ng-click="changeLang(lang)">{{lang.name}}</a></li>
-			  </ul>
-			</div> 
-		</div> -->
 		<div>
 		<table class="fullwidth" id="header" style="-webkit-box-shadow: 0 6px 4px -4px #BABABA;box-shadow: 0 6px 4px -4px #BABABA;">
 		  <tr>
@@ -72,7 +61,6 @@
            <tr><td colspan="2">
          	    <table class="fullwidth"><tr>
          	    	<td width="57%" class="paddingleftnone paddingleft7"><h2><span class="indexheader-span fontsize22">{{'label.signup.newuser' | translate}}</span></h2></td>
-         	    	<!-- <td width="25%" align="right" style="padding-right:20px;"><h2><span >{{'label.or' | translate}}</span></h2></td> -->
          	    	<td class="paddingleftnone"><h2><span class="indexheader-span fontsize22">{{'label.login.existuser' | translate}}</span></h2></td>
          	    </tr></table></td>
            </tr>
@@ -121,11 +109,11 @@
 					   		   <tr>
 						   		 <td><i class="icon-user lightbluecolor"></i><br><br></td>
 						   		 <td><input data-ng-autofocus="true" type="text" data-ng-model="loginCredentials.username" class="input-xtra-large" 
-					   					data-ng-disabled="signInProcessLoading" placeholder="{{'label.email' | translate}}" required><br><br></td>
+					   					data-ng-disabled="signInProcessLoading" placeholder="{{'label.email' | translate}}"><br><br></td>
 				   			   <tr>
 				   				<td><i class="icon-key lightbluecolor"></i></td>
 				   				<td><input id="pwd"  type="password" data-ng-model="loginCredentials.password"  class="input-xtra-large"
-				           			data-ng-disabled="signInProcessLoading" placeholder="{{ 'label.password' | translate }}" required></td></tr>
+				           			data-ng-disabled="signInProcessLoading" placeholder="{{ 'label.password' | translate }}"></td></tr>
 				           		</table>
 				           		<div class="pull-right forgotpwd" data-ng-click="forgotPwdPopup()"><a>{{'label.forgot.password' | translate}}</a></div>
 				           		 <button type="submit"  class="btn btn-primary loginbtn " data-ng-hide="isProcessing" data-ng-click="login()">
@@ -141,17 +129,21 @@
 		  </table>
 		 </div>
 	   </div>
+	   
 	 <!--  <span class="pull-right" style="padding-right:325px;margin-top:-25px;">Thor Telecom - Dalvegur 16b - 201 Kópavogur - Sími 5 100 500 -
 	    <a  style="color:#007fff;" href="http://thortelecom.is" target="_blank">http://thortelecom.is/</a></span> -->
+	  <!-- <span class="pull-right" style="padding-right:212px;margin-top:-25px;">Thor Telecom – Avda. Antonio Pedrera Soler Local 20 – 03619 Algorfa (Alicante) – Tlf. 966 111 676 -
+            <a  style="color:#007fff;" href="http://thortelecom.is" target="_blank">http://thortelecom.com</a></span> -->
 	</div>
 	<div data-ng-class="{fullscreen:true,blockui:blockUI==true}" id="main" data-ng-cloak data-ng-hide="currentSession.user == null">
 		 <div class="navbar navbar-fixed-top container">
 	        <div class="navbar-inner" >
 	            <div class="container">
-	                <a class="brand" style="margin: 0px 0px;background:#fff;""><img src="../images/logo.png" alt="SelfCare" width="50px;"></a>
+	                <a class="brand" style="margin: 0px 0px;background:#fff;"><img src="../images/logo.png" alt="SelfCare" width="50px;"></a>
 	                <div class="nav-collapse collapse" id="main-menu" style="float:right;">
 	                    <ul class="nav" id="main-menu-left" data-ng-hide="isRegClientProcess">
 	                     <li><a href="#/profile" data-ng-class="{ activate: isActive('/profile') }"><i class="icon-user icon-white"></i>{{'label.profile' | translate}}</a></li>
+	                     <li><a data-ng-click="redeemFun()" data-ng-hide="!isRedemptionConfig"><i class="icon-gift icon-white icon-large"></i>{{'label.redeem' | translate}}</a></li>
 	                     <li><a href="#/services" data-ng-class="{ activate: isActive('/services') }"><i class="icon-list icon-white"></i>{{'label.services' | translate}}</a></li>
                          <li><a href="#/events" data-ng-class="{ activate: isActive('/events') }"><i class="icon-list icon-white"></i>{{'label.ondemands'|translate}}</a></li>
                          <li><a href="#/statements" data-ng-class="{ activate: isActive('/statements') }"><i class="icon-file icon-white"></i>{{'label.bill.statements' | translate}}</a></li>
@@ -196,6 +188,9 @@
 	    </div>
 	       <!-- <span class="pull-right" style="padding-right:325px;margin-top:-80px;">Thor Telecom - Dalvegur 16b - 201 Kópavogur - Sími 5 100 500 - <a  style="color:#007fff;" href="http://thortelecom.is" target="_blank">http://thortelecom.is/</a>
 	    </span> -->
+	    <!-- <span class="pull-left" style="padding-left:18%;margin-top:-25px;">Thor Telecom – Avda. Antonio Pedrera Soler Local 20 – 03619 Algorfa (Alicante) – Tlf. 966 111 676 -
+			 <a  style="color:#007fff;" href="http://thortelecom.is" target="_blank">http://thortelecom.com</a>
+        </span> -->
     </div>
       <script type="text/ng-template" id="forgotpwdpopup.html">
                     <div class="modal-header silver">
@@ -211,13 +206,13 @@
                        	<div class="control-group">
 							<label class="control-label">{{'label.emailid' | translate}}&nbsp;:<span class="required">*</span></label>
 							<div class="controls">
-							   <input type="email" id="email" ng-model="emailData.email" required/>
+							   <input type="email" id="email" ng-model="email" required/>
 							</div>	
 						</div>
                     </div>
 					<div class="modal-footer" ng-hide="isProcessing">
                         <button id="cancel" class="btn btn-warning" ng-click="reject()">{{'btn.cancel' | translate}}</button>
-                        <button id="submit" class="btn btn-primary" ng-disabled="!forgotForm.$valid" ng-click="accept(emailData.email)" >{{'label.confirm' | translate}}</button>
+                        <button id="submit" class="btn btn-primary" ng-disabled="!forgotForm.$valid" ng-click="accept(email)" >{{'label.confirm' | translate}}</button>
                     </div>
 					<div class="modal-footer" ng-show="isProcessing">
 						<span class="btn">{{'label.pleasewait' | translate}}
@@ -254,10 +249,38 @@
 			   </table> 
 			</div>
           </div>
-		<div class="modal-footer">
+		 <div class="modal-footer">
            <a id="submit" class="btn btn-primary" ng-click="approve()">{{'btn.done' | translate}}</a>
-          </div>
+         </div>
       </script>
+      <script type="text/ng-template" id="redemptionpop.html">
+    	<div class="modal-header silver">
+        	<h3 class="bolder">{{'label.redeem' | translate}}</h3>
+        </div>
+        <div class="modal-body" style="height:100px;">
+		  <form name="redeemFormPopup" novalidate>
+            <div class="control-group">
+            	<label class="control-label">{{ 'label.voucher.number'| translate }}<span class="required">&nbsp;*</span></label>
+                <div class="controls">
+                	 <input type="text" id="pinNumber" data-ng-autofocus="true" ng-model="formData.voucherNumber" placeholder= "{{ 'placeholder.enter.voucher.number' | translate }}"
+							data-ng-onblur="voucherNumberValidationFun(formData.voucherNumber)" required data-late-Validate><br/>
+				     <small class="error" data-ng-show="isInValidVoucher">{{'error.invalid.voucher'|translate}}</small> 
+   	                 <small class="error" data-ng-show="isDateExpired">{{'error.voucher.dateexpiry'|translate}}</small>
+					 <small class="error">{{voucherError | translate}}</small>
+                </div>
+            </div>
+		  </form>
+        </div>
+        <div class="modal-footer" ng-hide="isProcessing">
+        	<button id="cancel" class="btn" ng-click="cancel()">{{'btn.cancel' | translate}}</button>
+            <button id="submit" class="btn btn-primary" ng-click="confirm(formData.voucherNumber)" ng-disabled="!redeemFormPopup.$valid">{{'label.confirm' | translate}}</button>
+        </div>
+		<div class="modal-footer" ng-show="isProcessing">
+			<span class="btn">{{'label.pleasewait' | translate}}
+				<i class="icon-refresh icon-spin"></i>
+			</span>
+		</div>
+	</script>
       
 </body>
 </html>

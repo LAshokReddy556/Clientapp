@@ -12,7 +12,7 @@
         
         scope.submit = function() {   
             resourceFactory.employeeResource.save(this.formData,function(data){
-                location.path('/viewemployee/' + data.resourceId);
+                location.path('/employees');
           });
         };
     }

@@ -60,6 +60,7 @@
 
 		            scope.itemDatas = data.itemDatas;
 		            scope.contractPeriods = data.contractPeriods;
+		            
 		        }); 
 	        
 	        
@@ -123,6 +124,7 @@
 		        		   scope.formData.chargeCode = data.chargeCode;
 		        		   scope.formData.unitPrice = data.unitPrice;
 		        		   scope.formData.quantity = "1";
+		        		  // scope.formData.amount = data.feeMasterData[0].defaultFeeAmount;
 		        	   }
 		        	});
 	        	}

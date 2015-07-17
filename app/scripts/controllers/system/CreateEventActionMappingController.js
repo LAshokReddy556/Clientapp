@@ -16,7 +16,7 @@
       
         scope.submit = function() {
             resourceFactory.EventActionMappingResource.save(this.formData, function(data){
-            		location.path('/vieweventactionmapping/'+ data.resourceId);
+            		location.path('/mappingconfig');
             });
         };
     }

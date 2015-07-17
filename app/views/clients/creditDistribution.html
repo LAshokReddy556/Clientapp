@@ -122,7 +122,7 @@
         	<tbody>
             	 <tr data-ng-repeat="invoiceData in invoiceDatas" >
            			
-            		<td> <input id="{{invoiceData.id}}" class="unCheck" type="checkbox" data-ng-model="active" data-ng-change="selectedInvoices(invoiceData.id,invoiceData.dueAmount,active,$index)"></td>
+            		<td> <input id="{{invoiceData.id}}" class="unCheck" type="checkbox" data-ng-model="invoiceData.active" data-ng-change="selectedInvoices(invoiceData.id,invoiceData.dueAmount,invoiceData.active,$index)"></td>
                 	<td>{{invoiceData.billDate | DateFormat}}</td>
                 	<td>{{invoiceData.amount}}</td>
                 	<td>{{invoiceData.dueAmount}}</td>
@@ -143,7 +143,7 @@
                         <h3 class="bolder">Warning</h3>
                     </div>
                     <div class="modal-body" modal-middle>
-                       <i class="icon-warning-sign error"></i>Available amount is zero.
+                       <i class="icon-warning-sign error"></i>After Distribution Available amount  <span style='color:blue;font-size:15px;'> ZERO</span>
                     </div>
                     <div class="modal-footer">
 						<button class="btn btn-primary" ng-click="approve()">ok</button>

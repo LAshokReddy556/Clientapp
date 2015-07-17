@@ -66,7 +66,7 @@
 			  this.formData.addons=scope.addonServices;
 			  scope.addonServices=[];
 			  resourceFactory.addonsResource.save(this.formData,function(data){
-				  location.path('/viewaddon/' + data.resourceId);
+				  location.path('/addons');
         });
 		  };
 		  

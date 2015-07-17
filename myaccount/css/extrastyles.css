@@ -19,7 +19,7 @@
     font-weight: bold;
     margin: 0;
     padding: 4px;
-    text-align: center;
+    text-align: left;
     text-transform: uppercase;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
@@ -81,6 +81,10 @@
 
 .packbox6 ul li.noneli:before{
 	content: " ";
+}
+
+.packbox6 ul li.nonecontent:before {
+	content: none;
 }
 
 /* input[type=radio].css-checkbox {

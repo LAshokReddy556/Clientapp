@@ -8,9 +8,6 @@ selfcareApp.config(function($routeProvider, $locationProvider) {
     .when('/orderbookingscreen/:screenName/:clientId/:planId/:priceId', {
     	templateUrl: 'views/orderbookingscreen.html'
     })
-    .when('/eventdetailspreviewscreen', {
-    	templateUrl: 'views/eventdetailspreviewscreen.html'
-    })
     .when('/profile', {
         templateUrl: 'views/profile.html'
     })
@@ -26,9 +23,6 @@ selfcareApp.config(function($routeProvider, $locationProvider) {
     .when('/changepwd', {
         templateUrl: 'views/changepassword.html'
     })
-    .when('/additionalorders/:clientId', {
-    	templateUrl: 'views/additionalorders.html'
-    })
     .when('/addevents', {
 	    templateUrl: 'views/addevents.html'
 	})
@@ -38,13 +32,13 @@ selfcareApp.config(function($routeProvider, $locationProvider) {
     .when('/services', {
     	templateUrl: 'views/services.html'
 	})
-	.when('/kortaintegration',{
+	.when('/kortaintegration/:price',{
     	templateUrl: 'views/kortaintegration.html'
     })
     .when('/kortasuccess/:screenName/:planId/:priceId',{
     	templateUrl: 'views/kortasuccess.html'
     })
-    .when('/kortatokenintegration',{
+    .when('/kortatokenintegration/:price',{
     	templateUrl: 'views/kortatokenintegration.html'
     })
     .when('/changekortatoken',{
@@ -71,12 +65,6 @@ selfcareApp.config(function($routeProvider, $locationProvider) {
     .when('/neteller/:clientId',{
     	templateUrl: 'views/neteller.html'
     })
-    .when('/changeorder/:clientId/:orderId',{
-    	templateUrl: 'views/changeorder.html'
-    }) 
-    .when('/renewalorder/:clientId/:planId/:orderId', {
-    	templateUrl: 'views/renewalorder.html'
-    })
     .when('/internalpayment/:screenName/:clientId/:planId/:priceId/:amount',{
     	templateUrl: 'views/internalpayment.html'
     })
@@ -89,10 +77,10 @@ selfcareApp.config(function($routeProvider, $locationProvider) {
     .when('/interswitchintegration/:screenName/:clientId/:planId/:priceId/:amount/:productId/:payItemId',{
     	templateUrl: 'views/interswitchintegration.html'
     })
-     .when('/paypalrecurring/:screenName/:clientId/:planId/:priceId/:price/:emailId/:contractId',{
+     .when('/paypalrecurring',{
     	templateUrl: 'views/paypalrecurring.html'
     })
-    .when('/paypalrecurringsuccess/:screenName/:clientId/:planId/:priceId',{
+    .when('/paypalrecurringsuccess/:screenName/:clientId/:planId/:priceId/:orderId',{
     	templateUrl: 'views/paypalrecurringsuccess.html'
     })
     .when('/paypalredirection',{
@@ -101,8 +89,14 @@ selfcareApp.config(function($routeProvider, $locationProvider) {
     .when('/events',{
     	templateUrl: 'views/events.html'
     })
-    .when('/editprofile/:clientId/:isConfigNationalId',{
+    .when('/editprofile/:clientId',{
     	templateUrl: 'views/editprofile.html'
+    })
+    .when('/evointegration',{
+    	templateUrl: 'views/evointegration.html'
+    })
+    .when('/evosuccess',{
+    	templateUrl: 'views/evosuccess.html'
     });
        
     $locationProvider.html5Mode(false);

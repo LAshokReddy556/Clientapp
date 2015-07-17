@@ -1,23 +1,20 @@
-KortaTokenController = function(scope, routeParams, location, localStorageService,$timeout) {
+KortaTokenController = function(scope, routeParams, location, localStorageService,$timeout,rootScope) {
 		  
 		  //values getting form constants.js file
-		  var kortaServer 			= selfcareModels.kortaServer;
-		  var kortaAmountField 		= selfcareModels.kortaAmountField;
-		  var kortaclientId			= selfcareModels.kortaclientId;
-		  var kortaTokenValue 		= selfcareModels.kortaTokenValue;
-		  var encrytionKey 			= selfcareModels.encriptionKey;
+		  var 	kortaServer 		= selfcareModels.kortaServer,
+		  		kortaAmountField 	= selfcareModels.kortaAmountField,
+		  		kortaclientId		= selfcareModels.kortaclientId,
+		  		kortaTokenValue 	= selfcareModels.kortaTokenValue,
+		  		encrytionKey 		= selfcareModels.encriptionKey;
 		  scope.currency 			= selfcareModels.kortaCurrencyType;
-		  var langs 				= Langs;
-		  var temp 					= localStorageService.get('localeLang')||"";
-		  scope.optlang 			= temp || selfcareModels.locale;
+		  scope.optlang 			= rootScope.localeLangCode;
 		  
-		  var encryptedData 		= location.search().key;
-		  
-		  var decryptedData 		= CryptoJS.AES.decrypt(encryptedData, encrytionKey).toString(CryptoJS.enc.Utf8);
-      	  var kortaStorageData 		= JSON.parse(decodeURIComponent(decryptedData));
-      	  var clientData 			= kortaStorageData.clientData || "";
-      	  var paymentGatewayValues 	= kortaStorageData.paymentGatewayValues || "";
-      	  var planData 				= kortaStorageData.planData || "";
+		  var encryptedData 		= location.search().key,
+		      decryptedData 		= CryptoJS.AES.decrypt(encryptedData, encrytionKey).toString(CryptoJS.enc.Utf8),
+		      kortaStorageData 		= angular.fromJson(decodeURIComponent(decryptedData)),
+		      clientData 			= kortaStorageData.clientData || "",
+		      paymentGatewayValues 	= kortaStorageData.paymentGatewayValues || "",
+		      planData 				= kortaStorageData.planData || "";
 		  
 		  var clientId 				= clientData.id;
 		  scope.fullName 			= clientData.displayName || "";
@@ -28,7 +25,7 @@ KortaTokenController = function(scope, routeParams, location, localStorageServic
 		  scope.country 			= clientData.country;
 		  scope.mobileNo 			= clientData.phone;
 		  
-		  scope.amount 				= planData.price;
+		  scope.amount 				= routeParams.price;
 		  scope.description 		= planData.planCode;
 		  scope.kortaMerchantId 	= paymentGatewayValues.merchantId;
 		  scope.kortaTerminalId 	= paymentGatewayValues.terminalId;
@@ -43,9 +40,7 @@ KortaTokenController = function(scope, routeParams, location, localStorageServic
 			  encryptData[kortaclientId] 		= clientId;			encryptData.locale 				= scope.optlang; 
 			  encryptData.email 				= scope.emailId;
 			  
-			  var encodeURIComponentData = encodeURIComponent(JSON.stringify(encryptData));
-			  
-			  var encrytedSearchStr = CryptoJS.AES.encrypt(encodeURIComponentData, encrytionKey).toString();
+			  var encrytedSearchStr = CryptoJS.AES.encrypt(encodeURIComponent(JSON.stringify(encryptData)), encrytionKey).toString();
 			  
 			  scope.downloadurl = selfcareModels.additionalKortaUrl+"/"+kortaStorageData.screenName+"/"+kortaStorageData.planId+"/"+planData.id+"" +
 			  						"?key="+encrytedSearchStr+"&";
@@ -75,4 +70,5 @@ selfcareApp.controller('KortaTokenController', ['$scope',
                                                 '$location', 
                                                 'localStorageService', 
                                                 '$timeout', 
+                                                '$rootScope', 
                                                 KortaTokenController]);

@@ -21,6 +21,8 @@
         scope.products = [];
         scope.restrictedProducts =[];
         scope.start.date = new Date();
+        scope.minDate = new Date();
+        scope.minendDate = new Date();
      
         resourceFactory.planTemplateResource.get(function(data) {
         	
@@ -38,7 +40,16 @@
               status :scope.planStatus[0].id
             };
         });
-        
+        scope.$watch('start.date', function() {
+    	    scope.doSomething();  
+    	});
+       scope.doSomething =function(){
+    	   scope.minendDate=scope.start.date;
+    	   if(scope.end.date){
+    		   if(new Date(scope.start.date) > new Date(scope.end.date))
+    			   scope.end.date = scope.start.date;
+    	   }
+       };
       
         scope.restrict = function(){
             for(var i in this.allowed)
@@ -92,7 +103,7 @@
              }
              scope.formData.services = temp;
             resourceFactory.planResource.save(this.formData,function(data){
-            		location.path('/viewplan/' + data.resourceId);
+            		location.path('/plans');
           });
         };
     }

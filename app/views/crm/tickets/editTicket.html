@@ -89,6 +89,29 @@
 				</td>
 			</tr>
 			<tr>
+				<td>
+					<div class="control-group">
+						<label class="control-label" for="Category"> {{'label.ticket.category' | translate }}<span class="required">*</span></label>
+						<div class="controls">
+							<select name="category" ng-model="formData.problemCode"
+								ng-options="problemsData.id as problemsData.mCodeValue for problemsData in problemsDatas"
+								value="{{problemsData.problemCode}}" required late-Validate></select>
+						</div>
+					</div>
+				</td>
+				<td>
+					<div class="control-group">
+						<label class="control-label" for="priority">{{'label.ticket.priority' | translate }}<span class="required">*</span></label>
+						<div class="controls">
+							<select name="priority" ng-model="formData.priority"
+								ng-options="priorityType.value as priorityType.value for priorityType in priorityTypes"
+								value="{{priorityType.value}}" required late-Validate></select>
+						
+						</div>
+					</div>
+				</td>
+			</tr>
+			<tr>
 				<td colspan="2"><div class="control-group">
 						<label style="margin-top:15px;" class="control-label" for="description"> {{
 							'label.ticket.comments' | translate }}</label>

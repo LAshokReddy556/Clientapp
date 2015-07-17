@@ -110,6 +110,10 @@
  	"label.read.agreement"		: "Read and accept the following agreement to continue.", 
  	"label.passport"			: "Passport", 
  	"label.autorenew"			: "Is Auto Renew", 
+ 	"label.nopacks.available"	: "Sorry... No Packs Available",
+ 	"label.thankyou.msg"		: "Thank You,Choosing this pack",
+ 	"label.verify.recurringmsg.payment"	: "To complete the action of book this pack,a confirmation is needed from paypal.",
+ 	"label.verify.recurringmsg.waitmsg"	: "Please.. wait till that confirmation reached.",
  	
  	"label.signup.newuser"			   			: "Signup new user ",
  	"label.or"			   						: " - or - ",
@@ -129,11 +133,13 @@
  	"header.plan.name"		 		 : "Plan Name",
  	"header.contract.period" 		 : "Contract Period",
  	"header.price" 					 : "Price",
+ 	"header.finalprice"				 : "Final Price",
  	"header.packages" 				 : "Packages",
  	"header.current.plan" 			 : "Current Plan",
  	"header.change.plan" 			 : "Change Plan",
  	"header.action"				 	 : "Action",
  	"header.actions"			 	 : "Actions",
+ 	"header.contract.billingfrequency" : "Billing Frequency",
  	
  	"#errors " : "------------------------------------",
  	"error.login.failed"						:"Please try again, your credentials are not valid",
@@ -177,6 +183,7 @@
  	"placeholder.enter.serialnumber"		: "Enter Serial Number",
  	"placeholder.enter.text.search"			: "Search",
  	"placeholder.enter.passport"			: "Enter Passport",
+ 	"placeholder.enter.voucher.number"		: "Enter Voucher Number",
  	
  	
  	"#common labels " : "------------------------------------",
@@ -185,6 +192,7 @@
  	"label.city"					: "City",
  	"label.address"					: "Address",
  	"label.home.address"			: "Home Address",
+ 	"label.current.password"		: "Current Password",
  	"label.new.password"			: "New Password",
  	"label.confirm.password"		: "Confirm Password",
  	"dialog.confirm.message"		: "Are you sure?",
@@ -256,7 +264,7 @@
 	 "table.header.plan" 					: "Plan",
 	 "table.header.contractperoid" 			: "Contract Period",
 	 "table.header.activationdate" 			: "Activation Date",
-	 "table.header.start/renewaldate" 		: "Start/Renewal Date",
+	 "table.header.start/renewaldate" 		: "Start Date",
 	 "table.header.enddate" 				: "End Date",
 	 "table.header.price" 					: "Price",
 	 "table.header.status" 					: "Status",
@@ -279,6 +287,10 @@
 	 "table.header.order.servicecode"		: "Service Code",
 	 "table.header.order.servicedescription": "Service Description",
 	 "table.header.order.servicetype"		: "Service Type",
+	 "label.prepaid"						: "Prepaid",
+	 "label.postpaid"						: "Postpaid",
+	 "label.contract.selection"				: "Contract Selection",
+	 "label.contract.period"				: "Contract Period",
 	 
 	 
 	  "#ListofVODSResources "	 :"------------------------------------",
@@ -354,7 +366,49 @@
 	 
 	 
 	 "#EditProfileResouces" :"------------------------------------",
-	 "label.edit.profile"								: "Edit Profile",
+	 "label.edit.profile"		       : "Edit Profile",
+	 "label.edit.info"				   : "Edit Info",
+	 
+	 "#additionalinfo"  :  "--------------------------",
+	 "link.additionalinfo" 		 		: "Client Additional Info",
+ 	 "label.client.gender"				: "Gender",
+ 	 "label.client.nationality"			: "Nationality",
+ 	 "label.client.jobtitle"			: "Job Title",
+ 	 "label.client.dateofbirth"			: "Date Of Birth",
+ 	 "label.client.preferlanguage"		: "Prefer Language",
+ 	 "label.client.remarks"				: "Remarks",
+ 	 "label.client.identificationtype"	: "Identification Type",
+ 	 "label.client.identificationnumber": "Identification Number",
+ 	 "label.client.agegroup"			: "Age Group",
+ 	 "label.client.utscustomerid"		: "UTS Customer Id",
+ 	 "label.client.financeid"			: "Finance Id",
+ 	 "label.client.preferredcommunication": "Preferred Communication",
+	 
+	 "#EvoPaymentGatewayResources" :"------------------------------------",
+	 "label.evo.review.cart"		 : "Review Cart",
+	 "label.evo.billing.info"		 : "Billing Information",
+	 "label.evo.description"	 	 : "Description",
+	 "label.evo.unit.price"	 		 : "Unit Price",
+	 "label.evo.quantity"	 		 : "Quantity",
+	 "label.evo.numofitems"	 		 : "Number of Items",
+	 "label.evo.subtotal"	 		 : "Subtotal",
+	 "label.evo.current.total"	 	 : "Current Total ",
+	 "button.evo.continue.billinfo"	 : "Continue to Billing Information",
+	 "label.evo.fullname"	 		 : "Full Name",
+	 "label.evo.zipcode"	 		 : "Zip Code",
+	 "button.evo.continue.paymentmethod" : "Continue to Payment Method",
+	 
+	 
+	 "#RedemptionResources" :"------------------------------------",
+	 "label.voucher.number"			: "Voucher Number",
+	 "label.redeem"					: "Redeem",
+	 "validation.msg.redemption.clientId.cannot.be.blank"  : "Client Id cannot be blank",
+	 "validation.msg.redemption.pinNumber.cannot.be.blank" : "Voucher Number cannot be blank",
+	 "error.msg.client.id.invalid"						   : "Invalid Client Id",
+	 "error.invalid.voucher"							   : "Invalid Voucher Number",
+  	 "error.voucher.dateexpiry"							   : "Voucher Number Date Expired",
+  	 "error.msg.redemption.pinNumber.invalid"			   : "Invalid Voucher Number",
+  	 "error.msg.redemption.pinNumber.already.use"		   : "Voucher Number already used",
 	 
 	 
 	 "#Registration errors ":"-----------------------------------",
@@ -363,11 +417,14 @@
  "# common errors ":"....",
   "error.msg.billing.address.city.not.found"	    : "City Not Found",
   "error.internalPayment.invalidPin"				: "Invalid Voucher Pin :",
-  	
+  "error.plan.already.pending"						: "Existing Plan is already in pending state wait for complete action",
+  "error.msg.postpaid.billfrequency.less.than.contractperiod": "Bill Frequency must be less than Contract Period",
   
-  "error.msg.currency.duplicate.configuration"		:"Currency is already configured",
+  "error.msg.currency.duplicate.configuration"		: "Currency is already configured",
   "validation.msg.office.name.cannot.be.blank"		: "Office Name cannot be blank",
   "error.msg.not.authorized"						: "Insufficient privileges to perform this action.",
+  "error.msg.please.pair.hardware.with.plan"		: "Please pair hardware with plan.",
+  "error.msg.insufficient.amount.for.bookevent"		: "Insufficient Amount to Book The Event.",
 
   "#Admin users":"",
   "validation.msg.user.username.cannot.be.blank":"User Name cannot be blank",
@@ -478,9 +535,6 @@
   "validation.msg.eventorder.optType.cannot.be.blank":"Opt Type cannot be blank",
   "error.msg.movie.price.not.found":"No Price Found for This Client Type",
   "error.msg.insufficient.amount.amount":"Insufficient Amount to Book The Order",
-  
-  
-  
   
   
   "#chargecode":"....",
@@ -858,11 +912,6 @@
 "error.msg.ipaddress.already.allocated.please.select.another.iprange":"Ip addresses are already allocated.please select another ip range",
 "validation.msg.provisioning.IP_ADDRESS.cannot.be.empty":"Ip Address can not br blank",
 "validation.msg.null.statusType.cannot.be.blank":"Status Type cannot be blank",
-
-"#Redemption":".......",
-"validation.msg.redemption.clientId.cannot.be.blank":"Client id cannot be blank",
-"validation.msg.redemption.pinNumber.cannot.be.blank":"Pin Number cannot be blank",
-"error.msg.client.id.invalid":"Invalid Client Id",
 
 "#Add CreditCard":".....",
 

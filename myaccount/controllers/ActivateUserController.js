@@ -1,30 +1,25 @@
 ActivateUserController = function(scope,RequestSender,rootScope,routeParams,sessionManager,authenticationService,$modal,$filter) {
 
 		
-		rootScope.isRegClientProcess = true;
 		
-		//getting the mailId value form routeParams
-		  scope.existedEmail = routeParams.mailId;
-
 		//default variables for this controller
-		  scope.isAlreadyActive=false;
-		  scope.isRegPage = false;
+		  rootScope.isRegClientProcess = true;
 		  
 		//declaration of formData
 		  scope.formData = {};
 		  var configDeviceAgreeType = {};
 		  
-		//getting the key value form routeParams
-		  var actualKey = routeParams.registrationKey || "";
-		  var afterSliceKey = actualKey.slice(0, 27);
 		  
 		//function called when  clicking on Login link
 		  scope.goToSignInPageFun = function(){
 			  	rootScope.currentSession = sessionManager.clear();
 		   };
 		  
+		   //getting the key value form routeParams
+		   scope.existedEmail = routeParams.mailId || "";
+		   var actualKey = routeParams.registrationKey || "";
 		  //adding jsondata for selfcare activation updation request
-		  scope.registrationKey = {'verificationKey' : afterSliceKey,
+		  scope.registrationKey = {'verificationKey' : actualKey.slice(0, 27),
 		  	  						'uniqueReference' : scope.existedEmail};
 		  
 		  authenticationService.authenticateWithUsernamePassword(function(data){
@@ -40,15 +35,13 @@ ActivateUserController = function(scope,RequestSender,rootScope,routeParams,sess
 	  					  
 	  					//getting data from c_configuration for isRegister_plan and isisDeviceEnabled
 	  					 var configurationDatas = [];var registrationListing = {};
-	  					  RequestSender.configurationResource.get(function(data){
+	  					  RequestSender.configurationResource.get({tenant:selfcareModels.tenantId},function(data){
 
 	  						configDeviceAgreeType = JSON.parse(data.clientConfiguration);
 	  						scope.isConfigNationalId 	= configDeviceAgreeType.nationalId;
 	  							 registrationListing	= configDeviceAgreeType.registrationListing;
-	  						scope.isConfigPassport		= registrationListing.passport;
-	  						 if(scope.isConfigPassport == 'false'){
-	  							scope.formData.passport = "123456789";
-	  						 }
+	  						scope.isConfigPassport		= registrationListing.passport == 'true';
+	  						 if(!scope.isConfigPassport) scope.formData.passport = "123456789";
 	  						(configDeviceAgreeType.deviceAgrementType == 'SALE') ?
 									  scope.isCPE_TYPESale = true:
 								  (configDeviceAgreeType.deviceAgrementType == 'OWN') ?
@@ -58,26 +51,31 @@ ActivateUserController = function(scope,RequestSender,rootScope,routeParams,sess
 
 	  						configurationDatas = data.globalConfiguration;
 	  						  for(var i in configurationDatas){
-	  							 if(configurationDatas[i].name==selfcareModels.registerPlan){
+	  							 if(configurationDatas[i].name==selfcareModels.isRedemption){
 	  								 
-	  								  scope.isRegisteredPlan = configurationDatas[i].enabled;
+	  								  scope.isConfigRedeem = configurationDatas[i].enabled;
+	  								  if(!scope.isConfigRedeem) scope.voucherNumber = "A123";
 	  								  
-	  						      }else if(configurationDatas[i].name==selfcareModels.registrationRequiresDevice){
+	  						      }
+	  							  if(configurationDatas[i].name==selfcareModels.registrationRequiresDevice){
 	  						    	  
 	  								  scope.isDeviceEnabled = configurationDatas[i].enabled;
 	  								  
 	  							  }
 	  						  }
+	  						  
 	  					  });
 	  					});
 	
 		        },function(errorData){
-		      	  scope.isAlreadyActive=true;
+		      	 if(errorData.data.errors[0].userMessageGlobalisationCode == "error.msg.billing.generatedKey.already.verified"){
+		      		 scope.isAlreadyActive=true;
+         	  	  }
 		        });
 		  });
 		  
 		//national Id validation
-		      scope.nationalIdvalue = true;
+		     scope.nationalIdvalue = true;
 			 scope.nationalIdValidationFun = function(id){
 				 if(id){
 				 scope.nationalIdvalue = Kennitala.validate(id);
@@ -195,15 +193,39 @@ ActivateUserController = function(scope,RequestSender,rootScope,routeParams,sess
       	    		             {'name' : 'title.login.msg'}]
       	    	      });
       		
-      		$scope.approve = function () { 
-      			
-      			$modalInstance.dismiss('cancel');
-      		 };
-		   } 
+		      		$scope.approve = function () { 
+		      			
+		      			$modalInstance.dismiss('cancel');
+		      		 };
+			  	} 
+			 var valid = false;
+			 scope.voucherNumberValidationFun = function(id){
+					 if(id){
+						 RequestSender.VoucherResource.query({pinNumber:id},function(data){
+							 if(data.length == 1){
+								 scope.isInValidVoucher = false;
+								 var expiryDate  = $filter('DateFormat')(data[0].expiryDate);
+								 var todayDate	 = $filter('DateFormat')(new Date());
+								 if (new Date(expiryDate) < new Date(todayDate)) {
+									 console.log(expiryDate);
+									 delete scope.voucherNumber;
+									 scope.isDateExpired = true;
+								 }else{
+									 scope.isDateExpired = false;
+								 }
+							 }else{
+								 scope.isDateExpired = false;
+								 scope.isInValidVoucher = true;
+								 delete scope.voucherNumber;
+								 scope.voucher = id;
+							 }
+							 valid = !scope.isInValidVoucher && !scope.isDateExpired; 
+						 });
+					 }
+				 };
 		  		
 			//function called when clicking on Register button in Registration Page
 			scope.registerBtnFun =function(){
-				
 				scope.clientData = {};
 				 //deviceNo added to form data when isDeviceEnabled true
 					 if(scope.formData.deviceNo){
@@ -215,18 +237,22 @@ ActivateUserController = function(scope,RequestSender,rootScope,routeParams,sess
 					 if((scope.formData.password) !=null){
 						 scope.clientData.password = scope.formData.password;
 					 }
-					 if(scope.isConfigPassport=='true'){
+					 if(scope.isConfigPassport){
 						 scope.clientData.passport = scope.formData.passport;
 					 }
-					 
-					 var name_array = new Array();
-					 name_array = (scope.formData.fullName.split(" "));
+					 if(scope.isConfigRedeem){
+						 scope.clientData.pinNumber = scope.voucherNumber;
+					 }
 			            
-			          scope.clientData.firstname = name_array[0];
-			          scope.clientData.fullname = name_array[1];
-			            if(scope.clientData.fullname == null){
+		            var name_array = new Array();
+					 name_array = (scope.displayName.split(" "));
+			            
+			          scope.clientData.firstname = name_array.shift();
+			          scope.clientData.fullname = name_array.join(' ');
+			            if(scope.clientData.fullname == ""){
 			            	scope.clientData.fullname=".";
 			            }
+				            
 					 scope.clientData.address 				= scope.formData.address;
 					 scope.clientData.nationalId			= scope.formData.nationalId;
 					 scope.clientData.zipCode 				= scope.formData.zipcode;
@@ -237,25 +263,23 @@ ActivateUserController = function(scope,RequestSender,rootScope,routeParams,sess
 					 
 					 rootScope.popUpMsgs = [];rootScope.infoMsgs = [];
 					 RequestSender.authenticationClientResource.save(scope.clientData,function(data){
-
-		  				if(scope.clientData.password) {
-		  					rootScope.currentSession = sessionManager.clear();
-		  					rootScope.infoMsgs.push({
-								  						'image' : '../images/info-icon.png',
-								  						'names' : [{'name' : 'title.account.activated'},
-								  						           {'name' : 'title.login.msg'}]
-								  					});
-		  				}else{
-		  					$modal.open({
-		  						templateUrl: 'messagespopup.html',
-		  						controller: approve,
-		  						resolve:{}
-		  					});
-		  				}
+							 
+							 if(scope.clientData.password) {
+								 rootScope.currentSession = sessionManager.clear();
+								 rootScope.infoMsgs.push({
+									 'image' : '../images/info-icon.png',
+									 'names' : [{'name' : 'title.account.activated'},
+									            {'name' : 'title.login.msg'}]
+								 });
+							 }else{
+								 $modal.open({
+									 templateUrl: 'messagespopup.html',
+									 controller: approve,
+									 resolve:{}
+								 });
+							 }
 		      	      
 					 });
-
-					
 		};
     };
     

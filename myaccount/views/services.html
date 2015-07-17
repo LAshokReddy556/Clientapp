@@ -7,91 +7,75 @@
             <div id="circularG_7" class="circularG"></div><div id="circularG_8" class="circularG"></div>
         </div>
     </div><br/>
+    <div class="error" data-ng-show="errorStatus || errorDetails">
+		<label>{{'label.contract.error' | translate}}</label>
+		<label data-ng-show="errorStatus">{{errorStatus}}</label>
+		<label data-ng-hide="errorStatus" data-ng-repeat="error in errorDetails">{{error.code | translate}}</label>
+    </div>
 	<div class="paddedbottom10 margintop10">
 		<div class="headersdiv" >
 		  <h3><b class="marginleft10">{{'link.orders'|translate}}</b></h3>
-		 </div><br/>
-		 <table class="fullwidth"><tr><td class="paddingleftnone">
+		 </div>
+		 <table class="fullwidth" style="margin-top: 5px;"><tr><td class="paddingleftnone" >
 		 <div>
-		 	<div class="marginleft10 lightbluecolor" data-ng-show="ordersData.length!=0">
+		 	<div class="marginleft10" data-ng-show="ordersData.length!=0" style="font-size: 20px;">
 		 		<strong>{{'label.currently.subscribed.Packs' | translate}}</strong>
 		 	</div>
-		 	<div style="height: 200px;overflow-y:auto;width:980px;" data-ng-show="ordersData.length!=0">
-		 	 <div class="packbox6"  data-ng-repeat="order in ordersData"  style="margin-bottom: 5px;">
+		 	<div style="height: 205px;overflow-y:auto;width:980px;" data-ng-show="ordersData.length!=0">
+		 	 <div class="packbox6"  data-ng-repeat="order in ordersData | orderBy:'-isPrepaid'"  style="margin-bottom: 5px;min-height: 185px;">
+				<div class="ribbon ribbon-small" data-ng-class="{ribbongreen : order.isPrepaid=='Y',ribbonred : order.isPrepaid=='N'}">
+					<div class="banner">
+						<div class="text">{{order.planType}}</div>
+					</div>
+				</div>
 		 		<h1 style="line-height: 25px;">{{order.planCode}}</h1>
 		 		<ul> <li>{{'table.header.contractperoid'|translate}} : <span>{{order.contractPeriod}}</span>
 						<a data-ng-click="viewOrder(order.id)" style="color:blue;"> ({{'label.view' | translate}}) </a></li>
-					<li><span style="padding: 0px; margin:0px;">{{'table.header.price'|translate}} : {{'label.price.symbol'|translate}} {{order.price }}</span></li>
-					<li>{{'table.header.activationdate'|translate}} : {{order.activeDate | DateFormat}}</li>
+					<li><span style="padding: 0px; margin:0px;">{{'table.header.price'|translate}} : {{order.price }}({{currencyCode}})</span></li>
 					<li>{{'table.header.start/renewaldate'|translate}} : {{order.startDate | DateFormat}}</li>
 					<li>{{'table.header.enddate'|translate}} : {{order.endDate | DateFormat}}</li>
 					<li>{{'table.header.status'|translate}} : <i class="icon-circle {{order.status | StatusLookup}}"></i>&nbsp;{{order.status}}</li>
 					<li class="noneli" data-ng-show="order.status == 'ACTIVE'"><strong class="lightbluecolor" >{{'label.wish.tochange'|translate}}</strong>
-					<input type="radio" name="packsel"  style="vertical-align: sub;" value="{{order.id}}" data-ng-click="packageSelectionFun(order.id,order.pdid,order.status,order.autoRenew)">
-					  <a data-popover="{{'label.uncheck'|translate}}" data-popover-trigger="mouseenter"><i class="icon-remove lightbluecolor" data-ng-show="order.id == selectedOrderId" data-ng-click="revertRadioBtnFun()"></i></a>
+					<input type="radio" name="packsel"  style="vertical-align: sub;" value="{{order.id}}" data-ng-click="activePackageSelectionFun(order.id,order.pdid,order.status,'prepaid')">
+					  <a data-popover="{{'label.uncheck'|translate}}" data-popover-trigger="mouseenter"><i class="icon-remove lightbluecolor" data-ng-show="order.id == selectedOrderId && (screenName=='changeorder')" data-ng-click="revertRadioBtnFun()"></i></a>
+					</li>
+					<li class="noneli" data-ng-show="order.status == 'ACTIVE' && order.autoRenew == 'N'"><strong class="lightbluecolor" >{{'label.wish.totopup'|translate}}</strong>
+					<input type="radio" name="packsel"  style="vertical-align: sub;" value="{{order.id}}" data-ng-click="disconnectedPackageSelectionFun(order.id,order.pdid,order.status,order.autoRenew,'prepaid')">
+					  <a data-popover="{{'label.uncheck'|translate}}" data-popover-trigger="mouseenter" ><i class="icon-remove lightbluecolor" data-ng-show="order.id == selectedOrderId && (screenName=='renewalorder')" data-ng-click="revertRadioBtnFun()"></i></a>
 					</li>
 					<li class="noneli" data-ng-show="order.status == 'DISCONNECTED'"><strong class="lightbluecolor" >{{'label.wish.totopup'|translate}}</strong>
-					<input type="radio" name="packsel"  style="vertical-align: sub;" value="{{order.id}}" data-ng-click="packageSelectionFun(order.id,order.pdid,order.status,order.autoRenew)">
-					  <a data-popover="{{'label.uncheck'|translate}}" data-popover-trigger="mouseenter" ><i class="icon-remove lightbluecolor" data-ng-show="order.id == selectedOrderId" data-ng-click="revertRadioBtnFun()"></i></a>
+					<input type="radio" name="packsel"  style="vertical-align: sub;" value="{{order.id}}" data-ng-click="disconnectedPackageSelectionFun(order.id,order.pdid,order.status,order.autoRenew,'prepaid')">
+					  <a data-popover="{{'label.uncheck'|translate}}" data-popover-trigger="mouseenter" ><i class="icon-remove lightbluecolor" data-ng-show="order.id == selectedOrderId && (screenName=='renewalorder')" data-ng-click="revertRadioBtnFun()"></i></a>
 					</li>
 				</ul>
 			   </div>
 			  </div>
 		   </div>
           </td></tr>
-		<!--  <tr><td class="paddingleftnone">
-		    <ul class="pager" style="margin:10px 0;">
-				<li class="previous"><a style="color:#3B3D42;" data-ng-click="ordersData.previous()" data-ng-disabled="!ordersData.hasPrevious()">&larr;{{'btn.previous'|translate}}</a></li>
-				<li class="next" ><a style="color:#3B3D42;" data-ng-click="ordersData.next()" data-ng-disabled="!ordersData.hasNext()">{{'btn.next'|translate}} &rarr;</a></li>
-	       </ul> 
-		 </td></tr> -->
 		 </table>
-		 <div class="marginleft10 lightbluecolor">
+		 <div class="marginleft10 " style="font-size: 18px;">
 		 	<strong data-ng-show="ordersData.length==0">{{'label.addpack.info' | translate}}</strong>
-		 	<div  data-ng-show="ordersData.length!=0&&plansData.length!=0">
+		 	<div  data-ng-show="ordersData.length!=0">
 		 		<strong data-ng-show="screenName == 'additionalorders'">{{'label.anotherpack.info' | translate}}</strong>
 		 		<strong data-ng-show="screenName == 'changeorder'">{{'label.changepack.info' | translate}}</strong>
 		 		<strong data-ng-show="screenName == 'renewalorder'">{{'label.topuppack.info' | translate}}</strong>
 		 	</div>
 		 </div>
-		 <div>
-		 <div style="height:430px;overflow-y:auto; ">
-		 	<div data-ng-repeat="plan in plansData track by $index" data-ng-show="plan.pricingData.length!=0"> 
-		 	  <div class="packbox6" style="height:210px;">
-				<h1 style="line-height: 25px;">{{plan.planCode}}</h1>
-				<ul style="margin: 0 0 0 0px;padding: 5px 2px 0px 2px;height:116px;">
-				<li data-ng-repeat="priceData in plan.pricingData track by $index">
-					<input type="radio" name="addPackRadio" style="vertical-align: sub;" data-ng-click="durationSelectionFun(priceData,plan.planId)">&nbsp;
-					<span style="font-size: 14px;">
-						<span >{{priceData.duration}}</span><span style="color:blue;">({{'label.price.symbol'|translate}}{{priceData.price}})</span>
-					</span>
-				</li>
-				</ul>
-				<table data-ng-show="screenName == 'additionalorders'||screenName == 'changeorder'" ><tr>
-					<td valign="top" style="padding-top: 0px;"><strong class="lightbluecolor">{{'label.autorenew'|translate}} :</strong></td>
-					<td><switch name="yesNo" ng-model="plan.autoRenew"  on="Yes" off="No" class="wide"></switch></td>
-					<!-- <td><input data-bs-switch type="checkbox" data-ng-model="autoRenew" 
-                               data-readonly="readonly" data-size="mini" data-on-color="success" data-off-color="danger"
-                               data-on-text="Yes" data-off-text="N0"></td> -->
-				</tr></table>
-				<button data-ng-show="plan.pricingData.length!=0 && screenName == 'additionalorders'" data-ng-click="checkingRecurringStatus(plan.autoRenew)"
-						class="btn btn-primary" style="margin-left: 15px;padding:1px 5px; "><i class="icon-plus icon-white"></i>
-					{{'btn.add.pack' | translate}}
-				</button>
-				<button data-ng-show="plan.pricingData.length!=0 && screenName == 'changeorder'" data-ng-click="checkingRecurringStatus(plan.autoRenew)"
-						class="btn btn-primary" style="margin-left: 15px; padding:1px 5px;"><i class="icon-retweet icon-white"></i>
-					{{'btn.change.pack' | translate}}
-				</button>
-				<button data-ng-show="plan.pricingData.length!=0 && screenName == 'renewalorder'" data-ng-click="checkingRecurringStatus(plan.autoRenew)"
-						class="btn btn-primary" style="margin-left: 15px; padding:1px 5px;margin-top: 30px;"><i class="icon-arrow-up icon-white"></i>
-					{{'btn.topup.pack' | translate}}
-				</button>
-				
-			 </div>
-	     	</div>
-	     </div>
-	</div><br/>
-</div>
+		 <div class="marginleft10 lightbluecolor" style="margin-left: 16.5em; font-size: 20px;" data-ng-show="planType=='prepaid' || planType=='postpaid'">
+		    <div class="btn btn-primary" style="border-radius:20px;" data-ng-click="planTypeSelFun('prepaid')">
+		 		<input type="radio" name="planType"  style="vertical-align: top;" data-ng-model="planType" value="prepaid">
+		 			<strong>{{'label.prepaid' | translate}}</strong>
+		    </div>
+		    <div class="btn btn-primary" style="border-radius:20px;" data-ng-click="planTypeSelFun('postpaid')">
+		 	   <input type="radio" name="planType"  style="vertical-align: top;" data-ng-model="planType" value="postpaid">
+		 		<strong>{{'label.postpaid' | translate}}</strong>
+		    </div>
+		 </div>
+		 <div data-ng-show="plansData.length==0" >
+		 		<h3><span class="required">{{'label.nopacks.available' | translate}}</span></h3>
+		 </div>
+		 <div data-ng-include src="templateName" ></div>
+		 <br/>
 </div>
 <script type="text/ng-template" id="vieworder.html"> 
   <div class="modal43" style="min-width:700px;">	
@@ -116,6 +100,32 @@
    				<td style="font-weight: inherit;color: #555555;padding-left:20px;">{{orderService.servicecode}}</td>
    				<td>{{orderService.serviceDescription}}</td>
    				<td>{{orderService.serviceType}}</td>
+			</tr>
+		</tbody>
+ 	   </table>
+     </div>
+     <div class="modal-footer">
+     	<button id="submit" class="btn btn-primary" ng-click="close()" >{{'btn.close' | translate}}</button>
+      </div>
+</div>
+</script>
+<script type="text/ng-template" id="viewplanservice.html"> 
+  <div class="modal43" style="min-width:700px;">	
+	<div class="modal-header silver">
+        <h3 class="bolder">{{'label.service.info' | translate}}</h3>
+    </div>
+    <div class="modal-body">
+		<table class="table margintop10">
+		 <thead>
+  		   <tr class="graybg drakgraybg">
+             <th style="padding-left:20px;">{{'table.header.order.servicecode'|translate}}</th>
+             <th>{{'table.header.order.servicedescription'|translate}}</th>
+        	</tr>
+		 </thead>
+		 <tbody>
+			<tr data-ng-repeat="planservice in planServices  | filter:filterText" >                 
+   				<td style="font-weight: inherit;color: #555555;padding-left:20px;">{{planservice.serviceCode}}</td>
+   				<td>{{planservice.serviceDescription}}</td>
 			</tr>
 		</tbody>
  	   </table>
@@ -152,7 +162,8 @@
   		  </fieldset>
      </div>
      <div class="modal-footer">
-        <button id="cancel" class="btn btn-warning" ng-click="cancelDisconnection()">{{'btn.cancel' | translate}}</button>
+        <button id="cancel" class="btn" ng-click="cancelDisconnection()">{{'btn.cancel' | translate}}</button>
      	<button id="submit" class="btn btn-primary" ng-click="approveDisconnection()" ng-disabled="flagOrderDisconnect">{{'label.confirm' | translate}}</button>
       </div>
 </script>
+</div>

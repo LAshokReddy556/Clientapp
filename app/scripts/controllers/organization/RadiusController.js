@@ -19,9 +19,13 @@
 		}
 		
 		scope.getNas = function() {
-			resourceFactory.nasResource.query(function(data) {
-				scope.nasDatas = data;
-			});
+			  resourceFactory.nasResource.get(function(data) {
+				  scope.nasDatas = data.nasData;
+				  scope.radiusVersion = data.radiusVersion || undefined;
+				  if(!scope.radiusVersion){
+					  scope.radiusVersion = mifosX.models.radiusVersion;
+				  }
+			  });
 		};
 		
 		scope.getRadService = function() {
@@ -124,7 +128,6 @@
 	    	$log.info("RadiusController initialized");
 	    });
 }(mifosX.controllers || {}));
-
 
 
 

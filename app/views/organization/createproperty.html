@@ -20,7 +20,7 @@
           <div class="control-group">
              <label class="control-label" for="precinct">{{'label.precinct' | translate }}<span class="required">*</span></label>
               <div class="controls">
-             <input type="text" id="precinct" name="precinct" data-ng-model="formData.precinct" data-typeahead="precinct.cityName as precinct.cityName for precinct in getPrecinct($viewValue)"
+             <input type="text" id="precinct" name="precinct" data-ng-model="formData.precinct" data-typeahead="precinct.cityCode as precinct.cityName for precinct in getPrecinct($viewValue)"
              autocomplete="off" data-typeahead-min-length="0" data-typeahead-on-select="getPrecinctDetails(formData.precinct)"  data-typeahead-editable="false" required data-late-Validate/><br/>
              <span  data-ng-show="createpropertyform.precinct.$invalid">
               <small class="error" data-ng-show="createpropertyform.precinct.$error.req"> {{'label.required.field' | translate}}</small>
@@ -32,7 +32,7 @@
           	<div class="control-group">
             	<label class="control-label" for="parcel">{{'label.parcel' | translate }}<span class="required">*</span></label>
             	<div class="controls">
-              		<input type="text"  id="parcel" name="parcel" data-ng-model="formData.parcel" data-typeahead="parcel.description as parcel.description for parcel in getParcel($viewValue)" 
+              		<input type="text"  id="parcel" name="parcel" data-ng-model="formData.parcel" data-typeahead="parcel.code as parcel.description for parcel in getParcel($viewValue)" 
               		autocomplete="off" data-typeahead-min-length="0" data-typeahead-on-select="getParcelDetails(formData.parcel)" data-typeahead-editable="false" required data-late-Validate/><br/>
               		<span data-ng-show="createpropertyform.parcel.$invalid">
 					  <small class="error" data-ng-show="createpropertyform.parcel.$error.req">{{'label.required.field' | translate}} </small> 
@@ -55,7 +55,7 @@
              <div class="control-group">
             	<label class="control-label" for="buildingCode">{{'label.buildingcode' | translate }}<span class="required">*</span></label>
             	<div class="controls">
-              		<input type="text"  id="buildingCode" name="buildingCode" data-ng-model="formData.buildingCode" data-typeahead="building.code as building.code for building in getBuild($viewValue)" 
+              		<input type="text"  id="buildingCode" name="buildingCode" data-ng-model="formData.buildingCode" data-typeahead="building.code as building.description for building in getBuild($viewValue)" 
               		autocomplete="off" data-typeahead-min-length="0" data-typeahead-on-select="getbuildCode(formData.buildingCode)" data-typeahead-editable="false" required data-late-Validate/><br/>
               		<span data-ng-show="createpropertyform.buildingCode.$invalid">
 					  <small class="error" data-ng-show="createpropertyform.buildingCode.$error.req">{{'label.required.field' | translate}} </small> 
@@ -67,7 +67,7 @@
           	<div class="control-group">
             	<label class="control-label" for="floor">{{'label.floor' | translate }}<span class="required">*</span></label>
             	<div class="controls">
-              		<input type="text" id="floor" name="floor" data-ng-model="formData.floor" data-typeahead="floor.description as floor.description for floor in getFloor($viewValue)" 
+              		<input type="text" id="floor" name="floor" data-ng-model="formData.floor" data-typeahead="floor.code as floor.description for floor in getFloor($viewValue)" 
               	     autocomplete="off" data-typeahead-min-length="0" data-typeahead-on-select="getFloorDetails(formData.floor)" data-typeahead-editable="false" required data-late-Validate/><br/>
               		<span data-ng-show="createpropertyform.floor.$invalid">
 		              <small class="error" data-ng-show="createpropertyform.floor.$error.req">{{'label.required.field' | translate}} </small>

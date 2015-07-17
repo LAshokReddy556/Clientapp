@@ -17,7 +17,7 @@
 						<tr>
 							<td>
 								<div class="control-group">
-           					 	<label class="control-label" for="promotionCode">{{ 'label.promotionCode' | translate }}</label>
+           					 	<label class="control-label" for="promotionCode">{{ 'label.promotionCode' | translate }}<span class="required" >*</span></label>
             					<div class="controls">
              					 <input type="text" id="promotionCode" name="promotionCode" data-ng-model="formData.promotionCode" data-ng-maxlength="{{'code' | CodeValidate}}"/></br>
              					 <span data-ng-show = "createpromotionform.promotionCode.$dirty && createpromotionform.promotionCode.$invalid">
@@ -28,7 +28,7 @@
 							 </td>
 							<td>
 								<div class="control-group">
-            					<label class="control-label" for="discountType">{{ 'label.discountType' | translate }}</label>
+            					<label class="control-label" for="discountType">{{ 'label.discountType' | translate }}<span class="required" >*</span></label>
             					<div class="controls">
              					 <select id="discountType" data-ng-model="formData.discountType"  data-ng-options="promotiondata.mCodeValue as promotiondata.mCodeValue for promotiondata in promotiondatas">
              					 <option value="">{{'label.select.one' | translate}}</option></select>
@@ -39,7 +39,7 @@
 							<tr>
 							<td>
 								<div class="control-group">
-            					<label class="control-label" for="promotionDescription">{{ 'label.promotionDescription' | translate }}</label>
+            					<label class="control-label" for="promotionDescription">{{ 'label.promotionDescription' | translate }}<span class="required" >*</span></label>
             					<div class="controls">
              					 <input type="text" id="promotionDescription" data-ng-model="formData.promotionDescription"/>
            						</div>
@@ -47,7 +47,7 @@
 							</td>
 								<td>
 								<div class="control-group">
-            					<label class="control-label" for="discountRate">{{ 'label.discountRate' | translate }}</label>
+            					<label class="control-label" for="discountRate">{{ 'label.discountRate' | translate }}<span class="required" >*</span></label>
             					<div class="controls">
               					<input type="text" id="discountRate" name="discountRate" data-ng-model="formData.discountRate" data-ng-pattern="{{'decimal' | CodeValidate}}"></br>
               					<span data-ng-show="createpromotionform.discountRate.$dirty && createpromotionform.discountRate.$invalid">
@@ -61,7 +61,7 @@
 							<tr>
 							<td>
 								<div class="control-group">
-            					<label class="control-label" for="durationType">{{ 'label.durationType' | translate }}</label>
+            					<label class="control-label" for="durationType">{{ 'label.durationType' | translate }}<span class="required" >*</span></label>
             					<div class="controls">
               					 <select id="durationType" data-ng-model="formData.durationType"  data-ng-options="durationType.subscriptionType as durationType.subscriptionType for durationType in durationTypes">
              					 <option value="">{{'label.select.one' | translate}}</option></select>
@@ -70,7 +70,7 @@
 							</td>
 							<td>
 								<div class="control-group">
-            					<label class="control-label" for="promotionduration">{{ 'label.duration' | translate }}</label>
+            					<label class="control-label" for="promotionduration">{{ 'label.duration' | translate }}<span class="required" >*</span></label>
             					<div class="controls">
               					<input type="text" id="duration" name="duration" data-ng-model="formData.duration" data-ng-pattern="{{'integer' | CodeValidate}}"></br>
               					<span data-ng-show="createpromotionform.duration.$dirty && createpromotionform.duration.$invalid">

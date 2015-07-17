@@ -36,7 +36,7 @@
 	            <tr data-ng-repeat="mediaDetail in mediaDetails  | filter:filterText" >
 	                <td style="font-weight: inherit;color: #555555;"><label >{{mediaDetail.mediaTitle}}</label></td>
 	                <td><label >{{mediaDetail.quality}}</label></td>
-	                <td><label >{{mediaDetail.price}}</label></td>
+	                <td><label >{{mediaDetail.price}}({{currencyCode}})</label></td>
 	                <td><input type="checkbox" data-ng-model="active" data-ng-change="selectedEventsFun(mediaDetail,active)"></td>
 	            </tr>
 	            <tr data-ng-hide ="mediaDetails.length == 0">
@@ -66,7 +66,7 @@
 	            <tr data-ng-repeat="mediaData in mediaDatas track by $index | filter:filterText" >
 	                <td style="font-weight: inherit;color: #555555;">{{mediaData.mediaTitle}}</td>
 	                <td>{{mediaData.quality}}</td>
-	                <td>{{mediaData.price}}</td>
+	                <td>{{mediaData.price}}({{currencyCode}})</td>
 	            </tr>
 	        </tbody>
 	    </table>
@@ -74,7 +74,7 @@
 	   <hr width=20% style="margin-left:568px;background-color:#0088cc;height:4px;margin-bottom:4px;">
 	   <div class="animated pulse">
 	 	  <span style="color:#0088cc;font-size:20px;margin-left:580px;" class="pull-left">{{'label.amount.total'|translate}}</span>
-	  	 <span style="font-size:20px;margin-right:215px;" class="pull-right">{{totalAmount}}</span><br/><br/>
+	  	 <span style="font-size:20px;margin-right:215px;" class="pull-right">{{totalAmount}}({{currencyCode}})</span><br/><br/>
 	   </div>
 		<div class="offset1" style="margin-top: 35px;" data-ng-hide="totalAmount == 0">
 		   <table class="fullwidth">

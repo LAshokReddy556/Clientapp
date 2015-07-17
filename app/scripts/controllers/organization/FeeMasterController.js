@@ -1,6 +1,6 @@
 (function(module) {
   mifosX.controllers = _.extend(module, {
-	  FeeMasterController: function(scope,webStorage, resourceFactory, location,$rootScope,PermissionService,$modal) {
+	  FeeMasterController: function(scope,webStorage, resourceFactory, location,$rootScope,PermissionService,$modal,route) {
 		  
 		  scope.PermissionService = PermissionService;
 		  scope.feeMasterDatas = [];
@@ -28,7 +28,7 @@
 	    		$scope.approve = function () {
 	            	resourceFactory.feeMasterResource.remove({id: id} , {} , function() {
 	            	  $modalInstance.dismiss('delete');
-	                  location.path('/feemaster');
+	            	  route.reload();
 	            });
 	         };
 	            $scope.cancel = function () {
@@ -37,7 +37,7 @@
 	        }
 	  }
   });
-  mifosX.ng.application.controller('FeeMasterController', ['$scope','webStorage', 'ResourceFactory', '$location','$rootScope','PermissionService','$modal', mifosX.controllers.FeeMasterController]).run(function($log) {
+  mifosX.ng.application.controller('FeeMasterController', ['$scope','webStorage', 'ResourceFactory', '$location','$rootScope','PermissionService','$modal','$route', mifosX.controllers.FeeMasterController]).run(function($log) {
     $log.info("FeeMasterController initialized");
   });
 }(mifosX.controllers || {}));

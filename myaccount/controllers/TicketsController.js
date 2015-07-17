@@ -1,8 +1,7 @@
-TicketsController = function(scope,RequestSender,localStorageService) {
+TicketsController = function(scope,RequestSender,rootScope) {
 		  
-		 var clientData= localStorageService.get('clientTotalData');
-		  if(clientData){
-			  scope.clientId = clientData.id;
+		  if(rootScope.selfcare_sessionData){
+			  scope.clientId = rootScope.selfcare_sessionData.clientId;
 			  scope.ticketsData = [];
 			  RequestSender.ticketResource.query({clientId: scope.clientId},function(data) {	        
 				  scope.ticketsData = data;
@@ -12,5 +11,5 @@ TicketsController = function(scope,RequestSender,localStorageService) {
     
 selfcareApp.controller('TicketsController', ['$scope',
                                              'RequestSender',
-                                             'localStorageService',
+                                             '$rootScope',
                                              TicketsController]);

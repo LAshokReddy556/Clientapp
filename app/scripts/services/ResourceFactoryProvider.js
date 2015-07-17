@@ -1154,6 +1154,14 @@
             	update: { method: 'PUT' }
             }),
             
+            propertydeviceMappingResource: defineResource(apiVer + "/property/allocatedevice/:clientId", {clientId:'@clientId'}, {
+            	update: { method: 'PUT' }
+            }),
+            
+            propertydeviceMappingTemaplateResource: defineResource(apiVer + "/property/propertycodes/:clientId", {clientId:'@clientId'}, {
+            	 get: {method: 'GET', params: {},isArray: true}
+            }),
+            
             propertyTemplateResource: defineResource(apiVer + "/propertymaster/template", {}, {
             	update: { method: 'PUT' }
             }),
@@ -1169,6 +1177,11 @@
             
             feeMasterResource: defineResource(apiVer + "/feemaster/:id", {id:'@id'},{update: { method: 'PUT' }}),
             feeMasterTemplateResource: defineResource(apiVer + "/feemaster/template", {},{}),
+            refundAmountResource: defineResource(apiVer + "/refund/:depositId", {depositId:'@depositId'}, {
+                get: {method: 'GET', params: {}},
+                update: { method: 'PUT'}
+            }), 
+            depositAmountResource: defineResource(apiVer + "/deposit/:client", {client:'@client'}, {}), 
       
         };
       }];

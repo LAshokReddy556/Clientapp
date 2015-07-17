@@ -11,8 +11,8 @@
 					upType  : scope.types[0].key,
 					downType  : scope.types[0].key,
 					limitcomb : 0,
-					renew : false,
-					limitexpiration  : true,
+					renew : 0,
+					limitexpiration  : 1,
 					limitdl : 1,
 					limitul : 0,
 					limituptime : 0,
@@ -88,7 +88,7 @@
 	          if(scope.radiusVersion == 'version-2'){
 	        	   scope.serviceCodes = [];
 	        	   resourceFactory.radServiceTemplateResource.query(function(data) {
-	        		   scope.serviceCodes = data;
+	        		   scope.serviceCodes = JSON.parse(data[0].radService);
 	        		   //console.log(scope.serviceCodes);
 	               });
 	           }
@@ -110,11 +110,23 @@
 					
 					scope.formData.descr = scope.formData.srvname;
 					scope.formData.isSaveWithOBS = saveWithOBSValue;
-					if(scope.formData.limitdl == 1){
+					if(scope.formData.trafficunitdl == 0){
+						scope.formData.combquota = 0;
+						scope.formData.limitcomb = 0;
+						scope.formData.dlquota = 0;
+						scope.formData.limitdl = 0;
+						scope.formData.limitul = 0;
+						scope.formData.limitexpiration = 0;
+						scope.formData.trafficunitdl = 0;
+						console.log("scope.formData.limitdl:"+scope.formData.limitdl);
+						console.log("scope.formData.limitexpiration:"+scope.formData.limitexpiration);
+						console.log("scope.formData.limitcomb:"+scope.formData.limitcomb);
+					}
+					if(scope.formData.trafficunitdl != 0 && scope.formData.limitdl == 1){
 						scope.formData.dlquota = scope.formData.trafficunitdl;
 						scope.formData.combquota = 0;
 						scope.formData.trafficunitdl = 0;
-					}else if(scope.formData.limitcomb == 1){
+					}else if(scope.formData.trafficunitdl != 0 && scope.formData.limitcomb == 1){
 						scope.formData.combquota = scope.formData.trafficunitdl;
 						scope.formData.dlquota = 0;
 						scope.formData.trafficunitdl = 0;

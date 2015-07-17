@@ -8,7 +8,7 @@
         </div>
     </div>
 <form name="createPaymentform" novalidate class="form-horizontal well"  data-ng-submit="submit()">
-<br/><br/>
+<br/>
  	<div class="error" data-ng-show="errorStatus || errorDetails">
 		<label>{{'label.error' | translate}}</label>
 		<label data-ng-show="errorStatus">{{errorStatus}}</label>
@@ -18,7 +18,7 @@
 		<table class="offset2">
 			<tr><td>
 			   <div class="control-group" >
-                  <label class="control-label">{{ 'label.voucher.pinNo' | translate }}</label>
+                  <label class="control-label">{{ 'label.voucher.pinNo' | translate }}<span class="required">*</span></label>
                   <div class="controls">
                      <input type="text" data-ng-model="formData.pinNumber" data-ng-onblur="pinNoValidationFun(formData.pinNumber)" 
                     	 required data-late-Validate/>                        									

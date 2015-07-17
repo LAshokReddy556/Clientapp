@@ -7,6 +7,7 @@
      
       
       scope.login = function() {
+    	scope.authenticationFailed = false;
         authenticationService.authenticateWithUsernamePassword(scope.loginCredentials);
         
       };
@@ -24,6 +25,7 @@
     		  
     	  }else{
     	  	scope.authenticationFailed = true;
+    	  	$rootScope.clearCrendentials();
     	  }
       });
      

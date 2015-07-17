@@ -39,15 +39,15 @@
     			        
     			        var decrypted2 = CryptoJS.AES.decrypt(scope.formData.cardExpiryDate,  key);
     			        scope.formData.cardExpiryDate = decrypted2.toString(CryptoJS.enc.Utf8);
-    			        var decrypted3 = CryptoJS.AES.decrypt(scope.formData.cvvNumber,  key);
+    			       //var decrypted3 = CryptoJS.AES.decrypt(scope.formData.cvvNumber,  key);
     			        //scope.formData.cvvNumber = decrypted3.toString(CryptoJS.enc.Utf8);
-       			     var cvvNum = decrypted3.toString(CryptoJS.enc.Utf8);
-			          var stars = "";
+       			     //var cvvNum = decrypted3.toString(CryptoJS.enc.Utf8);
+			          /*var stars = "";
 			         for (var j in cvvNum){
 			        		 stars += "*";
 			         }
 			         cvvNum = stars;
-			         scope.formData.cvvNum = cvvNum;
+			         scope.formData.cvvNum = cvvNum;*/
 			         if(scope.formData.cardExpiryDate){
 			        	var expireCard = cardExpireDate(scope.formData.cardExpiryDate);
 			        	if(expireCard){
@@ -202,14 +202,14 @@
 						  errors.push({"cardExpire":'true'});
 					  }
 				  }
-				  var cardCvvNo = $('#cardCvvNo').val();
+				  /*var cardCvvNo = $('#cardCvvNo').val();
 				  if(cardCvvNo){
 					  var match = $('#cardCvvNo').val().match(/^(?!0+$)\d{1,19}$/);
 					  if(!match){
 						  scope.cardCvvNoDigit = true;
 						  errors.push({"cardCvvNoDigit":'true'});
 					  }
-				  }
+				  }*/
 			    /* var routingNum = $('#routingNum').val();
 				  if(routingNum){
 					  var match = $('#routingNum').val().match(/^(?!0+$)\d{1,30}$/);
@@ -247,8 +247,8 @@
 						    this.formEncryptedData.accountType=this.formData.accountType;		
 				    }else{
 				    	this.formEncryptedData.type="CreditCard";
-				    	if(this.formData.cvvNum)
-				    	this.formEncryptedData.cvvNumber=CryptoJS.AES.encrypt(this.formData.cvvNum, key).toString();
+				    	/*if(this.formData.cvvNum)
+				    	this.formEncryptedData.cvvNumber=CryptoJS.AES.encrypt(this.formData.cvvNum, key).toString();*/
 				    	this.formEncryptedData.cardType=this.formData.cardType;
 					    this.formEncryptedData.name = this.formData.name;
 					    this.formEncryptedData.cardNumber = CryptoJS.AES.encrypt(this.formData.crdNumber, key).toString();

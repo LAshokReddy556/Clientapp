@@ -1,11 +1,6 @@
-StatementsController = function(scope,RequestSender,localStorageService,location,API_VERSION,paginatorService) {
+StatementsController = function(scope,RequestSender,location,API_VERSION,paginatorService,rootScope) {
 		  
-		  var totalStatementsData = [];
-		  var retrivingStatementsData = {};
-		  scope.statementsData = [];
-		  
-		  
-		  
+		  var totalStatementsData = [];var retrivingStatementsData = {};scope.statementsData = [];
 		  scope.getStatementsData = function(offset, limit, callback) {
 			  retrivingStatementsData.pageItems = [];
 			  var itrCount = 0;
@@ -23,9 +18,8 @@ StatementsController = function(scope,RequestSender,localStorageService,location
 			  RequestSender.paymentsResource.get({clientId: scope.clientId ,offset: offset, limit: limit,type:'PAYMENT'} , callback);
 	  	   };
 	  		
-	  	  var clientData= localStorageService.get('clientTotalData');
-		  if(clientData){
-			  scope.clientId = clientData.id;
+		  if(rootScope.selfcare_sessionData){
+			  scope.clientId = rootScope.selfcare_sessionData.clientId;
 			  RequestSender.statementResource.query({clientId: scope.clientId} , function(data) {	
                   totalStatementsData = data;
                   retrivingStatementsData.totalFilteredRecords = totalStatementsData.length;
@@ -40,15 +34,15 @@ StatementsController = function(scope,RequestSender,localStorageService,location
 	             location.path('/viewstatement/'+statementid);
 	      };
 	      scope.downloadFile = function (statementId){
-	           window.open(API_VERSION +'/billmaster/'+ statementId +'/print?tenantIdentifier=default');
+	           window.open(API_VERSION +'/billmaster/'+ statementId +'/print?tenantIdentifier='+selfcareModels.tenantId);
 	      };
           
     };
     
 selfcareApp.controller('StatementsController', ['$scope',
                                                 'RequestSender',
-                                                'localStorageService',
                                                 '$location',
                                                 'API_VERSION', 
                                                 'PaginatorService', 
+                                                '$rootScope', 
                                                 StatementsController]);

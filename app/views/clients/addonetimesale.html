@@ -133,7 +133,7 @@
 											'label.quantity' | translate }}</label>
 										<div class="controls">
 											<input type="text" id="quantity" name="quantity" data-ng-model="formData.quantity"
-												data-ng-change="(formData.quantity) && !(onetimesaleform.quantity.$error.pattern) && (itemDataQuantity(formData.quantity,formData.itemId,formData.officeId,formData.units))"
+												data-ng-change="(formData.quantity) && !(onetimesaleform.quantity.$error.pattern) && (itemDataQuantity(formData.quantity,formData.itemId,formData.officeId,formData.units,formData.amount))"
 												data-ng-readonly="truefalse" data-ng-pattern="{{'integer' | CodeValidate}}"><br/>
 											<span data-ng-show ="onetimesaleform.quantity.$dirty && onetimesaleform.quantity.$invalid" >
 												<small class ="error-row">{{'error.not.numeric.validation' | translate}}</small>
@@ -176,7 +176,16 @@
 									</div>
 								</td>
 							</tr>
+							
 							<tr>
+								<!-- <td>
+									<div class="control-group">
+										<label class="control-label" for="totalPrice">Deposit Amount </label>
+										<div class="controls">
+											<input type="text" id="amount" data-ng-model="formData.amount" style="background-color: #FFFFFF;" readonly/>
+										</div>
+									</div>
+								</td> -->
 								<td>
 									<div class="offset3">
 										<a id="cancel" href="#/viewclient/{{clientId}}"><button
@@ -188,6 +197,7 @@
 											| translate}}</button>
 									</div>
 								</td>
+								
 								<td>
 									<div class="control-group" data-ng-show="formData.quantity && unitsValue == 'PIECES' "
 										ng-repeat="item in getNumber(formData.quantity) track by $index"
@@ -201,6 +211,20 @@
 									</div>
 								</td>
 							</tr>
+							
+							<!-- <tr>
+								<td>
+									<div class="offset3">
+										<a id="cancel" href="#/viewclient/{{clientId}}"><button
+												type="reset" class="btn" ng-click="reset123()">{{'button.cancel'
+												| translate}}</button></a>
+
+										<button id="submit" type="submit" class="btn btn-primary" ng-disabled="flag">{{'button.save' | translate}}</button>
+										<button id="submit" type="submit" data-ng-disabled="onetimesaleform.$dirty && onetimesaleform.$invalid" class="btn btn-primary">{{'button.save'
+											| translate}}</button>
+									</div>
+								</td>
+							</tr> -->
 						</table>
 
 					</td>

@@ -15,7 +15,7 @@
         
         scope.submit = function() {
             resourceFactory.planMappingResource.save(scope.formData,function(data){
-            		location.path('/viewplanmapping/' + data.resourceId);
+            		location.path('/mappingconfig');
           });
         };
     }

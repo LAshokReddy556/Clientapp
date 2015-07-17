@@ -32,6 +32,7 @@
                         "RETRACKOSDMESSAGE ORDER" : "Order Re-Track OSD Message Added with commandName "+jsonArray.commandName,
                         "APPLYPROMO ORDER" : "Apply Promo Added for Order With Promo Id "+jsonArray.promoId,
                         "TERMINATE ORDER" : "Order Terminated successfully with OrderId:"+resourceId,
+                        "DISCONNECT ORDER" : "Order Disconnected successfully with OrderId:"+resourceId,
                         
                         //payments related Data
                         "CREATE PAYMENT" : "Payment done successfully Amount:"+jsonArray.amountPaid+"Reciept NO"+jsonArray.receiptNo,

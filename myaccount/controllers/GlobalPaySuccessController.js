@@ -1,24 +1,24 @@
 GlobalPaySuccessController = function(RequestSender, location,localStorageService) {
  
-    		var formData = {};
+    		var formData			= {};
     		formData.transactionId 	= location.search().txnref;
-    		formData.source 		= 'globalpay';
+    		formData.source 		= paymentGatewaySourceNames.globalpay;
     		var StorageData			= localStorageService.get("globalpayStorageData");
-    		var screenName			= StorageData.screenName;
-    		var clientId			= StorageData.clientId;
-    		var planId				= StorageData.planId;
-    		var priceId				= StorageData.priceId;
-    		
     		if(StorageData){
+    			var screenName		= StorageData.screenName,
+    			     clientId		= StorageData.clientId,
+    				 planId			= StorageData.planId,
+    			     priceId		= StorageData.priceId;
+    		
 	    		RequestSender.paymentGatewayResource.update(formData, function(data){
-	    			localStorageService.remove("globalpayStorageData", data);
+	    			localStorageService.remove("globalpayStorageData");
 	    			localStorageService.add("paymentgatewayresponse", {data:data});
 	    			var result = angular.uppercase(data.Result) || "";
-	    			localStorageService.add("gatewayStatus",result);
 	    			location.$$search = {};
 	    			if(screenName == 'payment'){
 						location.path('/paymentgatewayresponse/'+formData.clientId);
 					}else if(result == 'SUCCESS' || result == 'PENDING'){
+						localStorageService.add("gatewayStatus",result);
 						location.path("/orderbookingscreen/"+screenName+"/"+clientId+"/"+planId+"/"+priceId);
 					}
 	    		});

@@ -1,0 +1,160 @@
+<div data-ng-controller="EvoIntegrationController">
+<br/>
+<div class="error" data-ng-show="errorStatus || errorDetails">
+	<label>{{'label.contract.error' | translate}}</label>
+	<label data-ng-show="errorStatus">{{errorStatus}}</label>
+	<label data-ng-hide="errorStatus" data-ng-repeat="error in errorDetails">{{error.code | translate}}</label>
+ </div>
+<!-- <div class="alert alert-success" data-ng-hide="errorStatus || errorDetails">
+	   <table><tr>
+	   		<td><span><img src="../images/info-icon.png" width="30"></span></td>
+        		<td><span><strong class="marginleft40" ><i class="icon-refresh icon-spin"></i>
+        				{{'title.redirecting'|translate}}</strong><br/>
+        			</span>
+        		</td></tr>
+	   </table> 
+</div> -->
+ <form action="https://spg.evopayments.eu/pay/payssl.aspx" method="post">
+ 
+	<input type="hidden"   name="merchantid" 	  value="{{merchantId}}"> 
+	<input type="hidden"   name="len" 		      value="{{len}}"/>
+	<input type="hidden"   name="data"     		  value="{{data}}" />
+	<input type="hidden"   name="language"    	  value="{{optlang}}" />
+    <button id="submitEvoIntegration" type="submit" class="btn btn-primary" data-ng-hide="true">Continue to Payment Method</button>
+</form>
+	 <accordion close-others="true">
+        <accordion-group is-open="evoPG.reviewCart" >
+          <accordion-heading>
+            <i class="icon-ok-sign icon-large" data-ng-class="{statusactive:!evoPG.reviewCart,statusdeleted:evoPG.reviewCart}"></i>
+            <strong style="font-size: 18px;color:#7793cc;">{{'label.evo.review.cart'|translate}}</strong> 
+             <i class="pull-right" ng-class="{'icon-chevron-up': evoPG.reviewCart, 'icon-chevron-down': !evoPG.reviewCart}"></i>
+          </accordion-heading>
+          <div>
+        	 <table class="table fullwidth">
+				<thead>
+			           <tr class="graybg">
+						<th data-ng-show="screenName =='payment' || screenName =='vod'">{{'label.evo.description'|translate}}</th>
+						<th data-ng-show="screenName !='payment' && screenName !='vod'">{{'header.plan.name'|translate}}</th>
+						<th>{{'label.evo.unit.price'|translate}}</th>
+						<th data-ng-show="screenName =='vod'">{{'label.evo.numofitems'|translate}}</th>
+						<th data-ng-hide="screenName =='payment'|| screenName =='vod'">{{'label.evo.quantity'|translate}}</th>
+						<th align="right">{{'label.evo.subtotal'|translate}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td style="font-weight: inherit;padding-left: 0;" class="bigfont" >{{planCode}}</td>
+						<td>£{{price}}</td>
+						<td data-ng-hide="screenName =='payment'|| screenName =='vod'">1</td>
+						<td data-ng-show="screenName =='vod'">{{numOfItems}}</td>
+						<td align="right">£{{price}}</td>
+					</tr>
+					<tr>
+						<td></td><td data-ng-hide="screenName =='payment'"></td>
+						<td style="color: #555555;font-weight: 400;text-align: right;">{{'label.evo.current.total'|translate}} (GBP):</td>
+						<td style="font-weight: inherit;" class="bigfont" >£{{price}}</td>
+					</tr>
+				</tbody>
+			</table>
+			<div>
+			  <button class="btn btn-primary pull-right" ng-click="evoPG.billingInfo = evoPG.reviewCart">{{'button.evo.continue.billinfo' | translate}}</button>
+			</div>
+          </div>
+        </accordion-group>
+    	<accordion-group is-open="evoPG.billingInfo">
+            <accordion-heading>
+            <i class="icon-ok-sign icon-large statusdeleted"></i>
+               <strong style="font-size: 18px;color:#7793cc;">{{'label.evo.billing.info'|translate}}</strong>
+            	<i class="pull-right" ng-class="{'icon-chevron-up': evoPG.billingInfo, 'icon-chevron-down': !evoPG.billingInfo}"></i>
+        	</accordion-heading>
+     		<div>
+     		<fieldset class="form-horizontal">
+     		<table>
+			<tr>
+				<td>
+					<div class="control-group">
+						<label class="control-label" for="country">{{'label.country' | translate }}</label>
+						<div class = "controls">
+							 <input type="text" data-ng-model="country" readonly/>
+						</div>
+					</div>
+				</td>
+				<td>
+					<div class="control-group">
+						<label class="control-label" for="fullname">{{'label.evo.fullname' | translate }}</label>
+						<div class="controls">
+							<input type="text" data-ng-model="fullName" readonly/>
+						</div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div class="control-group">
+						<label class="control-label" for="address">{{'label.address' | translate }}</label>
+						<div class="controls">
+							<input type="text" data-ng-model="addressNo" readonly/>
+						</div>
+					</div>
+				</td>
+				<td>
+					<div class="control-group">
+						<label class="control-label" for="city">{{'label.city' | translate }}</label>
+						<div class="controls">
+							<input type="text" data-ng-model="city" readonly/>
+						</div>
+					</div>
+				</td>
+				
+
+			</tr>
+			<tr>
+				<td>
+					<div class="control-group">
+            			<label class="control-label" for="state">{{ 'label.state/province' | translate }}</label>
+            			<div class="controls">
+              				<input type="text" data-ng-model="state"  readonly/>
+             									
+            			</div>
+          			</div>
+				</td>
+				
+				 <td>
+					<div class="control-group">
+                        <label class="control-label">{{ 'label.evo.zipcode' | translate }}</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="zip" readonly/>
+                        </div>
+          			</div>	
+				</td> 
+			</tr>
+			<tr>
+				 <td>
+					<div class="control-group">
+                        <label class="control-label">{{ 'label.mobilephone' | translate }}</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="phone" readonly/>
+                        </div>
+          			</div>	
+				</td> 
+				 <td>
+					<div class="control-group">
+                        <label class="control-label">{{ 'label.email' | translate }}</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="email" readonly/>
+                        </div>
+          			</div>	
+				</td> 
+			</tr>
+			<tr>
+				<td colspan="2">
+			 		 <button class="btn btn-primary pull-right" data-ng-click="submitPaymentMethodFun()">{{'button.evo.continue.paymentmethod' | translate}}</button>
+				</td>
+			</tr>
+		   </table>
+		   </fieldset>
+            </div>
+       </accordion-group>
+     </accordion>
+
+</div>

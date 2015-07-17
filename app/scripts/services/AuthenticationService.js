@@ -1,6 +1,6 @@
 (function(module) {
   mifosX.services = _.extend(module, {
-    AuthenticationService: function(scope, httpService,location,localStorageService,resourceFactory,webStorage,$modal,rootScope) {
+    AuthenticationService: function(scope, httpService,location,localStorageService,resourceFactory,webStorage,$modal,rootScope,TENANT) {
       var onSuccess = function(data) {
     	var successData = data;
         scope.$broadcast("UserAuthenticationSuccessEvent", data);
@@ -8,7 +8,7 @@
         
         scope.setDf = function(){
 
-            	resourceFactory.configurationResource.get(function(data) {
+            	resourceFactory.configurationResource.get({tenant:TENANT},function(data) {
             		scope.clientConfigs = data.clientConfiguration;
             		scope.globalconfigs = data.globalConfiguration;
             		var clientConfigurations = JSON.parse(scope.clientConfigs);
@@ -89,21 +89,10 @@
    
     }
   });
-  mifosX.ng.services.service('AuthenticationService', ['$rootScope', 'HttpService','$location','localStorageService','ResourceFactory','webStorage','$modal','$rootScope', mifosX.services.AuthenticationService]).run(function($log) {
+  mifosX.ng.services.service('AuthenticationService', ['$rootScope', 'HttpService','$location','localStorageService','ResourceFactory','webStorage','$modal','$rootScope','TENANT', mifosX.services.AuthenticationService]).run(function($log) {
     $log.info("AuthenticationService initialized");
   });
 }(mifosX.services || {}));
 
-
-/*resourceFactory.configurationResource.get(function(data) {
-for(var i in data.globalConfiguration){
-	if(data.globalConfiguration[i].name=="DateFormat"){
-		localStorageService.add('dateformat',data.globalConfiguration[i].value);
-		scope.dateformat = data.globalConfiguration[i].value;
-		console.log(scope.dateformat);
-	}
-}
-
-});*/
 
 

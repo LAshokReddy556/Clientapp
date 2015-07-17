@@ -111,21 +111,35 @@
                           </div>
                         </div>
 	
-	<table  class="table table-striped table-bordered fullwidth">
-	  <thead>
-	   <tr class="graybg">
-	     <th>Select</th>
-	     <th>Service</th>
-	     <th>Price</th>
-	   </tr>
-	  </thead>
-			 <tr data-ng-repeat="addonsPriceData in addonsPriceDatas">
-				<td width="10%">
-				<input type="checkbox" id="{{addonsPriceData.id}}"  data-ng-change="isSelected(addonsPriceData.serviceId,isActive,addonsPriceData.price,$index)" data-ng-model="isActive" ng-true-value="Y" ng-false-value="N"></td>
-				<td width="40%">{{addonsPriceData.serviceCode}}</td>
+		<div >
+     <input ng-model="filterText" type="text" ng-autofocus="true" class="span " style="width:500px;"
+       placeholder="Filter by service name">
+     <br/>
+    <accordion close-others="true">
+            <accordion-group  is-open = "$first" ng-repeat="serviceCategoryData in serviceCategoryDatas | filter:filterText" >
+             <accordion-heading>
+              <strong >{{serviceCategoryData.serviceCode}}</strong> 
+              <i class="pull-right" ng-class="{'icon-chevron-up': !$first, 'icon-chevron-down': $first }"></i> 
+         </accordion-heading>
+                 <table  class="table table-striped table-bordered fullwidth">
+      <thead>
+       <tr class="graybg">
+         <th>Select</th>
+	     <th>Charge Code</th>
+         <th>Price</th>
+       </tr>
+      </thead>
+       <tr data-ng-repeat="addonsPriceData in addonsPriceDatas" ng-if="serviceCategoryData.serviceCode == addonsPriceData.serviceCode">
+       <td width="10%">
+       <input type="checkbox" id="{{addonsPriceData.id}}"  data-ng-change="isSelected(addonsPriceData.serviceId,isActive,addonsPriceData.price,addonsPriceData.chargeCodeId,$index)" data-ng-model="isActive" ng-true-value="Y" ng-false-value="N"></td>
+				<td width="40%">{{addonsPriceData.chargecodeDescription}}</td>
 				<td width="60%">{{addonsPriceData.price}}</td>
-			</tr>
-		</table>
+      </tr>
+    </table>
+                   
+      </accordion-group>
+    </accordion>
+   </div>
           </div>
           <div class="offset3">
             <a href="#/vieworder/{{orderId}}/{{clientId}}"><button id="cancel" type="reset" class="btn">{{'button.cancel'| translate}}</button></a>

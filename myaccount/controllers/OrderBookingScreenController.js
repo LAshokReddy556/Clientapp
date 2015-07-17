@@ -1,44 +1,67 @@
-OrderBookingScreenController = function(RequestSender,rootScope,location,dateFilter,routeParams, localStorageService) {
+OrderBookingScreenController = function(RequestSender,rootScope,location,dateFilter,routeParams, localStorageService,modal) {
 		  
 	//values getting form routeParams 
-	var screenName			= routeParams.screenName;
-	var clientId			= routeParams.clientId; 
-	var planId				= routeParams.planId; 
-	var priceId				= routeParams.priceId; 
-	var orderBookingData 	= {};
+	var  screenName			= routeParams.screenName;
+		 clientId			= routeParams.clientId, 
+		 planId				= routeParams.planId, 
+		 priceId			= routeParams.priceId; 
+	
 	var gatewayStatus		= localStorageService.get("gatewayStatus")||"";
 	var isAutoRenew 		= localStorageService.get("isAutoRenew") || "";
-	alert(isAutoRenew);
 	
 	function successFun(planData){
-    	localStorageService.remove("secretCode");localStorageService.remove("storageData");
-    	localStorageService.remove("isAutoRenew");
-    	if(screenName != "vod"){
-    		(planData.price==0) ? location.path("/services") : location.path('/paymentgatewayresponse/'+clientId);
+		localStorageService.remove("gatewayStatus"); localStorageService.remove("storageData"); 
+		localStorageService.remove("isAutoRenew");localStorageService.remove("chargeCodeData");
+		localStorageService.remove("contractsData");
+		if(gatewayStatus == 'RECURRING'){
+			var paypalrecurringsuccessPopupController = function ($scope,$modalInstance,$log){
+				$scope.done = function(){
+					$modalInstance.dismiss('cancel');
+				};
+				modalInstance.result.then(function () {
+				}, function () {
+					$log.info('Modal dismissed at: ' + new Date());
+					location.path('/services');
+				});
+			};
+			var modalInstance = modal.open({
+				 templateUrl: 'paypalrecurringsuccesspopup.html',
+				 controller: paypalrecurringsuccessPopupController,
+				 resolve:{}
+			 });
+		}
+		else if(screenName != "vod"){
+    		(location.search().amount==0) ? (location.$$search = {},location.path("/services")) : location.path('/paymentgatewayresponse/'+clientId);
     	}
-    	else if (screenName == "vod"){
-    		localStorageService.remove("eventData");
-    		(priceId == "amountZero")? location.path("/services") : location.path('/paymentgatewayresponse/'+clientId);
+		else if (screenName == "vod"){
+    		(priceId == "amountZero")? location.path("/events") : location.path('/paymentgatewayresponse/'+clientId);
     	};
     }
 	
-  RequestSender.clientResource.get({clientId: clientId} , function(data) {
-		  var clientData = data;
+	var storageData = localStorageService.get("storageData");
+		  var clientData 			= storageData.clientData;
+		  var totalOrdersData 		= storageData.totalOrdersData;
+		  var eventData		 		= storageData.eventData || "";
+		  var orderId 				= storageData.orderId || null;
     if(screenName != "vod"){
-	 RequestSender.orderTemplateResource.query({region : clientData.state},function(data){
-			var totalOrdersData = data;
 		for(var i in totalOrdersData){
 		  if(totalOrdersData[i].planId == planId){
 			for(var j in totalOrdersData[i].pricingData){
 			  if(totalOrdersData[i].pricingData[j].id == priceId){
 				var planData = totalOrdersData[i].pricingData[j];
+				if(planData.isPrepaid == 'N'){
+					var contractsData = localStorageService.get("contractsData");
+					if(contractsData){
+						planData.contractId = contractsData.contractId;
+					}
+				}
 				if(screenName == "additionalorders"){
-					orderBookingData.billAlign 		= false;
+					var orderBookingData 			= {};
+					(planData.isPrepaid=='Y') ? orderBookingData.billAlign 		= false : orderBookingData.billAlign 		= true;
 					orderBookingData.isNewplan 		= true;
 					orderBookingData.locale 		= rootScope.localeLangCode; 
 					orderBookingData.dateFormat 	= 'dd MMMM yyyy'; 
-					var reqDate 					= dateFilter(new Date(),'dd MMMM yyyy');
-					orderBookingData.start_date 	= reqDate; 
+					orderBookingData.start_date 	= dateFilter(new Date(),'dd MMMM yyyy'); 
 					orderBookingData.paytermCode 	= planData.billingFrequency; 
 					orderBookingData.contractPeriod = planData.contractId; 
 					orderBookingData.planCode 		= planId;
@@ -47,7 +70,6 @@ OrderBookingScreenController = function(RequestSender,rootScope,location,dateFil
 						orderBookingData.status 	= gatewayStatus;
 						orderBookingData.actionType	= screenName;
 						RequestSender.scheduleOrderResource.save({clientId : clientId},orderBookingData,function(data){
-							localStorageService.remove("gatewayStatus");
 							successFun(planData);
 						});
 					}
@@ -55,9 +77,7 @@ OrderBookingScreenController = function(RequestSender,rootScope,location,dateFil
 						orderBookingData.status 	= gatewayStatus;
 						orderBookingData.actionType	= screenName;
 						RequestSender.scheduleOrderResource.save({clientId : clientId},orderBookingData,function(data){
-							localStorageService.remove("gatewayStatus");
-							localStorageService.remove("isAutoRenew");
-							location.path('/services');
+							successFun(planData);
 						});
 						
 					}else{
@@ -67,35 +87,28 @@ OrderBookingScreenController = function(RequestSender,rootScope,location,dateFil
 					}
 				}else if(screenName == "changeorder"){
 					var changeOrderData 			 = {};
-					changeOrderData.billAlign 		 = false;
+					(planData.isPrepaid=='Y') ? changeOrderData.billAlign 		= false : changeOrderData.billAlign 		= true;
 					changeOrderData.isNewplan 		 = false;
 					changeOrderData.locale 			 = rootScope.localeLangCode; 
 					changeOrderData.dateFormat 		 = 'dd MMMM yyyy'; 
-					var reqDate 					 = dateFilter(new Date(),'dd MMMM yyyy');
-					changeOrderData.start_date 		 = reqDate; 
-					changeOrderData.disconnectionDate= reqDate;
+					changeOrderData.start_date 		 = dateFilter(new Date(),'dd MMMM yyyy'); 
+					changeOrderData.disconnectionDate= dateFilter(new Date(),'dd MMMM yyyy');
 					changeOrderData.paytermCode 	 = planData.billingFrequency; 
 					changeOrderData.contractPeriod 	 = planData.contractId; 
 					changeOrderData.planCode 		 = planId;
 					changeOrderData.disconnectReason = "Not Interested";
 					changeOrderData.autoRenew 		 = isAutoRenew;
-					var orderId						 = "";
-					localStorageService.get("storageData")? orderId = localStorageService.get("storageData").orderId
-														  : orderId = "";
 					if(gatewayStatus == "PENDING"){
 						changeOrderData.status 		= gatewayStatus;
 						changeOrderData.actionType	= screenName;
 						RequestSender.scheduleOrderResource.save({clientId : clientId},changeOrderData,function(data){
-							localStorageService.remove("gatewayStatus");
 							successFun(planData);
 						});
 					}else if(gatewayStatus == "RECURRING"){
 						changeOrderData.status 	= gatewayStatus;
 						changeOrderData.actionType	= screenName;
 						RequestSender.scheduleOrderResource.save({clientId : clientId},changeOrderData,function(data){
-							localStorageService.remove("gatewayStatus");
-							localStorageService.remove("isAutoRenew");
-							location.path('/services');
+							successFun(planData);
 						});
 						
 					}else{
@@ -108,15 +121,10 @@ OrderBookingScreenController = function(RequestSender,rootScope,location,dateFil
 						 renewalOrderData.renewalPeriod  = planData.contractId; 
 						 renewalOrderData.priceId  		 = priceId; 
 						 renewalOrderData.description	 = 'Order Renewal through selfcare'; 
-						 
-						 var orderId						 = "";
-						localStorageService.get("storageData")? orderId = localStorageService.get("storageData").orderId
-																  : orderId = "";
 						if(gatewayStatus == "PENDING"){
 							renewalOrderData.status 		= gatewayStatus;
 							renewalOrderData.actionType	= screenName;
 							RequestSender.scheduleOrderResource.save({clientId : clientId},renewalOrderData,function(data){
-								localStorageService.remove("gatewayStatus");
 								successFun(planData);
 							});
 						}else if(gatewayStatus == "RECURRING"){
@@ -124,9 +132,7 @@ OrderBookingScreenController = function(RequestSender,rootScope,location,dateFil
 							renewalOrderData.orderId 		= orderId;
 							renewalOrderData.actionType		= screenName;
 							RequestSender.scheduleOrderResource.save({clientId : clientId},renewalOrderData,function(data){
-								localStorageService.remove("gatewayStatus");
-								localStorageService.remove("isAutoRenew");
-								location.path('/services');
+								successFun(planData);
 							});
 						}else{
 							RequestSender.orderRenewalResource.save({orderId :orderId},renewalOrderData,function(data){
@@ -140,10 +146,7 @@ OrderBookingScreenController = function(RequestSender,rootScope,location,dateFil
 		   break;
 		  }
 		}
-	  });
      }else if(screenName == "vod"){
-    	 var mediaDatas 	= [];
-    	 	 mediaDatas 	= localStorageService.get("eventData") || "";
     	 var eventSavedOneByOneFun = function(val){
 			 RequestSender.eventsResource.save(eventFormData[val],function(data){
 				 if(val == eventFormData.length-1){
@@ -155,26 +158,24 @@ OrderBookingScreenController = function(RequestSender,rootScope,location,dateFil
 			 });
 		 };
 	 
-		 var reqDate = dateFilter(new Date(),'dd MMMM yyyy');
 		var eventFormData = [];
-		 for(var i in mediaDatas) {
+		 for(var i in eventData) {
 			 
 				 eventFormData[i] = {
-					 							eventId 		: mediaDatas[i].eventId,
-					 							optType 		: mediaDatas[i].optType,
-					 							formatType 		: mediaDatas[i].quality,
+					 							eventId 		: eventData[i].eventId,
+					 							optType 		: eventData[i].optType,
+					 							formatType 		: eventData[i].quality,
 					 							clientId 		: clientId,
 					 							locale 			: rootScope.localeLangCode,
-					 							eventBookedDate : reqDate,
+					 							eventBookedDate : dateFilter(new Date(),'dd MMMM yyyy'),
 					 							dateFormat 		: 'dd MMMM yyyy',
 					 							deviceId 		: clientData.hwSerialNumber
 				 							};
-			 if(i == mediaDatas.length-1){
+			 if(i == eventData.length-1){
 				 eventSavedOneByOneFun(0);
 			 }
 		 }
      }
-	});
 		 
   };
 
@@ -184,4 +185,5 @@ selfcareApp.controller('OrderBookingScreenController', ['RequestSender',
                                                         'dateFilter',
                                                         '$routeParams',
                                                         'localStorageService',
+                                                        '$modal',
                                                          OrderBookingScreenController]);

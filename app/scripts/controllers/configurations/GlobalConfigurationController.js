@@ -1,6 +1,6 @@
 (function(module) {
     mifosX.controllers = _.extend(module, {
-        GlobalConfigurationController: function(scope,webStorage, $modal,routeParams,resourceFactory , location,route,filter,webStorage) {
+        GlobalConfigurationController: function(scope,webStorage, $modal,routeParams,resourceFactory , location,route,filter,webStorage,TENANT) {
             
             scope.clientConfigs = {};
             scope.temp = [];
@@ -31,7 +31,7 @@
         /*configuration tab start*/
             function configurationResourceData(){
             	scope.configs = [];
-            	resourceFactory.configurationResource.get(function(data) {
+            	resourceFactory.configurationResource.get({tenant:TENANT},function(data) {
             		for(var i in data.globalConfiguration){
             			if(data.globalConfiguration[i].name == 'smtp'){
             				scope.showSmtp = false;
@@ -230,7 +230,7 @@
             		scope.newValue = true;
             	}
             	var tempclient = {"name":name,"newValue":scope.newValue,"oldValue":scope.oldValue};
-            	resourceFactory.clientConfigurationResource.update(tempclient, function (data) {
+            	resourceFactory.clientConfigurationResource.update({tenant:TENANT},tempclient, function (data) {
             		webStorage.add("client_configuration",angular.fromJson(angular.toJson(data)));
             		scope.getClientConfiguration();
                     if(html == 'editclientlisting.html'){scope.editClientListing();}
@@ -271,7 +271,7 @@
                 $scope.approve = function (newValue) {
                 	var tempclientConfig = {"name":scope.clientConfigName,"newValue":newValue,"oldValue":scope.oldValue};
                     scope.approveData = {};
-                    resourceFactory.clientConfigurationResource.update(tempclientConfig, function (data) {
+                    resourceFactory.clientConfigurationResource.update({tenant:TENANT},tempclientConfig, function (data) {
                     	webStorage.add("client_configuration",angular.fromJson(angular.toJson(data)));
                 		scope.getClientConfiguration();
                     });
@@ -695,7 +695,7 @@
 
        
    
-    mifosX.ng.application.controller('GlobalConfigurationController', ['$scope', 'webStorage', '$modal', '$routeParams', 'ResourceFactory', '$location','$route','$filter','webStorage', mifosX.controllers.GlobalConfigurationController]).run(function($log) {
+    mifosX.ng.application.controller('GlobalConfigurationController', ['$scope', 'webStorage', '$modal', '$routeParams', 'ResourceFactory', '$location','$route','$filter','webStorage','TENANT', mifosX.controllers.GlobalConfigurationController]).run(function($log) {
         $log.info("GlobalConfigurationController initialized");
     });
 }(mifosX.controllers || {}));

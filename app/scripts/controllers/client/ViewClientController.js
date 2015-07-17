@@ -1,7 +1,8 @@
 (function(module) {
   mifosX.controllers = _.extend(module, {
-    ViewClientController: function(scope,webStorage, routeParams , route, location, resourceFactory,paginatorService, http,$modal,dateFilter,API_VERSION,$rootScope,PermissionService,localStorageService) {
-    	 scope.clientId = routeParams.id;
+    ViewClientController: function(scope,webStorage, routeParams , route, location, resourceFactory,paginatorService, http,$modal,dateFilter,API_VERSION,$rootScope,PermissionService,localStorageService,TENANT) {
+        scope.clientId = routeParams.id;
+
     	 scope.client = [];
          scope.error = {};
          scope.identitydocuments = [];
@@ -19,6 +20,7 @@
          scope.invoice = "INVOICE";
          scope.adjustment = "ADJUSTMENT";
          scope.journal ="JOURNAL VOUCHER";
+         scope.depositAndRefund ="DEPOSIT&REFUND";
          
          scope.financialJournals =[];
          scope.PermissionService = PermissionService;
@@ -193,27 +195,68 @@
                       	                  icon:"icon-tag",
                       	                  ngShow : bookOrder
                          	            },
-                         	           {
+                         	            {
+                                            name:"button.neworder",
+                                            href:"#/neworder/0",
+                                            icon :"icon-plus-sign",
+                                            ngShow : bookOrder
+                                          	 
+                                         },
+                                         {
+                                             name:"button.payments",
+                                             href:"#/payinvoice",
+                                             icon :"icon-usd",
+                                             ngShow : payInvoice
+                                          },
+                                          {
+                                              name:"button.invoice",
+                                              href:"#/clientinvoice",
+                                              icon :"icon-play",
+                                              ngShow : doInvoice
+                                           },
+                                           {                                 
+ 	                                          name:"Service Transfer ",	
+ 	                                          href:"#/servicetransfer",
+ 	                                          icon :"icon-map-marker",
+ 	                                          ngShow : "serviceTransfer"
+                                           },
+                         	              {
                                             name:"button.redemption",
                                             href:"#/redemption",
                                             icon :"icon-plus-sign",
                                             ngShow : redemption
                                           	 
                                           },
-                         	            {
-                                          name:"button.neworder",
-                                          href:"#/neworder/0",
-                                          icon :"icon-plus-sign",
-                                          ngShow : bookOrder
-                                        	 
-                                        },
-                                      
-                                        {
+                                          {
+ 	                                          name:"Static Ip",	
+ 	                                          href:"#/staticip",
+ 	                                          icon :"",
+ 	                                          ngShow : "staticIp"
+                                           },
+                                           {
+   	                                        name:"button.edit",
+   	                                        href:"#/editclient",
+   	                                        icon :"icon-edit",
+   	                                        ngShow : edit
+                                           },
+                                           {
+                                            name:"Deposit",
+                                            href:"#/depositPopup",
+                                            icon:"icon-briefcase",
+                                            ngShow : "true"
+                                           },
+                                           {
+                                           	name:"Close",
+                                           	href:"#/closeclient",
+                                           	icon:"icon-remove",
+                                           	ngShow : "true"
+                                           },
+                                        /*{
                                           name:"button.newTicket",
                                           href:"#/newTicket",
                                           icon :"icon-flag",
                                           ngShow : riseTicket
-                                        },
+                                        },*/
                                         
                                         /*{
 
@@ -224,12 +267,6 @@
                                          },
                                             icon :"icon-usd"
                                          },*/
-                                         {
-                                             name:"button.payments",
-                                             href:"#/payinvoice",
-                                             icon :"icon-usd",
-                                             ngShow : payInvoice
-                                          },
                                          /* {
 
                                               name:"button.distribution",
@@ -246,31 +283,12 @@
                                              icon :"icon-adjust",
                                              ngShow : postAdjustment
                                          },*/
-                                         {
-                                             name:"button.invoice",
-                                             href:"#/clientinvoice",
-                                             icon :"icon-play",
-                                             ngShow : doInvoice
-                                          },
-                                          {
+                                          /*{
                                              name:"button.statement",
                                              href:"#/statement",
                                              icon :"icon-file",
                                              ngShow : statement
-                                         },                                                                              
-
-                                         {
-	                                        name:"button.edit",
-	                                        href:"#/editclient",
-	                                        icon :"icon-edit",
-	                                        ngShow : edit
-                                        },
-                                        {
-                                        	name:"Delete",
-                                        	href:"#/closeclient",
-                                        	icon:"icon-remove",
-                                        	ngShow : "true"
-                                        },
+                                         },*/                                                                              
                                         {
 	                                          name:"",	
 	                                          href:"#/viewclient",
@@ -328,8 +346,55 @@
       
         getDetails();
         
+        scope.allocateProperty = function(serialnum){
+      	  scope.errorStatus=[];scope.errorDetails=[];
+      	  scope.serialnum = serialnum;
+      	  $modal.open({
+                templateUrl: 'allocateproperty.html',
+                controller: AllocatePropertyController,
+                resolve:{}
+            });
+        };
+        
+        
+        var AllocatePropertyController = function ($scope, $modalInstance) {
+            
+      	  $scope.propertycodes = [];
+            resourceFactory.propertydeviceMappingTemaplateResource.get({'clientId': routeParams.id},function(data) {
+                $scope.propertycodes = data;
+            });
+      	  
+      	  $scope.approveAllocate = function () {
+      		  $scope.flagOrderDisconnect=true;
+      		  
+      		  if(this.formData == undefined || this.formData == null){
+      			 /// this.formData = {"disconnectReason":""};
+      		  }
+      		this.formData.serialNumber=scope.serialnum;
+      		  resourceFactory.propertydeviceMappingResource.update({'clientId': routeParams.id},this.formData,function(data){
+      	            /*location.path('/viewclient/'+scope.orderPriceDatas[0].clientId);
+      	            location.path('/vieworder/'+data.resourceId);*/
+      			  resourceFactory.oneTimeSaleResource.getOneTimeSale({clientId: routeParams.id}, function(data) {
+                  	scope.onetimesales = data.oneTimeSaleData;
+                      scope.eventOrders = data.eventOrdersData;
+                  });
+      	            $modalInstance.close('delete');
+      	        },function(orderErrorData){
+      	        	 $scope.flagOrderDisconnect=false;
+      	        	$scope.orderError = orderErrorData.data.errors[0].userMessageGlobalisationCode;
+      	        });
+      		  
+            };
+            $scope.cancelAllocate = function () {
+                $modalInstance.dismiss('cancel');
+            };
+            
+            
+        };
+        
         var Approve = function($scope, $modalInstance){
-        	
+        	 scope.errorDetails = [];
+        	 scope.errorStatus = [];
         	$scope.accept = function(date){
         		$scope.flagapprove1 = true;
 			    scope.formData.locale = $rootScope.locale.code;
@@ -417,6 +482,20 @@
                     controller: redemptionPopController,
                     resolve:{}
                 });
+        	}else if(href == "#/staticip"){
+
+        		$modal.open({
+                    templateUrl: 'Staticip.html',
+                    controller: StaticIpPopController,
+                    resolve:{}
+                });
+        	}else if(href == "#/depositPopup"){
+
+        		$modal.open({
+                    templateUrl: 'depositpop.html',
+                    controller: depositPopController,
+                    resolve:{}
+                });
         	}else if(href == "#/viewclient"){
         		route.reload();
         	}else{
@@ -458,7 +537,8 @@
         
  var redemptionPopController = function($scope, $modalInstance){
         	
-        	
+	 		scope.errorDetails = [];
+	 		scope.errorStatus = [];
         	$scope.acceptRedemption= function(){
         		
         		$scope.flagStatementPop = true;
@@ -541,6 +621,8 @@
         	scope.indentitiesSubTab = "active";
         	scope.documnetsUploadsTab = "";
         	scope.additionaldataSubTab = "";
+        	scope.additionaladdressdataSubTab="";
+        	scope.additionaladdressdataSubTab = "";
         	scope.creditCardDetailsTab = "";
         	scope.ACHDetailsTab = "";
         	scope.ChildDetailsTab = "";
@@ -548,6 +630,7 @@
         	if(scope.displayTab == "documents"){
         		scope.indentitiesSubTab = "";
         		scope.additionaldataSubTab = "";
+        		scope.additionaladdressdataSubTab = "";
             	scope.documnetsUploadsTab = "active";
             	scope.creditCardDetailsTab = "";
             	scope.ACHDetailsTab = "";
@@ -559,14 +642,27 @@
         		scope.indentitiesSubTab = "";
             	scope.documnetsUploadsTab = "";
             	scope.additionaldataSubTab = "active";
+            	scope.additionaladdressdataSubTab = "";
             	scope.creditCardDetailsTab = "";
             	scope.ACHDetailsTab = "";
             	scope.ChildDetailsTab="";
             	scope.displayTab = "";
             	scope.additionalDataTabFun();
+        	}else if(scope.displayTab == "additionaladdress"){
+        		scope.indentitiesSubTab = "";
+            	scope.documnetsUploadsTab = "";
+            	scope.additionaldataSubTab = "";
+            	scope.additionaladdressdataSubTab = "active";
+            	scope.creditCardDetailsTab = "";
+            	scope.ACHDetailsTab = "";
+            	scope.ChildDetailsTab="";
+            	scope.displayTab = "";
+            	scope.additionalDataTabFun();
+            	scope.additionalAddressTabFun();
         	}else if(scope.displayTab == "creditCardDetails"){
         		scope.indentitiesSubTab = "";
             	scope.documnetsUploadsTab = "";
+            	scope.additionaladdressdataSubTab = "";
             	scope.additionaldataSubTab = "";
             	scope.creditCardDetailsTab = "active";
             	scope.ACHDetailsTab = "";
@@ -577,6 +673,7 @@
         	}else if(scope.displayTab == "ACHDetailsTab"){
         		scope.indentitiesSubTab = "";
             	scope.documnetsUploadsTab = "";
+            	scope.additionaladdressdataSubTab = "";
             	scope.additionaldataSubTab = "";
             	scope.creditCardDetailsTab = "";
             	scope.ACHDetailsTab = "active";
@@ -585,6 +682,7 @@
             	scope.ACHDetailsTabFun();
         	}else if(scope.displayTab == "ChildDetailsTab"){
         		scope.indentitiesSubTab = "";
+        		scope.additionaladdressdataSubTab = "";
             	scope.documnetsUploadsTab = "";
             	scope.creditCardDetailsTab = "";
             	scope.additionaldataSubTab = "";
@@ -647,6 +745,7 @@
         	
         	scope.indentitiesSubTab = "active";
         	scope.additionaldataSubTab ="";
+        	scope.additionaladdressdataSubTab = "";
         	scope.documnetsUploadsTab = "";
         	scope.creditCardDetailsTab = "";
         	scope.ACHDetailsTab = "";
@@ -669,6 +768,7 @@
         scope.documnetsUploadsTabFun = function(){
         	
         	scope.indentitiesSubTab = "";
+        	scope.additionaladdressdataSubTab = "";
         	scope.documnetsUploadsTab = "active";
         	scope.additionaldataSubTab ="";
         	scope.creditCardDetailsTab = "";
@@ -685,6 +785,7 @@
         scope.creditCardDetailsTabFun = function(){
         	
         	scope.indentitiesSubTab = "";
+        	scope.additionaladdressdataSubTab = "";
         	scope.documnetsUploadsTab = "";
         	scope.additionaldataSubTab ="";
         	scope.creditCardDetailsTab = "active";
@@ -745,8 +846,10 @@
         };
         
            scope.additionalDataTabFun = function(){
+        	   
         	scope.indentitiesSubTab = "";
         	scope.documnetsUploadsTab = "";
+        	scope.additionaladdressdataSubTab = "";
         	scope.creditCardDetailsTab = "";
         	scope.additionaldataSubTab = "active";
         	scope.ACHDetailsTab = "";
@@ -786,11 +889,32 @@
 	        });
         };
         
+        scope.additionalAddressTabFun = function(){
+        	
+        	scope.indentitiesSubTab = "";
+        	scope.documnetsUploadsTab = "";
+        	scope.creditCardDetailsTab = "";
+        	scope.additionaladdressdataSubTab = "active";
+        	scope.additionaldataSubTab = "";
+        	scope.ACHDetailsTab = "";
+        	scope.ChildDetailsTab = "";
+        	
+        	scope.clientAdditionalData = webStorage.get("client-additional-data");
+        	//credit card details
+        	 scope.additionaladdressDatas = {};
+        	 resourceFactory.addressEditResource.get({clientId: routeParams.id,addressType:'BILLING'}, function(data) {
+        		 scope.additionaladdressDatas=data.datas;
+        	 });
+        };
+        
+        
+        
         scope.ACHDetailsTabFun = function(){
         	
         	scope.indentitiesSubTab = "";
         	scope.documnetsUploadsTab = "";
         	scope.creditCardDetailsTab = "";
+        	scope.additionaladdressdataSubTab = "";
         	scope.additionaldataSubTab ="";
         	scope.ACHDetailsTab = "active";
         	scope.ChildDetailsTab = "";
@@ -851,6 +975,7 @@
         scope.childsFun = function(){
         	
         	scope.indentitiesSubTab = "";
+        	cope.additionaladdressdataSubTab = "";
         	scope.documnetsUploadsTab = "";
         	scope.creditCardDetailsTab = "";
         	scope.additionaldataSubTab ="";
@@ -986,8 +1111,26 @@
                  data: {}
                })*/
               
-              window.open($rootScope.hostUrl+ API_VERSION +'/billmaster/'+ statementId +'/print?tenantIdentifier=default');
+              window.open($rootScope.hostUrl+ API_VERSION +'/billmaster/'+ statementId +'/print?tenantIdentifier='+TENANT);
         };
+        
+        scope.downloadInvoice = function (invoiceId){
+       	 
+       	 /*http({
+                method:'PUT',
+                url: $rootScope.hostUrl+ API_VERSION +'/billmaster/'+statementId+'/print?tenantIdentifier=default',
+                data: {}
+              })*/
+             
+             window.open($rootScope.hostUrl+ API_VERSION +'/billmaster/invoice/'+ routeParams.id +'/'+invoiceId+'?email=false&tenantIdentifier='+TENANT);
+             
+       };
+       
+       
+       scope.downloadPayment = function (paymentId){
+            
+            window.open($rootScope.hostUrl+ API_VERSION +'/billmaster/payment/'+ routeParams.id +'/'+paymentId+'?email=false&tenantIdentifier='+TENANT);
+      };
          
         scope.cancelScheduleOrder = function(id){
         	resourceFactory.OrderSchedulingResource.remove({'clientId':id}, {}, function(data){
@@ -1009,6 +1152,7 @@
         	scope.paymentsC = "";
         	scope.adjustmentsC = "";
         	scope.journalsC ="";
+        	scope.depositC = "";
         	scope.financialtransactions = paginatorService.paginate(scope.getFinancialTransactionsFetchFunction, 14);
         };
         scope.invoicesTab = function(){
@@ -1017,6 +1161,7 @@
         	scope.invoicesC = "active";
         	scope.adjustmentsC = "";
         	scope.journalsC ="";
+        	scope.depositC = "";
         	scope.financialInvoices = paginatorService.paginate(scope.getInvoice, 14);
         };
         scope.paymentsTab = function(){
@@ -1025,6 +1170,7 @@
         	scope.paymentsC = "active";
         	scope.adjustmentsC = "";
         	scope.journalsC ="";
+        	scope.depositC = "";
         	scope.financialPayments = paginatorService.paginate(scope.getPayments, 14);
         };
         scope.adjustmentsTab = function(){
@@ -1033,6 +1179,7 @@
         	scope.paymentsC = "";
         	scope.adjustmentsC = "active";
         	scope.journalsC ="";
+        	scope.depositC = "";
         	scope.financialAdjustments = paginatorService.paginate(scope.getAdjustments, 14);
         };
         
@@ -1042,8 +1189,21 @@
         	scope.paymentsC = "";
         	scope.adjustmentsC = "";
         	scope.journalsC ="active";
+        	scope.depositC = "";
         	scope.financialJournals = paginatorService.paginate(scope.getjournals, 14);
         };
+        
+        scope.depositsTab = function(){
+        	scope.financialsummaryC = "";
+        	scope.invoicesC = "";
+        	scope.paymentsC = "";
+        	scope.adjustmentsC = "";
+        	scope.journalsC ="";
+        	scope.depositC = "active";
+        	scope.financialDeposits = paginatorService.paginate(scope.getDeposits, 14);
+        	
+        };
+        
         scope.eventsaleTab = function(){
         	scope.eventsaleC = "active";
         	scope.mydeviceC = "";
@@ -1190,7 +1350,7 @@
         };
 
         scope.downloadDocument = function(documentId,index) {
-        	window.open($rootScope.hostUrl+ API_VERSION +'/clients/'+ routeParams.id +'/documents/'+ documentId +'/attachment?tenantIdentifier=default');
+        	window.open($rootScope.hostUrl+ API_VERSION +'/clients/'+ routeParams.id +'/documents/'+ documentId +'/attachment?tenantIdentifier='+TENANT);
             /*resourceFactory.clientDocumentsResource.get({clientId: routeParams.id, documentId: documentId}, '', function(data) {
                 scope.clientdocuments.splice(index,1);
             });*/
@@ -1267,12 +1427,18 @@
   	  scope.getjournals = function(offset, limit, callback,adjustment) {
 	  		resourceFactory.Filetrans.get({clientId: routeParams.id, offset: offset, limit: limit, type:scope.journal}, callback);
 	  	};
+	  	
+	  	scope.getDeposits = function(offset, limit, callback,adjustment) {
+	  		resourceFactory.Filetrans.get({clientId: routeParams.id, offset: offset, limit: limit, type:scope.depositAndRefund}, callback);
+	  	};
+	  	
         scope.getAllFineTransactions = function () {
         	scope.financialsummaryC = "active";
        	   	scope.invoicesC = "";
        	   	scope.paymentsC = "";
        	   	scope.adjustmentsC = "";
        	   	scope.journalsC = "";
+       	   	scope.depositC = "";
           	scope.financialtransactions = paginatorService.paginate(scope.getFinancialTransactionsFetchFunction, 14);
         };
           
@@ -1474,7 +1640,7 @@
 	  					var fromDate = new Date($scope.start.date).getTime();
 	  					var toDate = new Date($scope.to.date).getTime();
 	  					var downloadType = $scope.formData.downloadType;
-	  					window.open($rootScope.hostUrl+ API_VERSION +'/financialTransactions/download/'+ routeParams.id +'?downloadType='+ downloadType +'&fromDate='+fromDate+'&toDate='+toDate+'&tenantIdentifier=default');
+	  					window.open($rootScope.hostUrl+ API_VERSION +'/financialTransactions/download/'+ routeParams.id +'?downloadType='+ downloadType +'&fromDate='+fromDate+'&toDate='+toDate+'&tenantIdentifier='+TENANT);
 	  					$modalInstance.close('delete');
 	  				};
 				
@@ -1482,6 +1648,32 @@
 	  					$modalInstance.dismiss('cancel');
 	  				};
 	  			};
+	  			
+	  			
+	  			 scope.deleteaddress = function (id){
+			    	 scope.id=id;
+			    	 scope.errorDetails = [];
+			    	 scope.errorStatus = [];
+			    	 $modal.open({
+			    		 templateUrl: 'deletePopup.html',
+			  	         controller: approve3,
+			  	         resolve:{}
+			  	     });
+			     };
+			          
+			     function  approve3($scope, $modalInstance) {
+			    	 $scope.approve = function () {
+			    		 resourceFactory.addressResource.remove({clientId:scope.id} , {} , function(data) {
+			    			 $modalInstance.dismiss('delete');
+			    			  route.reload();
+			             },function(errorData){
+			            	 $scope.orderError = errorData.data.errors[0].userMessageGlobalisationCode;
+			             });
+			      	 };
+			         $scope.cancel = function () {
+			        	 $modalInstance.dismiss('cancel');
+			         };
+			     }
 	  			
 	  			
 	  			/**
@@ -1588,6 +1780,50 @@
 		            };
 		        }
 		      	
+		      	 scope.refundAmount = function(id,amount){
+		         	scope.errorDetails = [];
+		         	scope.errorStatus = [];
+		         	$modal.open({
+		                 templateUrl: 'refundamount.html',
+		                 controller: RefundAmountController,
+		                 resolve:{
+		                 	 	getPaymentId:function(){
+		                 	 		return id;
+		                 	 	},
+		                 	 	getAmount:function(){
+		                 	 		return amount;
+		                 	 	}
+		                 }
+		             });
+		         };
+		         
+		         var RefundAmountController = function($scope, $modalInstance, getPaymentId,getAmount){
+		        	$scope.formData = {};
+		        	resourceFactory.refundAmountResource.get({depositAmount:getAmount,depositId:scope.clientId} , function(data){
+		        		$scope.formData.refundAmount = data.availAmount;
+		            },function(errorData){
+  	                	$scope.stmError = errorData.data.errors[0].userMessageGlobalisationCode;
+  	                	
+  	                });
+		        	
+		        	$scope.formData.locale = "en";
+		 			$scope.accept = function(){
+		 				var depositId = getPaymentId;
+		 				resourceFactory.refundAmountResource.save({'depositId':depositId}, $scope.formData, function(data){
+		 					$modalInstance.close('delete');
+		 				    getDetails();
+		 				    scope.getAllFineTransactions();
+		 				},function(errorData){
+	  	                	$scope.stmError = errorData.data.errors[0].userMessageGlobalisationCode;
+	  	                	
+	  	                });         
+		 			};
+		 			
+		 			$scope.reject = function(){
+		 				$modalInstance.dismiss('cancel');
+		 			};
+		 		};
+		      	
 	  			//export financial csv 
 	  			scope.exportFinancialCSV = function(){
             	
@@ -1607,6 +1843,8 @@
 	  			};
 	  			
 	  			var StaticIpPopController = function($scope, $modalInstance){
+	  				scope.errorDetails = [];
+	  				scope.errorStatus = [];
 	  				$scope.formData = {};
 	  				$scope.ipdata = {};
 	  				$scope.formData.poolName = "Adhoc";
@@ -1678,6 +1916,30 @@
 	  	        	};
 	  	        };
 	  	        
+	  	        
+	  	       function depositPopController($scope, $modalInstance){
+		        	$scope.formData = {};
+		        	resourceFactory.depositAmountResource.query({client:scope.clientId} , function(data){
+		        		$scope.depositAmount =data[0].defaultFeeAmount;
+		        		$scope.formData.feeId = data[0].id;
+		            },function(errorData){
+ 	                	$scope.stmError = errorData.data.errors[0].userMessageGlobalisationCode;
+ 	                	
+ 	                });
+		        	
+		        	$scope.formData.clientId =scope.clientId;
+		 			$scope.accept = function(){
+		 				resourceFactory.depositAmountResource.save($scope.formData, function(data){
+		 					$modalInstance.close('delete');
+		 				},function(errorData){
+	  	                	$scope.stmError = errorData.data.errors[0].userMessageGlobalisationCode;
+	  	                	
+	  	                });         
+		 			};
+		 			$scope.reject = function(){
+		 				$modalInstance.dismiss('cancel');
+		 			};
+		 		};
 	  	      
     	}
   });
@@ -1697,6 +1959,7 @@
       '$rootScope',
       'PermissionService', 
       'localStorageService', 
+      'TENANT',
       mifosX.controllers.ViewClientController
       ]).run(function($log) {
     	  $log.info("ViewClientController initialized");

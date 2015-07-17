@@ -8,7 +8,7 @@
   "label.signin":"Sign In",
   "label.systemid": "System Id :",
   "label.product.name" : "Open Billing System",
-  "label.product.version" : "Version 2.0.4",
+  "label.product.version" : "Version 3.0",
   "label.product.status" : "OBS is upto date",
   "label.product.aboutus1" : "Designed by ",
   "label.product.aboutus2" : "A global community",
@@ -65,6 +65,7 @@
   "label.utsCustomerId":"UTS Customer Id",
   "label.preferredCommunication":"Preferred Communication",
   "tab.additionalinfo":"Additional Info",  
+  "tab.addressinfo":"Address Info",
   
 
  "# common table headings":"....",
@@ -222,6 +223,7 @@
   "#common button name":"",
   "button.edit":"Edit",
   "button.add":"Add",
+  "button.addmrn":"Add Mrn",
   "button.save":"Save",
   "button.cancel":"Cancel",
   "button.close":"Close",
@@ -250,7 +252,7 @@
   "table.heading.new.name":"New Name",
   "table.heading.new.code":"New Code",
   "table.heading.associatedwith":"Associated With",
-  "button.createdatatable":"Create Datatable",
+  "button.createdatatable":"Create Data Table",
   "label.edit.datatable":"Edit Datatable",
   "dialog.dataTable.title.message":"Delete Datatable",
   "validation.msg.datatable.length.not.greater.than.zero":"Please provide string length value",
@@ -434,6 +436,11 @@
   "link.logout" : "LogOut",
   "link.admin.provision" : "Adapter Provision",
   "label.eventactions":"Event Actions",
+  "button.additemdetails":"Add Item Details",
+  "button.addgoodreceipt":"Goods Receipt",
+  "button.addmrn":"Add Mrn",
+  "button.addsupplier":"Add Supplier",
+  
   
 
   "#accounting coa":"....",
@@ -496,6 +503,7 @@
   "currencyIdSelectAll":"Select A Currency",
   "validation.msg.report.reportName.cannot.be.blank":"Report Name cannot be blank",
   "validation.msg.report.reportSql.must.be.provided.when.reportType.is.Table":"SQL field cannot be Blank",
+  "error.message.report.incorrect.values.for.date.fields":"Please give startDate should be less than endDate",
 
   "#DataTables":"...",
   "apptable.m.client":"Client",
@@ -539,7 +547,7 @@
   "error.not.numeric.validation":"Enter Numeric Value",
   "error.not.decimal.validation":"Enter Decimal Value",
   "error.invalid.phone.validation":"MAX Length 15 Numbers",
-
+   
 
   "#Journal Entry Predefined Postings":"........",
   "label.select.accountingrule":"--Select accounting rule--",
@@ -733,6 +741,8 @@
   "label.contract.error":"Errors:",
   "validation.msg.subscriptoins.subscriptionPeriod.cannot.be.blank":"Contract Period Cannot be Blank",
   "validation.msg.subscriptoins.units.cannot.be.blank":"UNITS Cannot be Blank",
+  "error.msg.contract.code.duplicate.name":"A contract with the same name already exists. Please use a different name",
+   "error.code.definition.length.validation":"Value exceeded. Please enter a valid value",
   
   "#Plan":"......",
   "link.create.new.plan":"Add Plan",
@@ -741,7 +751,7 @@
   "table.plan.code":"Plan Code",
   "table.plan.description":"Plan Description",
   "table.plan.status":"Status",
-  "table.plan.provision system":"Provision System",
+  "table.plan.provision system":"Provisioning System",
   "label.plans":"Manage Plans",
   "label.createplan":"Create Plan",
   "label.plan.plancode":"Plan Code",
@@ -759,7 +769,7 @@
   "label.availableservice":"Available Service",
   "label.selectedservice":"Selected Service",
   "label.plan.isprepaid":"Is Prepaid",
-  "label.plan.ishwreq":"Is Device Require:",
+  "label.plan.ishwreq":"Is Device Require",
   "label.plan.duration":"Duration",
   "label.plan.volume":"Volume",
   "label.plan.units":"Units",
@@ -775,6 +785,11 @@
   "validation.msg.plan.planDescription.cannot.be.blank":"Plan Description Cannot be Blank",
   "validation.msg.plan.billRule.cannot.be.blank":"Select Rule From List",
   "plan.is.already.exists.with.charge.code":"Price Already Exist With This Charge Code",
+  "error.msg.prepaid.chargecode.contract.should.be.same":"Chargecode and Duration values must be same",
+  "error.msg.contract.duration.cannot.be.null":"Please select Duration",
+  "error.msg.postpaid.billfrequency.less.than.contractperiod":" Billing Frequency must be less than Contract Period",
+  "error.msg.select.renewal.period.more.than":"Please select Renewal Period more than '{{params[0].value}}'",
+  "error.msg.select.renewal.period.must.be":"Please select Renewal Period must be '{{params[0].value}}'",
     
   "#Price":".......",
   "label.creatprice":"Create Price",
@@ -801,7 +816,7 @@
   "label.discountdetails":"Discount Details",
   "table.heading.customerCategory":"Customer Category",
   "label.discountrate":"Discount Rate",
-  "validation.msg.discount.discountPrices.not.greater.than.zero":"Please Select atleast one discount category",
+  "validation.msg.discount.discountPrices.not.greater.than.zero":"Please Select atleast one Discount Details",
   "error.msg.customer.category.discount.duplicate.name":"Duplicate customer category discount price found",
   "label.fieldserror":"Please add all fields",
   "dialog.price.title.message":"Delete Price",
@@ -1062,6 +1077,8 @@
   "table.heading.pinType":"Pin Type",
   "table.heading.pinValue":"Pin Value",
   "table.heading.expiryDate":"Expiry Date",
+  "table.heading.propertycode":"Property Code",
+  "label.allocateproperty":"Allocate Property",
   
   "#Discounts":"....",
   "link.create.new.discount":"Create Discounts",
@@ -1185,6 +1202,7 @@
   "table.heading.country":"Country",
   "table.heading.currency":"Currency",
   "table.heading.status":"Status",
+  "table.heading.isd":"ISD",
   "label.currencydetails":"Currency Details",
   "label.viewcurrencydetails":"View Currencydetails",
   "label.editcurrencydetails":"Edit",
@@ -1194,6 +1212,7 @@
   "label.basecurrency":"Base Currency",
   "label.conversionrate":"Conversion Rate",
   "label.status":"Status",
+  "label.isd":"ISD",
   "label.currencyconfig":"Currency configuration",
   "label.editcurrencyconfig":"Edit Currecny Configuration",
   "error.msg.countrycurrency.duplicate.configuration":"Country with '{{params[0].value}}' already configured",
@@ -1387,6 +1406,7 @@
   "validation.msg.chargecode.billFrequencyCode.not.zero.or.greater":"Missing Bill Frequency Code",
   "validation.msg.chargecode.chargeType.not.zero.or.greater":"Missing Charge Type",
   "validation.msg.chargecode.durationType.not.zero.or.greater":"Missing Duration Type",
+  "validation.msg.chargecode.chargeDuration.not.greater.than.zero":"Charge Duration should not Greaterthan Zero",
   "error.msg.chargecode.duplicate.name":"Charge Code already exist with this name",
   "error.msg.chargecode.can not.delete or update already use":"Charge code in use, cannot delete or update",
   "validation.msg.taxmap.chargeCode.not.zero.or.greater":"Missing Charge code",
@@ -1418,7 +1438,7 @@
   "validation.msg.taxmap.taxCode.cannot.be.blank":"Tax code cannot be blank",
   "validation.msg.taxmap.rate.cannot.be.blank":"Tax rate cannot be blank",
   "validation.msg.taxmap.taxType.cannot.be.blank":"Tax type cannot be blank",
-  
+  "validation.msg.taxmap.taxRegion.cannot.be.blank":"Regional Tax cannot be blank",
   
   "#Inventory":"...",
   "link.admin.inventory":"Inventory",
@@ -1529,7 +1549,8 @@
   "label.mrn.id":"Mrn Id",
   "label.mrn.serialnumber":"Serial Number",
   "label.create.move.mrn":"Move Mrn",
-  "label.create.new.mrn":"Add Mrn",
+  "label.create.new.mrn":"Add Item Sale",
+  "label.create.add.mrn":"Add Mrn",
   "label.mrn.requestdate":"Requested Date",
   "label.mrn.tooffice":"To Office",
   "label.mrn.item":"Item",
@@ -1600,7 +1621,7 @@
   "label.unitPrice":"Unit Price",
   "label.saleDate":"Sale Date",
   "label.rentaleDate":"Rental Date",
-  "label.regions":"Regions",
+  "label.regions":"Price Regions",
   "link.allocationdetails":"Allocation Details",
   "table.heading.id":"Id",
   "table.heading.itemdescription":"Item Description",
@@ -1696,6 +1717,7 @@
   "error.msg.billing.address.city.not.found":"City Not Found",
   "label.addaddress":"Add Address",
   "label.addotheraddress":"Add Other Address",
+  "label.addProperty":"Add Property",
   
   "#link.scheduler":"....",
   "link.scheduler":"Scheduler",
@@ -1980,6 +2002,7 @@
   "validation.msg.planmappig.planCode.cannot.be.blank":"Plan Code cannot be blank",
   "validation.msg.planmappig.itemCode.cannot.be.blank":"Item Code cannot be blank",
   "error.msg.service.mapping.duplicate":"Mapping has already done with this service",
+  "validation.msg.ServiceMapping.provisionSystem.cannot.be.blank":"Please Select Provisioning system",
   
   "#HardWareMapping":"...........",
   "table.hardwaremapping.id":"Id",
@@ -2134,6 +2157,7 @@
 "table.heading.cityName" : "City Name",
 "button.payInvoice" : "Pay Invoice",
 "button.distribution" : "Distribute",
+"label.countrylist" : "Country List",
 
 "table.heading.distributionDate":"Distribution Date",
 "table.heading.paymentId":"Payment Id",
@@ -2216,16 +2240,16 @@
 "#Add CreditCard":".....",
 "link.view.creditcard":"CreditCard",
 "label.client.creditcard":"Add CreditCard Details",
-"label.carddetails.id":"id  : ",
-"label.client.creditcard.name":"Name on Card : ",
-"label.client.creditcard.cardnumber":" Card Number : ",
-"label.client.creditcard.expirydate":"Expiry Date : ",
+"label.carddetails.id":"id",
+"label.client.creditcard.name":"Name on Card",
+"label.client.creditcard.cardnumber":" Card Number",
+"label.client.creditcard.expirydate":"Expiry Date",
 "label.client.achcard":"ACH Details",
-"label.client.achcard.name":"Name on Customer Account : ",
-"label.client.achcard.routingNumber":"ABA Routing Number : ",
-"label.client.achcard.bankAccountNumber":"Bank Account Number : ",
-"label.client.achcard.bankName":"Bank Name : ",
-"label.client.achcard.accountType":"Account Type : ",
+"label.client.achcard.name":"Name on Customer Account",
+"label.client.achcard.routingNumber":"ABA Routing Number",
+"label.client.achcard.bankAccountNumber":"Bank Account Number",
+"label.client.achcard.bankName":"Bank Name",
+"label.client.achcard.accountType":"Account Type",
 "table.heading.cardNumber":"Card Number",
 "table.heading.cardExpiryDate":"Expiry Date",
 "table.heading.routingNumber":"ABA Routing Number",
@@ -2491,6 +2515,7 @@
 "table.addons.price":"Price",
 "validation.msg.addons.planId.cannot.be.blank":"Select Plan from the List",
 "validation.msg.addons.chargeCode.cannot.be.blank":"Select charge code",
+"error.msg.select.addon.period.more.than":"contract is not applicable for this chargecode.",
 "validation.msg.addons.priceRegionId.cannot.be.blank":"Select price region",
 "validation.msg.addons.addons.not.greater.than.zero":"Add at-least one service from category's",
 "validation.msg.addons.null.not.greater.than.zero":"Select at-least one service",
@@ -2515,6 +2540,10 @@
 "link.create.new.nas":"Create NAS",
 "label.createnas":"Create NAS",
 "label.nas.message":"Delete NAS",
+"label.heading.shortname"		: "Short Name",
+"label.heading.ip"				: "IP",
+"lable.heading.secret"			: "Secret",
+"lable.heading.description"		: "Description",
 
 "#radService":".......",
 "tab.radService":"RadService",
@@ -2636,10 +2665,11 @@
 "label.anchor.edittemplate":"Edit Template",
 "label.anchor.deletetemplate":"Delete Template",
 "label.heading.text":"Text",
-"validation.msg.template.name.cannot.be.blank":"template name cannot be blank",
-"error.msg.tempalte.duplicate.name":"template name already exists",
+"validation.msg.template.name.cannot.be.blank":"Template name cannot be blank",
+"error.msg.tempalte.duplicate.name":"Template name already exists",
 
 "#Property Definition":"........",
+"label.current.device" :"Device",
 "table.heading.propertycode":"Property Code",
 "table.heading.propertytype":"Property Type",
 "table.heading.parcel":"Parcel",
@@ -2651,6 +2681,8 @@
 "label.propertycode":"Property Code",
 "label.unitcode":"Unit Code",
 "label.floor":"Floor / Level",
+"label.devices" :"Devices",
+"label.shifting.address":"Shifting To",
 "label.buildingcode":"Building Code",
 "label.parcel":"Parcel",
 "label.precinct":"Precinct",
@@ -2697,6 +2729,7 @@
 "validation.msg.propertycodemaster.code.exceeds.max.length":"Code cannot be exceeds it's max length",
 "validation.msg.propertycodemaster.propertyCodeType.exceeds.max.length":"",
 "validation.msg.propertycodemaster.description.exceeds.max.length":"Code Description cannot be exceeds it's max length",
+"error.msg.property.code.device.mapping.exist":"Property Mapped with Device",
 
 
 "#vendor":".......",
@@ -2738,6 +2771,7 @@
 "error.msg.enddate.greater.than.startdate":"EndDate should be greater than StartDate",
 "error.msg.vendor.contentcode.lshare.duplicate":"Duplicate data with same Contentcode and loyaltyshare",
 "error.msg.vendor.active.agreement.with.this.dates":"Active agreement, already exist with same effective start & end date",
+"validation.msg.vendormanagement.vendormobileNo.exceeds.max.length":"MobileNo exceeds maximum length",
 
 "#Service Transfer ":".......",
 "label.service.transfer"		: "Service Transfer",
@@ -2776,15 +2810,25 @@
 "label.feemaster.selete.regionname" :  "Select Region Name",
 
 "#Fee Master  ":".......",
-"validation.msg.feemaster.feeCode.cannot.be.blank"    		 : "Fee Code can not be blank",
-"validation.msg.feemaster.feeDescription.cannot.be.blank"    : "Fee Description can not be blank",
-"validation.msg.feemaster.transactionType.cannot.be.blank"   : "Transaction Type can not be blank",
-"validation.msg.feemaster.chargeCode.cannot.be.blank"  		 : "Charge Code can not be blank",
-"validation.msg.feemaster.defaultFeeAmount.cannot.be.blank"  : "Default Fee Amount can not be blank",
+"validation.msg.feemaster.feeCode.cannot.be.blank"    		 : "Fee Code cannot be blank",
+"validation.msg.feemaster.feeDescription.cannot.be.blank"    : "Fee Description cannot be blank",
+"validation.msg.feemaster.transactionType.cannot.be.blank"   : "Transaction Type cannot be blank",
+"validation.msg.feemaster.chargeCode.cannot.be.blank"  		 : "Charge Code cannot be blank",
+"validation.msg.feemaster.defaultFeeAmount.cannot.be.blank"  : "Default Fee Amount cannot be blank",
 "error.msg.feemaster.regional.price.not.found":"No Regional Price found for this Service Transfer",
 "validation.msg.feemaster.regionPrices.not.greater.than.zero" :"Please add atleast one region price",
 "label.pgconfig.editconfig":"Edit Configurations",
-"label.form.module":"Module"
+"label.form.module":"Module",
+
+"error.msg.fee.transaction.alredy.exists":"A Fee with this transaction already exists,Please Update it",
+
+"#Deposit and Refund  ":".......",
+"error.msg.hardware.unallocated":"Please Unallocate hardware",
+"error.msg.unable.to.refund.clientbalance.greater.than.refund.amount":"Unable refund client due balance is greater than refund balance",
+"error.msg.hardware.quality.not.good":"Item Quality is not good"
+"error.msg.fee.code.duplicate.name":"Fee Code already exists",
+"error.msg.fee.transaction.alredy.exists":"A Fee with this transaction already exists,Please Update it"
+
 
 
 

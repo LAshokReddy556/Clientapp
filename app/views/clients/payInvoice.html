@@ -75,7 +75,7 @@
 
 			  				<input  id="accountId" type="radio" name="selectType"  data-ng-click="selectedAccount()" checked/>&nbsp;&nbsp;Account&nbsp;&nbsp;
 						  	<input  id="invoiceId" type="radio" name="selectType"  data-ng-click="selectedInvoice()"/>&nbsp;&nbsp;Invoice
-
+							<input  id="depositId" type="radio" name="selectType"  data-ng-click="selectedDeposit()"/>&nbsp;&nbsp;Deposit
 						  	</div>
 						  	</div>
 			 			 </td>
@@ -109,7 +109,7 @@
 								<div class="control-group">
            					 	<label class="control-label" for="amountPaid">{{ 'label.amount' | translate }}</label>
             					<div class="controls">
-             					 <input type="text" id="amountPaid" name="amountPaid" data-ng-model="formData.amountPaid" data-ng-pattern="{{'decimal' | CodeValidate}}"/>
+             					 <input type="text" id="amountPaid" name="amountPaid" data-ng-model="formData.amountPaid" data-ng-change="selectInvoice&&amountChange(formData.amountPaid)" data-ng-pattern="{{'decimal' | CodeValidate}}"/>
              					 <input data-ng-show="showInvoiceDetails" type="text" class="input-small" id="payAvailAmount" 
              					    name="payAvailAmount" data-ng-model="payAvailAmount" data-ng-pattern="{{'decimal' | CodeValidate}}" disabled/>
              					     <span data-ng-show="payInvoiceForm.amountPaid.$dirty && payInvoiceForm.amountPaid.$invalid">
@@ -123,7 +123,7 @@
 							<tr>
 							<td>
 								<div class="control-group">
-           					 	<label class="control-label" for="receiptNo">{{ 'label.receiptno' | translate }}<span class="required">*</span></label>
+           					 	<label class="control-label" for="receiptNo">{{ 'label.receiptno' | translate }}<!-- <span class="required">*</span> --></label>
             					<div class="controls">
              					 <input type="text" id="receiptNo" name="receiptno" data-ng-model="formData.receiptNo">
            						</div>
@@ -219,7 +219,7 @@
 			  </tr>
 			</table>
 			<br>
-			 <div class="offset3" data-ng-hide= "selectInvoice">
+			 <div class="offset3" data-ng-hide= "selectInvoice || selectDeposit">
            		 <a href='#/viewclient/{{clientId}}' class="btn">Cancel</a>
           		 <button id="submit" type="submit" data-ng-disabled="payInvoiceForm.$dirty && payInvoiceForm.$invalid" class="btn btn-primary" data-ng-click = "submitAccount()">{{'button.save'| translate}}</button>
           	</div>
@@ -233,10 +233,18 @@
           		</div>
         	</div>
 			<br>
-
-<div data-collapse = "!showInvoiceDetails">
-
-			<table class="table" >
+			<div class="control-group" data-ng-show = "selectDeposit">
+          		<label class="control-label">Show Deposit Details</label>
+         		 <div class="controls">
+            		<a class="btn btn-primary" data-ng-click="showDeposits()">
+              			<i data-ng-show="showDepositDetails" class="icon-minus icon-white"></i>
+             			 <i data-ng-show="!showDepositDetails" class="icon-plus icon-white"></i>
+            		</a>
+          		</div>
+        	</div>
+        	<br>
+<div data-collapse = "!showInvoiceDetails" data-ng-show="selectInvoice &&formData.amountPaid" >
+	<table class="table" >
         <thead>
             <tr class="graybg">
             	<th>select</th>
@@ -251,7 +259,7 @@
         <tbody>
              <tr data-ng-repeat="invoiceData in invoiceDatas" >
            
-            	<td> <input  id="{{invoiceData.id}}" class="unCheck" type="checkbox" data-ng-model="active" data-ng-change="selectedInvoices(invoiceData.id,invoiceData.dueAmount,active,$index)"/></td>
+            	<td> <input  id="{{invoiceData.id}}" class="unCheck" type="checkbox" data-ng-model="invoiceData.active" data-ng-change="selectedInvoices(invoiceData.id,invoiceData.dueAmount,invoiceData.active,$index)"/></td>
             	<td>{{invoiceData.id}}</td>
                 <td>{{invoiceData.billDate | DateFormat}}</td>
                  <td>{{invoiceData.amount}}</td>
@@ -279,7 +287,40 @@
             <a href='#/viewclient/{{clientId}}' class="btn">{{'button.cancel'  | translate}}</a>
           <button id="submit" type="submit" class="btn btn-primary" data-ng-disabled="payInvoiceForm.$dirty && payInvoiceForm.$invalid" class="btn btn-primary" data-ng-click = "submitAccount()">Pay</button>
           </div>	
+ </div>
+ 
+ <div data-collapse = "!showDepositDetails" data-ng-show="selectDeposit" >
+
+			<table class="table" >
+        <thead>
+            <tr class="graybg">
+            	<th>select</th>
+                <th>Id</th>
+                <th>Transaction Date</th>
+                <th>Debit Amount</th>
+        
+            </tr>
+        </thead>
+        <tbody>
+             <tr data-ng-repeat="depositData in depositDatas" >
+           
+            	<td> <input  id="{{depositData.id}}" class="unCheck" type="checkbox" data-ng-model="active" data-ng-change="selectedDepositInvoices(depositData.id,depositData.debitAmount,active,$index)"/></td>
+            	<td>{{depositData.id}}</td>
+                <td>{{depositData.transactionDate | DateFormat}}</td>
+                <td>{{depositData.debitAmount}}</td>
+                
+            </tr>
+            
+        </tbody>
+    </table>
+    	<br>
+		<div class="pull-right">
+            <a href='#/viewclient/{{clientId}}' class="btn">{{'button.cancel'  | translate}}</a>
+          <button id="submit" type="submit" class="btn btn-primary" data-ng-disabled="payInvoiceForm.$dirty && payInvoiceForm.$invalid" class="btn btn-primary" data-ng-click = "submitAccount()">Pay</button>
+          </div>	
  </div> 
+ 
+ 
         </fieldset>
       </form>
       <script type="text/ng-template" id="alert.html">
@@ -287,7 +328,7 @@
                         <h3 class="bolder">Warning</h3>
                     </div>
                     <div class="modal-body" modal-middle>
-                       <i class="icon-warning-sign error"></i>Paying Amount cann't be greater than <span style='color:blue;font-size:15px;'>"Invoice Due Amount"</span>.
+                       <i class="icon-warning-sign error"></i>Available Paying Amount <span style='color:blue;font-size:15px;'> ZERO </span> now
                     </div>
                     <div class="modal-footer">
 						<button class="btn btn-primary" ng-click="approve()">ok</button>

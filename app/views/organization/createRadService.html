@@ -172,7 +172,7 @@
             				   <label class="control-label" for="limitexpiration">{{ 'label.limitexpiration' | translate }}</label>
             				     <div class="controls">
               					    <label class="checkbox">
-                					   <input type="checkbox" ng-true-value="1" ng-false-value="0" data-ng-model="formData.limitexpiration">
+                					   <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-checked="formData.limitexpiration=='1'" data-ng-model="formData.limitexpiration">
               					</label>
             				</div>
           				</div>
@@ -182,7 +182,7 @@
             				   <label class="control-label" for="renew">{{ 'label.renew' | translate }}</label>
             				     <div class="controls">
               					    <label class="checkbox">
-                					   <input type="checkbox" ng-true-value="1" ng-false-value="0" data-ng-model="formData.renew">
+                					   <input type="checkbox" ng-true-value="1" ng-false-value="0" data-ng-model="formData.renew" ng-checked="formData.renew=='1'">
               					</label>
             				</div>
           				</div>

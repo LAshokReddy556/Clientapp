@@ -1,6 +1,6 @@
 selfcareApp.config(function($provide) {
     $provide.provider('RequestSender',function(){
-      var baseUrl = "" , apiVer = "/obsplatform/api/v1";
+      var baseUrl = "" , apiVer = selfcareModels.OBS_URL;
       this.setBaseUrl = function(url) {baseUrl = url;};
       this.$get = ['$resource','$rootScope', function(resource,$rootScope) {
         var defineResource = function(url, paramDefaults, actions) {
@@ -117,7 +117,7 @@ selfcareApp.config(function($provide) {
         	
         	scheduleOrderResource: defineResource(apiVer + "/orders/scheduling/:clientId", {clientId:'@clientId'}, {}),
         	
-        	recurringStatusCheckingResource: defineResource(apiVer + "/chargecode/:planId/:billFrequency/:contractPeriod/:clientId", {planId:'@planId',billFrequency:'@billFrequency',contractPeriod:'@contractPeriod',clientId:'@clientId'}, {}),
+        	finalPriceCheckingResource: defineResource(apiVer + "/chargecode/:priceId/:clientId", {priceId:'@priceId',clientId:'@clientId'}, {}),
         	
         	getRecurringScbcriberIdResource: defineResource(apiVer + "/recurringpayments/:orderId", {orderId:'@orderId'}, {}),
         	
@@ -125,8 +125,18 @@ selfcareApp.config(function($provide) {
         		update : {method: 'PUT', params: {}}
         	}),
 
-		clientIdentifiersResource: defineResource(apiVer + "/clients/:clientId/identifiers", {clientId:'@clientId'}, {}),
-
+        	clientIdentifiersResource: defineResource(apiVer + "/clients/:clientId/identifiers", {clientId:'@clientId'}, {}),
+        	
+        	planServicesResource: defineResource(apiVer + "/plans/:planId", {planId:'@planId'}, {}),
+        	
+        	evoPaymentGatewayResource: defineResource(apiVer + "/evo/:method", {method:'@method'}, {}),
+        	
+        	clientDataResource: defineResource(apiVer + "/clients/additionalinfo/:clientId", {clientId:'@clientId'}, {
+        		update : {method: 'PUT', params: {}}
+        	}),
+        	
+        	gettingContractsResource: defineResource(apiVer + "/orders/:planId/template", {planId:'@planId'}, {}),
+        	
         	
         };
       }];

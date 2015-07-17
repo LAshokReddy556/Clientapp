@@ -1252,7 +1252,10 @@ input#search:-ms-input-placeholder {
     .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
     right: 0px;
     } */
-
+#calendar {
+	max-width: 900px;
+	margin: 0 auto;
+}
 input.span3,
 textarea.span3,
 .uneditable-input.span3 {
