@@ -13,16 +13,18 @@
 			scope.cityDatas = [];
 			scope.first = {};
 			scope.first.time = {};
-			scope.first.date = new Date();
+			//scope.first.date = new Date();
 			scope.publicityFlag = false;
-			scope.minDate = new Date();
+			//scope.minDate = new Date();
 							
 			$('#timepicker1').timepicker({				
 				showMeridian : false				
 			});
 				
 			resourceFactory.prospectResource.getViewProspects({ prospectId : routeParams.id }, function(data) {
-								
+				
+				scope.minDate = new Date(data.date);
+				
 				scope.editprospects = data;								
 				scope.sourceOfPublicityDatas = data.sourceOfPublicityData;
 				scope.planDatas = data.planData;
@@ -58,6 +60,7 @@
 				delete scope.editprospects.countryData;
 				delete scope.editprospects.stateData;
 				delete scope.editprospects.cityData;
+				delete scope.editprospects.date;
 
 				delete scope.editprospects.sourceOfPublicityInt;
 

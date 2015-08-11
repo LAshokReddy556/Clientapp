@@ -5,9 +5,10 @@
         scope.officeDatas = [];
         scope.supplierDatas = [];
         scope.formData = {};
-        scope.formData.purchaseDate = new Date();
+        //scope.formData.purchaseDate = new Date();
         
         resourceFactory.grnTemplateResource.get(function(data) {
+        	scope.formData.purchaseDate = new Date(data.date);
         	scope.itemDatas = data.itemData;
             scope.officeDatas = data.officeData;
             scope.supplierDatas = data.supplierData;

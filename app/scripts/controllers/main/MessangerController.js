@@ -4,14 +4,14 @@
     		scope.userChatDatas=[];
     		 scope.first = {};
     		 scope.PermissionService = PermissionService;
-   		  scope.first.date = new Date();
+   		  //scope.first.date = new Date();
    		  scope.appUserDatas=[];
    		scope.userSentmessageDatas=[];
    		 
    		scope.flag=false;
    		// scope.formData=[];
-   		  scope.first.time = scope.first.date.getHours()+":"+scope.first.date.getMinutes();
-   		scope.minDate = new Date();
+   		  /*scope.first.time = scope.first.date.getHours()+":"+scope.first.date.getMinutes();
+   		scope.minDate = new Date();*/
 		  $('#timepicker1').timepicker({
 			  showMeridian:false
 		  });
@@ -24,6 +24,10 @@
 		};
 	        */
             resourceFactory.userChatResource.get({} , function(data) {
+            	scope.first.date = new Date(data.date);
+            	scope.first.time = scope.first.date.getHours()+":"+scope.first.date.getMinutes();
+           		scope.minDate = new Date(data.date);
+            	
             	scope.userChatDatas = data.userChatDatas;
             	scope.appUserDatas=data.appUserDatas;
             });

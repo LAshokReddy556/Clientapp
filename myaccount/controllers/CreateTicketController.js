@@ -2,8 +2,8 @@
             
 			
 			
-			 scope.start = {date:new Date()};
-			 scope.minDate= scope.start.date;
+			 scope.start = {};
+			 //scope.minDate= scope.start.date;
 			 
 			 scope.first = {};
 		     
@@ -19,6 +19,8 @@
 			   
 			   scope.priorityTypes = [];scope.problemsDatas = [];scope.usersDatas=[];scope.sourceData=[];
 			   RequestSender.ticketResourceTemplate.get(function(data){ 
+				   scope.start.date = new Date(data.date);
+				   scope.minDate= scope.start.date;
 				   
 				   scope.date = data.ticketDate;
 				   scope.priorityTypes=data.priorityType;
@@ -52,7 +54,7 @@
 	        	
 	            scope.formData.ticketDate = dateFilter(scope.start.date,'dd MMMM yyyy');
 				scope.formData.dateFormat = 'dd MMMM yyyy';
-				scope.formData.ticketTime = ' '+new Date().toLocaleTimeString().replace("IST","").trim();
+				scope.formData.ticketTime = ' '+new Date(scope.formData.ticketDate).toLocaleTimeString().replace("IST","").trim();
 				RequestSender.ticketResource.save({'clientId': scope.clientId},scope.formData,function(data){
 					location.path('/tickets');
                });

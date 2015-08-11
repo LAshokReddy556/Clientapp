@@ -6,6 +6,8 @@
 			scope.propertyCodes = [];
 			scope.propertyMasters = [];
 			scope.PermissionService = PermissionService;
+			scope.totalPages = 1;
+			scope.pageNo	 = 1;
 			
 			var callingTab = webStorage.get('callingTab', null);
 			if (callingTab == null) {
@@ -20,7 +22,15 @@
 			
 	
 			scope.propertyDetailsFetchFunction = function(offset, limit, callback) {
-				resourceFactory.propertyCodeResource.getAlldetails({offset: offset, limit: limit} , callback);
+				resourceFactory.propertyCodeResource.getAlldetails({offset: offset, limit: limit} , function(data){
+		        	scope.totalpropeties = data.totalFilteredRecords;
+		        	scope.allDatas = data.pageItems;
+		        	if(scope.totalpropeties%15 == 0)	
+		        		scope.totalPages = scope.totalpropeties/15;
+		        	else
+		        		scope.totalPages = Math.floor(scope.totalpropeties/15)+1;   
+		        	callback(data);
+		        });
 			};
 			
 			scope.getAllProperties = function(){
@@ -37,9 +47,29 @@
 		  			scope.propertyCodes = paginatorService.paginate(scope.searchPropertyDetails123, 14);
 		  	};
 		
+		    scope.nextPageNo = function(){
+		    	  if(scope.pageNo < scope.totalPages)
+		    	   scope.pageNo +=1;
+		      };
+		      
+		      scope.previousPageNo = function(){
+		    	  if(scope.pageNo >1)
+		    	  scope.pageNo -=1;
+		      };
+		      
+		      scope.lastPageNo = function(){
+		    	  scope.pageNo =scope.totalPages;
+		      };
+		      
+		      scope.firstPageNo = function(){
+		    	  scope.pageNo =1;
+		      };
+		      
+		  	
 			scope.routeToProperty = function(id) {
 				location.path('/viewproperty/' + id);
 			};
+			 
 		  	
 		  	
 		    /**
@@ -140,8 +170,16 @@
     	     
     	     
     	     scope.propertyMasterFetchFunction = function(offset, limit, callback) {
- 				resourceFactory.propertyResource.getAlldetails({offset: offset, limit: limit} , callback);
- 			};
+ 				resourceFactory.propertyResource.getAlldetails({offset: offset, limit: limit} , function(data){
+		        	scope.totalpropeties = data.totalFilteredRecords;
+		        	scope.allDatas = data.pageItems;
+		        	if(scope.totalpropeties%15 == 0)	
+		        		scope.totalPages = scope.totalpropeties/15;
+		        	else
+		        		scope.totalPages = Math.floor(scope.totalpropeties/15)+1;   
+		        	callback(data);
+		        });
+			};
  			
  			scope.getPropertyMaster=function(){
  			   scope.propertyMasters = paginatorService.paginate(scope.propertyMasterFetchFunction, 14);
@@ -250,43 +288,3 @@
 	    	$log.info("PropertyController initialized");
 	    });
 }(mifosX.controllers || {}));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

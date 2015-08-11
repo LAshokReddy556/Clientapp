@@ -16,7 +16,7 @@
 			scope.submit = function() {
 				this.formData.locale = $rootScope.locale.code;
 				resourceFactory.chargecodeResource.save(this.formData,function(data) {
-					location.path('/viewchargecode/'+ data.resourceId);
+					location.path('/chargecode');
 				});
 			};
 		}

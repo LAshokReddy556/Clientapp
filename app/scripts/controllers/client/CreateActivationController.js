@@ -21,14 +21,17 @@
           scope.offices = [];
           scope.first = {};
           scope.allocation={};
-          scope.first.date = new Date();
-          scope.allocation.date=new Date();
+          /*scope.first.date = new Date();
+          scope.allocation.date=new Date();*/
           scope.formData1 = {};
           scope.formData={};
           scope.clientCategoryDatas=[];
           scope.configurationProperty=[];
           
           resourceFactory.clientTemplateResource.get(function(data) {
+        	  scope.first.date = new Date(data.date);
+              scope.allocation.date=new Date(data.date);
+              
               scope.offices = data.officeOptions;
               scope.formData1.officeId = scope.offices[0].id;
               scope.clientCategoryDatas=data.clientCategoryDatas;
@@ -104,7 +107,7 @@
 //addonetimsale controller
       	
 			  scope.formData2 = {};
-	          scope.maxDate = new Date();
+	          //scope.maxDate = new Date();
 	          
 	          var config = webStorage.get("client_configuration").deviceAgrementType;
 			  scope.config=config;
@@ -129,7 +132,8 @@
 			            }
 	                    scope.onetimesales=data;
 		            scope.date= {};
-		            scope.date.saleDate = new Date();
+		            scope.date.saleDate = new Date(data.date);
+		            scope.maxDate = new Date(data.date);
 		            
 		        });
 	        
@@ -222,7 +226,7 @@
 	        scope.subscriptiondatas=[];
 	        scope.paytermdatas=[];
 	        scope.start = {};
-	        scope.start.date = new Date();
+	        //scope.start.date = new Date();
 	        scope.sortingOrder = 'planCode';
 	        scope.reverse = false;
 	        scope.filteredItems = [];
@@ -238,7 +242,8 @@
 	        scope.formData6={};
 	       
 	        resourceFactory.orderTemplateResource.get({planId:'0'},function(data) {
-	        	 
+	          scope.start.date = new Date(data.date);
+	        	
 	          scope.plandatas = data.plandata;
 	          scope.items = data.plandata;
 	          scope.prepaidPlansitems = data.plandata;

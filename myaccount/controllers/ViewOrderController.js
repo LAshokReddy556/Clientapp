@@ -14,6 +14,8 @@ ViewOrderController = function(scope,RequestSender,routeParams,$modal,dateFilter
 		            }else{
 		            	scope.orderData.isPrepaid="Post Paid";
 		            }
+				  
+				  scope.orderGetDate = data.date;
 			  });
 		  }
 		  
@@ -24,7 +26,7 @@ ViewOrderController = function(scope,RequestSender,routeParams,$modal,dateFilter
         	                              {'id':2,'mCodeValue':'Plan Change'},
 							        	  {'id':3,'mCodeValue':'Wrong plan'}];
         	  $scope.start = {};
-        	  $scope.start.date = new Date();
+        	  $scope.start.date = new Date(scope.orderGetDate);
         	  $scope.formData = {};
         	  
         	  $scope.approveDisconnection = function () {

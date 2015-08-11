@@ -13,6 +13,7 @@
         scope.volumeTypes=[];
         
         resourceFactory.planResource.get({planId: scope.planId, template: 'true'} , function(data) {
+        	scope.minDate = new Date(data.date);
             scope.formData = {
             					planCode 				: data.planCode,
             					status 					: data.status,

@@ -4,6 +4,7 @@
         scope.formData = {};
         scope.first = {};
         resourceFactory.officeResource.get({officeId: routeParams.id, template: 'true'} , function(data) {
+        	scope.minDate = new Date(data.date);
             if(data.openingDate){
             var editDate = dateFilter(data.openingDate,'dd MMMM yyyy');
             scope.officeTypes = data.officeTypes;

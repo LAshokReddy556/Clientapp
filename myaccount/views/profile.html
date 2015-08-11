@@ -105,7 +105,7 @@
 	  		   <tr class="graybg drakgraybg">
 	             <th>{{'table.header.statement.billdate'|translate}}</th>
 	             <th>{{'table.header.statement.duedate'|translate}}</th>
-	             <th>{{'table.header.statement.amount'|translate}}</th>
+	             <th>{{'table.header.statement.amount'|translate}}({{currencyCode}})</th>
 	             <th>{{'header.actions'|translate}}</th>
 	        	</tr>
 			 </thead>
@@ -113,7 +113,7 @@
 				<tr data-ng-repeat="statement in statementsData.currentPageItems  | filter:filterText" >                 
 	   				<td style="font-weight: inherit;color: #555555;">{{statement.billDate | DateFormat}}</td>
 	   				<td>{{statement.dueDate | DateFormat}}</td>
-	   				<td>{{statement.amount}}({{currencyCode}})</td>
+	   				<td>{{statement.amount}}</td>
 	   				<td>
 	   					<a data-ng-click="routeTostatement(statement.id)" class="btn btn-primary">{{'label.html' | translate}}</a>&nbsp;
 	   					<a data-ng-click="downloadFile(statement.id)" class="btn btn-primary"><i class=" icon-download-alt icon-white"></i>{{'label.pdf' | translate}}</a>&nbsp;

@@ -6,10 +6,14 @@
 			scope.discountTypeDatas = [];
 			scope.statuses = [];
 			scope.start = {};
-			  scope.formData = {};
+			scope.formData = {};
 			scope.date = {};
 			scope.discountIdForCancel = routeParams.id;
+			scope.minDate = new Date();
+	        scope.prevDate = new Date();
+			
 			resourceFactory.discountsResource.getDiscountDetails({discountId : routeParams.id,template : 'true'	},	function(data) {
+				scope.minDate = new Date(data.date);
 				scope.discountdetail = data;
 				scope.discountTypeDatas = data.discountTypeData;
 			    scope.statusDatas = data.statusData;
@@ -21,6 +25,10 @@
 			    scope.discountPrices=data.discountDetailDatas;
 
 			});
+			
+			scope.doSomething =function(){
+		     	   scope.prevDate=scope.start.date;
+		        };
 
 			
 			 scope.addDiscountPrice = function () {
@@ -62,7 +70,7 @@
 				delete this.formData.discountStartDate;
 				delete this.formData.clientCategoryDatas;
 				delete this.formData.discountDetailDatas;
-				
+				delete this.formData.date;
 				
 				resourceFactory.discountsResource.update({discountId : routeParams.id}, this.formData, function(data) {
 					location.path('/viewdiscounts/' + data.resourceId);

@@ -356,6 +356,135 @@
             });
         };
         
+        /* view provisioning data        */
+        scope.getAllProvisioningDetails = function () {
+            
+            resourceFactory.provisioningDetailsMappingResource.query({clientId:scope.clientId} , function(data) {
+                scope.provisioningdatas = data;
+                scope.sentMessagesData = [];
+                for(var i in data){
+              	  scope.sentMessagesData.push(data[i]);
+                };
+                
+              });
+        };
+        scope.reProcess=function(processId){
+      	  
+      	  resourceFactory.updateProvisioningMappingResource.update({'provisioningId':processId},{},function(data){
+            	/*location.path('/vieworder/'+routeParams.id+'/'+scope.orderPriceDatas[0].clientId);
+            	location.path('/vieworder/'+routeParams.id+"/"+scope.clientId);*/
+      		  route.reload();
+  	           
+  	          });
+        }
+        scope.confirmRequest = function (provId){
+          	scope.errorStatus=[];
+          	scope.errorDetails=[];
+          	scope.provId=provId;
+          	 $modal.open({
+                   templateUrl: 'ApproveConfirm.html',
+                   controller: ApproveConfirm,
+                   resolve:{}
+               });
+            };
+            //sent message pop up start 
+            scope.sentMessagePopup = function(id){
+          	  
+          	  scope.provisioningDataId = id;
+          	  $modal.open({
+                    templateUrl: 'sentMessage.html',
+                    controller: SentMessageController,
+                    resolve:{}
+                });	
+            }
+            
+            var ApproveConfirm= function ($scope, $modalInstance) {
+        		
+                $scope.approveTerminate = function () {
+
+                	$scope.flagapproveTerminate=true;
+                	if(this.formData == undefined || this.formData == null){
+                		this.formData = {};
+                	}
+                	  resourceFactory.confirmProvisioningDetailsResource.update({'provisioningId':scope.provId},{},function(data){
+                		/*resourceFactory.getSingleOrderResource.get({orderId: routeParams.id} , function(data) {
+                            scope.orderPriceDatas= data.orderPriceData;
+                            scope.orderHistorydata=data.orderHistory;
+                            scope.orderData=data.orderData;
+                        });
+                		location.path('/vieworder/'+routeParams.id+"/"+scope.clientId);*/
+                		  scope.getAllProvisioningDetails(scope.orderNumber);
+                        $modalInstance.close('delete');
+                    },function(errData){
+    	        		$scope.flagApproveReconnect = false;
+    		          });
+                	
+                };
+                $scope.cancelReconnect = function () {
+                    $modalInstance.dismiss('cancel');
+                };
+            };  
+            var SentMessageController = function($scope,$modalInstance){
+          	  
+          	  $scope.sentMessage = {};
+          	  $scope.messageData = [];
+          	  
+          	  for (var i in scope.sentMessagesData){
+          		  	
+          		 if( scope.sentMessagesData[i].id == scope.provisioningDataId){
+          			 
+          			 try{
+          				 var obj  = JSON.parse(scope.sentMessagesData[i].sentMessage);
+          				 $scope.sentMessage = obj;
+          			 }catch(e){
+          				 console.log(e.message);
+          			 }
+          			 
+          	    	  for (var key in $scope.sentMessage) {
+          	    		  if(key == "IP_ADDRESS"){
+          	    			  var outerStr = $scope.sentMessage[key].toString();$scope.sentMessage[key] = [];
+          	    			  $scope.sentMessage[key].push({"key":outerStr,"value":""});
+          	    			  $scope.messageData.push({
+      		  											"key" : key,
+      		  											"value" :$scope.sentMessage[key],
+          	    			   });	
+          	    			  
+          	    		  }else{
+          	    			  var outerObj = $scope.sentMessage[key];$scope.sentMessage[key] = [];
+          	    			  if(typeof(outerObj) == 'object'){
+          	    				  var obj1 = outerObj[0];
+          	    				  if(typeof(obj1) == 'string'){
+          	    					  try {
+          	    						  var obj2 = JSON.parse(obj1);
+          	    						  outerObj = [];outerObj.push(obj2);
+          	    					  }catch(e) {
+          	    						  console.log(e.message);
+          	    					  }
+          	    				  }
+      	    	    			  for(var key1 in outerObj){ var innerObj = outerObj[key1];
+      	    	    				  for(var key2 in innerObj){
+      	    	    					  $scope.sentMessage[key].push({"key":key2,"value":innerObj[key2]});
+      	    	    				  };
+      	    	    			  };
+          	    			  }else{
+          	    				  $scope.sentMessage[key].push({"key":outerObj,"value":""});
+          	    			  }
+          	    			  $scope.messageData.push({
+          	    			  						"key" : key,
+          	    			  						"value" : $scope.sentMessage[key],
+          	    			  });	
+          	    		  }
+          	    	  };
+         	    		break;
+          		 };
+          	  }
+          	  
+      			$scope.cancel = function(){
+      				$modalInstance.dismiss('cancel');
+      			};
+          };
+            
+        
         
         var AllocatePropertyController = function ($scope, $modalInstance) {
             
@@ -1780,49 +1909,50 @@
 		            };
 		        }
 		      	
-		      	 scope.refundAmount = function(id,amount){
-		         	scope.errorDetails = [];
-		         	scope.errorStatus = [];
-		         	$modal.open({
-		                 templateUrl: 'refundamount.html',
-		                 controller: RefundAmountController,
-		                 resolve:{
-		                 	 	getPaymentId:function(){
-		                 	 		return id;
-		                 	 	},
-		                 	 	getAmount:function(){
-		                 	 		return amount;
-		                 	 	}
-		                 }
-		             });
-		         };
-		         
-		         var RefundAmountController = function($scope, $modalInstance, getPaymentId,getAmount){
-		        	$scope.formData = {};
-		        	resourceFactory.refundAmountResource.get({depositAmount:getAmount,depositId:scope.clientId} , function(data){
-		        		$scope.formData.refundAmount = data.availAmount;
-		            },function(errorData){
-  	                	$scope.stmError = errorData.data.errors[0].userMessageGlobalisationCode;
-  	                	
-  	                });
-		        	
-		        	$scope.formData.locale = "en";
-		 			$scope.accept = function(){
-		 				var depositId = getPaymentId;
-		 				resourceFactory.refundAmountResource.save({'depositId':depositId}, $scope.formData, function(data){
-		 					$modalInstance.close('delete');
-		 				    getDetails();
-		 				    scope.getAllFineTransactions();
-		 				},function(errorData){
+		     	 scope.refundAmount = function(id,amount){
+			         	scope.errorDetails = [];
+			         	scope.errorStatus = [];
+			         	$modal.open({
+			                 templateUrl: 'refundamount.html',
+			                 controller: RefundAmountController,
+			                 resolve:{
+			                 	 	getPaymentId:function(){
+			                 	 		return id;
+			                 	 	},
+			                 	 	getAmount:function(){
+			                 	 		return amount;
+			                 	 	}
+			                 }
+			             });
+			         };
+			         
+			         var RefundAmountController = function($scope, $modalInstance, getPaymentId,getAmount){
+			        	$scope.formData = {};
+			        	resourceFactory.refundAmountResource.get({depositAmount:getAmount,depositId:scope.clientId} , function(data){
+			        		$scope.formData.refundAmount = data.availAmount;
+			        		$scope.refundModeData=data.data;
+			            },function(errorData){
 	  	                	$scope.stmError = errorData.data.errors[0].userMessageGlobalisationCode;
 	  	                	
-	  	                });         
-		 			};
-		 			
-		 			$scope.reject = function(){
-		 				$modalInstance.dismiss('cancel');
-		 			};
-		 		};
+	  	                });
+			        	
+			        	$scope.formData.locale = "en";
+			 			$scope.accept = function(){
+			 				var depositId = getPaymentId;
+			 				resourceFactory.refundAmountResource.save({'depositId':depositId}, $scope.formData, function(data){
+			 					$modalInstance.close('delete');
+			 				    getDetails();
+			 				    scope.getAllFineTransactions();
+			 				},function(errorData){
+		  	                	$scope.stmError = errorData.data.errors[0].userMessageGlobalisationCode;
+		  	                	
+		  	                });         
+			 			};
+			 			
+			 			$scope.reject = function(){
+			 				$modalInstance.dismiss('cancel');
+			 			};
+			 		};
 		      	
 	  			//export financial csv 
 	  			scope.exportFinancialCSV = function(){

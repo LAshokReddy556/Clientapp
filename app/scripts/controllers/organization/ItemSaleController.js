@@ -12,13 +12,13 @@
     	   scope.officeDatas = [];
     	   scope.itemDatas = [];
     	   scope.purchase = {};
-    	   scope.purchase.date = new Date();
+    	   //scope.purchase.date = new Date();
     	   scope.formData={};
     	   scope.data={};
     	   scope.chargeDatas ={};
     	   
         resourceFactory.itemSaleTemplateResource.get(function(data) {
-        	
+        	 scope.purchase.date = new Date(data.date);
         	 scope.officeDatas = data.officeDatas;
         	 scope.itemDatas = data.itemDatas;
         	 scope.chargeDatas = data.chargeDatas;

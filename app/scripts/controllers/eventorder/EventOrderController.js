@@ -25,12 +25,15 @@
 			scope.requireDevice = webStorage.get('Registration_requires_device');
 			// scope.datass = {};
 			scope.start = {};
-			scope.start.date = new Date();
-			scope.minDate = scope.start.date;
+			/*scope.start.date = new Date();
+			scope.minDate = scope.start.date;*/
 
 			resourceFactory.eventOrderTemplateResource.get({
 				clientId : routeParams.id
 			}, function(data) {
+				scope.start.date = new Date(data.date);
+				scope.minDate = scope.start.date;
+				
 				scope.devices = data.devices;
 				scope.events = data.events;
 				scope.optTypes = data.optType;

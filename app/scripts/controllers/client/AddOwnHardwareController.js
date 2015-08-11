@@ -5,7 +5,7 @@
         scope.serialnumber = [];
         scope.provisioningserialnumber = {};
         scope.first = {};
-        scope.first.date = new Date();
+        //scope.first.date = new Date();
         
         scope.serialnumber={};
         scope.formData = {};
@@ -25,7 +25,8 @@
         scope.walletConfig = webStorage.get('is-wallet-enable');
     
         resourceFactory.itemResourceTemplate.getAll(function(data){
-		 
+        	
+        	  scope.first.date = new Date(data.date);
         	  scope.itemtypes=data.itemDatas;
         	  
 	 

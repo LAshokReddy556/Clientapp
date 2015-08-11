@@ -841,6 +841,11 @@
          get: {method: 'GET', params: {}},
          update: { method: 'PUT' }
     }),
+   /* provisioningDetailsMappingResource: defineResource(apiVer +  "/provisioning/client/:clientId", {clientId: '@clientId'}, {
+    	  getprovisiongData: {method: 'GET', params: {}, isArray: true},
+       get: {method: 'GET', params: {}},
+       update: { method: 'PUT' }
+  }),*/
 //<<<<<<< HEAD
         
      /*   provisioningserviceResource: defineResource(apiVer + "/provisioning/serviceparams/:orderId", {orderId: '@orderId'}, {
@@ -854,6 +859,9 @@
 //=======
 */        provisioningtemplateMappingResource: defineResource(apiVer + "/provisioning/template/:orderNo", {orderNo: '@orderNo'}, {
             	
+           }),
+           provisioningDetailsMappingResource: defineResource(apiVer + "/provisioning/client/:clientId", {clientId: '@clientId'}, {
+           	
            }),
            
      /*      provisioningtemplateMappingResource: defineResource(apiVer + "/provisioning/template", {}, {

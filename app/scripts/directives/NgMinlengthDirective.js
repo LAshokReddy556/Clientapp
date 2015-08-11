@@ -7,7 +7,7 @@
         	      
         	      var minlength = 0;
         	     
-        	      var minLengthValidator = function(value){     
+        	      var minLengthValidator = function(value){   
         	        var validity = ngModel.$isEmpty(value) || value.length >= minlength;
         	        ngModel.$setValidity('minlength',  validity);
         	        return validity ? value : undefined;

@@ -4,11 +4,12 @@
         scope.offices = [];
         scope.officeTypes = [];
         scope.first = {};
-        scope.first.date = new Date();
+        //scope.first.date = new Date();
         
         	 resourceFactory.officeTemplateResource.get({} , function(data) {
             scope.offices = data.allowedParents;
             scope.officeTypes = data.officeTypes;
+            scope.first.date = new Date(data.date);
             for(var i in data.officeTypes){
           	  if(data.officeTypes[i].name == "Office"){
           		scope.officeType = data.officeTypes[i].id;

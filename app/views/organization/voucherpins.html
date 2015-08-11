@@ -23,14 +23,14 @@
             <tr class="graybg">
                 <th>{{ 'table.heading.batchName' | translate }}</th>
                 <th>{{ 'table.heading.pinCategory' | translate }}</th> 
-                <th>{{ 'table.heading.officeId' | translate }}</th>
                 <th>{{ 'table.heading.length' | translate }}</th>
                 <th>{{ 'table.heading.beginWith' | translate }}</th>
                 <th>{{ 'table.heading.quantity' | translate }}</th> 
-                <th>{{ 'table.heading.serialNo' | translate }}</th>
+<!--                 <th>{{ 'table.heading.serialNo' | translate }}</th> -->
                 <th>{{ 'table.heading.pinType' | translate }}</th>
                 <th>{{ 'table.heading.pinValue' | translate }}</th>
                 <th>{{ 'table.heading.product' | translate }}</th>
+                <th>{{ 'table.heading.promotiondesc' | translate }}</th>
                 <th>{{ 'table.heading.expiryDate' | translate }}</th> 
                 <th>{{ 'table.heading.actions' | translate }}</th> 
                
@@ -41,15 +41,15 @@
                        
                 <td class="pointer" data-ng-click="routeTo(voucherpin.id)">{{voucherpin.batchName}}</td>
                 <td class="pointer" data-ng-click="routeTo(voucherpin.id)">{{voucherpin.pinCategory}}</td>  
-                <td class="pointer" data-ng-click="routeTo(voucherpin.id)">{{voucherpin.officeId}}</td>        
                 <td class="pointer" data-ng-click="routeTo(voucherpin.id)">{{voucherpin.length}}</td>  
                 <td class="pointer" data-ng-click="routeTo(voucherpin.id)">{{voucherpin.beginWith}}</td>        
                 <td class="pointer" data-ng-click="routeTo(voucherpin.id)">{{voucherpin.quantity}}</td>       
-                <td class="pointer" data-ng-click="routeTo(voucherpin.id)">{{voucherpin.serialNo}}</td>  
+<!--                 <td class="pointer" data-ng-click="routeTo(voucherpin.id)">{{voucherpin.serialNo}}</td>   -->
                 <td class="pointer" data-ng-click="routeTo(voucherpin.id)">{{voucherpin.pinType}}</td>        
                 <td class="pointer" data-ng-click="routeTo(voucherpin.id)" data-ng-show="voucherpin.pinType == 'VALUE'">{{voucherpin.pinValue}}</td>
-                <td class="pointer" data-ng-click="routeTo(voucherpin.id)" data-ng-show="voucherpin.pinType == 'PRODUCT'">&nbsp;</td>
+                <td class="pointer" data-ng-click="routeTo(voucherpin.id)" data-ng-show="voucherpin.pinType == 'PRODUCT' || voucherpin.pinType == 'COUPON'">&nbsp;</td>
                 <td class="pointer" data-ng-click="routeTo(voucherpin.id)">{{voucherpin.planCode}}</td> 
+                <td class="pointer" data-ng-click="routeTo(voucherpin.id)">{{voucherpin.promotionDescription}}</td> 
                 <td class="pointer" data-ng-click="routeTo(voucherpin.id)">{{voucherpin.expiryDate|DateFormat}}</td>
                 <td><a data-ng-show="(voucherpin.isProcessed == 'N')&&((voucherpin.id)!=dynamicVar)&&(PermissionService.showMenu('PROCESS_RANDAMGENERATOR'))" 
                 		 data-ng-click="processFile(voucherpin.id)" data-popover="Process File" data-popover-trigger="mouseenter"><i class="icon-play icon-white"></i></a>      

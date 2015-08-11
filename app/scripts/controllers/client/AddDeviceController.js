@@ -7,7 +7,7 @@
 			  var officeId=routeParams.officeId;
 			  scope.formData = {};
 			  scope.date = {};
-			  scope.date.saleDate = dateFilter(new Date(),"dd MMMM yyyy");
+			  //scope.date.saleDate = dateFilter(new Date(),"dd MMMM yyyy");
 			  scope.officesDatas = [];
 			  scope.itemMasterData = [];
 			  scope.discountMasterDatas = [];
@@ -42,6 +42,7 @@
 		        
 			  
 			resourceFactory.oneTimeSaleTemplateResource.get(function(data) {
+				scope.date.saleDate = dateFilter(new Date(data.date),"dd MMMM yyyy");
 		            scope.offices = data.officesData;
 		            
 		            for(var i in scope.offices){

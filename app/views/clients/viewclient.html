@@ -1278,6 +1278,44 @@
     				</ul>
 				</div>
 			</tab>
+				<!-- ********** Provisoning Tab here ********** -->
+				
+			<tab heading="Provisioning Details"  select="getAllProvisioningDetails()">
+			<div class="row-fluid ">
+			<table class="table">
+      		  <thead>
+          		 <tr class="graybg">
+				 	<th>{{'table.heading.id' | translate}}</th>
+					<th>Client Id</th>
+					<th>Request Type</th>
+					<th>Status</th>
+					<th>Recieved Message</th>
+					<th></th>
+					<th></th>
+					<th>Sent Message</th>
+				</tr>
+       		 </thead>
+     		  <tbody>
+          			<tr class="pointer-main" ng-repeat="provisioningdata in provisioningdatas  | filter:filterText">
+					<td class="pointer" >{{provisioningdata.id}}</td>
+					<td class="pointer" >{{provisioningdata.clientId}}</td>  
+					<td class="pointer" >{{provisioningdata.requestType}}</td>
+					<td ng-show="provisioningdata.isProcessed == 'F'" class="pointer" >Failure</td>
+					<td ng-show="provisioningdata.isProcessed == 'Y'" class="pointer" >Success</td>
+					<td ng-show="provisioningdata.isProcessed == 'N'" class="pointer" >Processing</td>
+					<td ng-show="provisioningdata.isProcessed == 'C'" class="pointer" >Success</td>
+					<td class="pointer" >{{provisioningdata.receiveMessage}}</td>
+					  <td><a ng-show="provisioningdata.isProcessed == 'F' " ng-click="reProcess(provisioningdata.id)" popover="Re Process" popover-trigger="mouseenter"><i class="icon-play icon-white"></i></a></td>
+					   <td><a ng-show="provisioningdata.isProcessed == 'F' || provisioningdata.isProcessed == 'N'" ng-click="confirmRequest(provisioningdata.id)" popover="Confirm Request" popover-trigger="mouseenter"><i class="icon-ok icon-white"></i></a></td>
+					<td><button style="padding:3px 5px;" class="btn btn-primary" ng-hide="provisioningdata.requestType=='RETRACK'"
+								ng-click="sentMessagePopup(provisioningdata.id)" data-popover-trigger="mouseenter" data-popover="To See Click on Me">
+								<i class="icon-envelope icon-white"></i></button></td> 
+				</tr>
+        	</tbody>
+    	</table>
+		</div>
+	</tab>
+	</tabset>	
 
    			<!-- ************************ start of InVenture code ************************ -->
     <!--    <tab class="inventureTabTitle" heading="InVenture Score" select="fetchInventureScore()">
@@ -1675,19 +1713,38 @@
     	<div class="modal-header silver">
         	<h3 class="bolder">Refund</h3>
         </div>
-        <div class="modal-body modal-small">
+        <div class="modal-body" >
         	<div class="control-group">
 				<div class="controls">
 					<span class="control-label" style="color:red;" ng-show="stmError.length>0">{{stmError | translate}}</span>
 				</div>	
 			</div>
-			<div class="control-group">
+<table>
+<tr>
+	<td>
+		<div class="control-group">
+         <label class="control-label" for="refundMode">Refund Type<span class="required">*</span></label>
+           <div class="controls">
+             <select id="refundMode" data-ng-model="formData.refundMode" data-ng-options="data.id as data.mCodeValue for data in refundModeData">
+              <option value="">{{'label.select.one' | translate}}</option></select>
+           </div>
+        </div>
+	</td>
+</tr>
+<tr>
+	<td>
+		<div class="control-group">
 				<label class="control-label">Amount</label>
 				<div class="controls">
 					<input type="text" ng-model="formData.refundAmount" required readonly late-Validate style="background-color:#FFFFFF;"/> 
 				</div>	
-			</div>
 		</div>
+	</td>
+</tr>
+</table>
+     
+			
+        </div>
         <div class="modal-footer">
         	<button id="cancel" class="btn btn-warning" ng-click="reject()">{{'button.cancel' | translate}}</button>
             <button id="submit" class="btn btn-primary" ng-click="accept(formData.cancelRemark)" ng-disabled="flagcancelpayment">{{'label.confirm' | translate}}</button>
@@ -1716,5 +1773,45 @@
             <button id="submit" class="btn btn-primary" ng-click="accept()">{{'label.confirm' | translate}}</button>
         </div>
 	</script>
+	<script type="text/ng-template" id="ApproveConfirm.html">
+   	<div class="modal-header silver">
+  			<h3 class="bolder">{{'dialog.confirm.title.message' | translate}}</h3>
+    </div>
+    <div class="modal-body modal-small">
+       	<div class="error" ng-show="errorStatus || errorDetails">
+			<label>{{'label.contract.error' | translate}}</label>
+			<label ng-show="errorStatus">{{errorStatus}}</label>
+			<label ng-hide="errorStatus" ng-repeat="error in errorDetails">{{error.code | translate}}</label>
+	    </div>
+      <h4>Are you sure?</h4>
+   </div>
+   <div class="modal-footer">
+   			<button id="cancel" class="btn btn-warning" ng-click="cancelReconnect()">{{'button.cancel' | translate}}</button>
+            <button id="submit" class="btn btn-primary" ng-click="approveTerminate()" ng-disabled="flagApproveTerminate">{{'label.confirm' | translate}}</button>
+   </div>
+</script>
+<script type="text/ng-template" id="sentMessage.html">
+                    <div class="modal-header silver">
+                        <h3 class="bolder">Sent Message Details</h3>
+                    </div>
+                    <div class="modal-body modal-big" style="width:650px;">
+						<table style="" class="fullwidth">
+							<tr ng-repeat="messageData in messageData">
+								<td width="30%" valign="top" align="right">{{messageData.key}}:</td>
+								<!--<td width="80%" style="color:#800080;">:&nbsp;&nbsp;{{messageData.value}}</td>-->
+								<td width="70%" style="color:#800080;padding-left:10px;">
+								  <table class="fullwidth"><tr ng-repeat="msgValue in messageData.value track by $index">
+									<td width="35%" valign="top">{{msgValue.key}}</td>
+									<td data-ng-hide='msgValue.value ==""' width="1%" valign="top">:&nbsp;&nbsp;</td>
+									<td data-ng-hide='msgValue.value ==""'> {{msgValue.value}}</td>
+								</tr></table>
+								</td>
+							</tr>
+		        		 </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="cancel" class="btn btn-primary" ng-click="cancel()">{{'button.done' | translate}}</button>
+                    </div>
+ </script>
    		
 </div>

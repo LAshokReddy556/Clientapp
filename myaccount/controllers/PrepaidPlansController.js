@@ -44,6 +44,105 @@ PrepaidPlansController = function(scope,RequestSender,localStorageService,locati
 	      			$modalInstance.close('delete');
 	      		};
 		} 
+       
+       //checkout process code start
+       scope.durationCheckboxSelectionFun = function(priceId,price,isCheck,planId,index){
+    	   if(scope.existOrderStatus == 'pending'){
+       		   var modalInstance = $modal.open({
+      			   templateUrl: 'messagespopup.html',
+      			   controller: MessagesPopupController,
+      			   resolve:{
+      				   planId : function(){
+      					   return planId;
+      				   }
+      			   }
+      		   });
+       	    modalInstance.result.then(function (){
+       	    	uncheckSelectedBox();
+       	       },function (){
+       	    	   uncheckSelectedBox();
+       	    });
+	      			   
+       	    function uncheckSelectedBox(){
+       	    	angular.forEach(scope.plansData,function(value,key){
+       	    		if(value.planId == planId){
+       	    			scope.plansData[key].pricingData[index].isCheck = 'no';
+       	    		} 
+       	    	});
+       	    	$log.info('Modal dismissed at: ' + new Date());
+       	    };
+       	  }else{
+	    	   if(isCheck == 'no'){
+	    		   if(scope.previewCheckoutList.length != 0){
+	    			   scope.totalAmount -= price;
+	    		   }
+	    		   scope.previewCheckoutList = scope.previewCheckoutList.filter(function( obj ) {
+	    			   			return obj.id != priceId;
+	   				});
+	    	   }
+       	  }
+       };
+       
+       scope.previewCheckoutList = [];scope.totalAmount = 0;
+       scope.pushCheckoutListFun = function(planId){
+    	   scope.totalAmount = 0;
+    	   angular.forEach(scope.plansData,function(value,key){
+    		   if(value.planId == planId){
+    			   for(var j in value.pricingData){
+    				   if(value.pricingData[j].isCheck=='yes'){
+    					   scope.previewCheckoutList.push(value.pricingData[j]);
+    				   }
+    			   }
+    		   }
+    	   });
+    	   
+    	   scope.previewCheckoutList=_.uniq(scope.previewCheckoutList,function(item,key,id){
+               return item.id;
+           });
+    	   
+    	   angular.forEach(scope.previewCheckoutList,function(value,key){
+    		   scope.totalAmount += value.price;
+    	   });
+       };
+       
+       scope.resetSelectionFun = function(){
+    	   angular.forEach(scope.plansData,function(value,key){
+    			   for(var j in value.pricingData){
+    				   value.pricingData[j].isCheck = 'no';
+    			   }
+    	   });
+    	   scope.previewCheckoutList = [];
+    	   scope.totalAmount = 0;
+       };
+       
+       scope.submitFun = function(){
+    	   localStorageService.add("isAutoRenew",scope.autoRenewBtn);
+    	   localStorageService.add("planType",'Y');
+			  if(scope.totalAmount != 0 && scope.previewCheckoutList.length !=0){
+				  var price = 0;
+				  var finalPriceCheckOneByOneFun = function(val){
+						 RequestSender.finalPriceCheckingResource.get({priceId:scope.previewCheckoutList[val].id,clientId:scope.clientId},function(data){
+							 scope.previewCheckoutList[val].finalAmount = data.finalAmount;
+							 price += data.finalAmount;
+							 if(val == scope.previewCheckoutList.length-1){
+								 if(val == 0)
+									 localStorageService.add("chargeCodeData",{data:data,billingFrequency:scope.previewCheckoutList[0].billingFrequency});
+								 localStorageService.add("plansCheckoutList",scope.previewCheckoutList);
+								 location.path( '/paymentprocess/'+scope.screenName+'/0/0/'+price);
+							 }else{
+								 val += 1;
+								 finalPriceCheckOneByOneFun(val);
+						 	 }
+						 });
+					 };finalPriceCheckOneByOneFun(0);
+				  
+			  }else if(scope.totalAmount == 0 && scope.previewCheckoutList.length !=0){
+				  localStorageService.add("plansCheckoutList",scope.previewCheckoutList);
+				  location.path( '/paymentprocess/'+scope.screenName+'/0/0/0');
+			  }
+				
+	    };
+       //checkout process code end
 	     
 	     scope.checkingRecurringStatus = function(autoRenew){
 			  

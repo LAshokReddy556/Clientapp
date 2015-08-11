@@ -29,6 +29,9 @@ SelfcareMainController = function(scope, translate,sessionManager,RequestSender,
 	   //index page hiding when client registration form appear
 	   (location.path().match('/active') == '/active') ? (scope.isLandingPage= true,scope.isRegClientProcess = true) : scope.isRegClientProcess = false;
 	   
+	   if(location.path().match('/evosuccess') == '/evosuccess'){
+		   window.top.location.href = window.location.href;
+	   }
 	   
 //calling this method every time if session is exit or not
 	   sessionManager.restore(function(session) {
@@ -162,7 +165,7 @@ scope.$watch(function () {
  					 if(data.length == 1){
  						 $scope.isInValidVoucher = false;
  						 var expiryDate  = $filter('DateFormat')(data[0].expiryDate);
- 						 var todayDate	 = $filter('DateFormat')(new Date());
+ 						 var todayDate	 = $filter('DateFormat')(new Date(data[0].date));
  						 if (new Date(expiryDate) < new Date(todayDate)) {
  							 delete $scope.formData.voucherNumber;
  							 $scope.isDateExpired = true;

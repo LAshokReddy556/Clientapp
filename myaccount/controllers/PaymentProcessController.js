@@ -28,7 +28,9 @@ PaymentProcessController = function(scope,routeParams,RequestSender,localStorage
 	scope.clientId			= clientData.id;
 	var chargeCodeData 		= localStorageService.get("chargeCodeData")||"";
 	var isAutoRenew 		= localStorageService.get("isAutoRenew") || "";
+	scope.planType 			= localStorageService.get("planType") || "";
 	
+	if(scope.screenName != 'additionalorders'){
 		for(var i in totalOrdersData){
 			if(totalOrdersData[i].planId == scope.planId){
 				for(var j in totalOrdersData[i].pricingData){
@@ -47,6 +49,39 @@ PaymentProcessController = function(scope,routeParams,RequestSender,localStorage
 			  break;
 			}
 		}
+	}else if(scope.screenName == 'additionalorders'){
+		scope.plansData = [];scope.actualPlansPrice = 0 ;scope.finalPlansPrice = 0;
+		scope.plansData = localStorageService.get("plansCheckoutList");
+		if(scope.plansData.length == 1){
+			scope.planData = scope.plansData[0];
+			scope.actualPlansPrice = scope.plansData[0].price;
+			scope.finalPlansPrice = scope.plansData[0].finalAmount;
+		}else if(scope.plansData.length > 1){
+			scope.planData = {id:0,planCode:'Adding Plans'};
+			isAutoRenew = 'false';
+			angular.forEach(scope.plansData,function(value,key){
+				scope.actualPlansPrice += value.price;
+				scope.finalPlansPrice += value.finalAmount;
+			});
+		}
+	}
+	
+	/*scope.deleteSelectionPlan = function(id){
+		angular.forEach(scope.plansData,function(value,key){
+			if(value.id == id){
+				scope.plansData.splice(key,1);
+				scope.actualPlansPrice -= value.price;
+				scope.finalPlansPrice -= value.finalAmount;
+				scope.price -=value.finalAmount;
+				localStorageService.add("plansCheckoutList",scope.plansData);
+				if(scope.plansData.length > 1) isAutoRenew = 'false';
+				else if(scope.plansData.length == 1){
+					isAutoRenew 		= localStorageService.get("isAutoRenew");
+				}
+				scope.paymentGatewayFun(scope.paymentGatewayName);
+			}
+		});
+	 };*/
 		
 	   if(clientData){
 		 if(scope.price != 0){
@@ -101,6 +136,7 @@ PaymentProcessController = function(scope,routeParams,RequestSender,localStorage
 				break;
 					
 			case paypalPG :
+				
 				if(angular.fromJson(isAutoRenew)){
 						 /*if(srtCountCheckingFun(chargeCodeData.data)<=1) 
 							 scope.errorRecurring = "error.msg.paypal.recurring.notpossible"; 

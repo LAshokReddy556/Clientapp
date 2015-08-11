@@ -31,8 +31,8 @@ PostpaidPlansController = function(scope,RequestSender,localStorageService,locat
 	      			   templateUrl: 'viewcontractperiods.html',
 	      			   controller: ViewContractPeriodsPopupController,
 	      			   resolve:{
-	      				   planId : function(){
-	      					   return planId;
+	      				 priceData : function(){
+	      					   return priceData;
 	      				   }
 	      			   }
 	      		   });
@@ -63,24 +63,34 @@ PostpaidPlansController = function(scope,RequestSender,localStorageService,locat
 		} 
        
      //View Contract Periods Popup Controller
-       function ViewContractPeriodsPopupController($scope, $modalInstance,$log,planId) {
-	    	RequestSender.gettingContractsResource.get({planId: planId,clientId:scope.clientId,template:'true'},function(data){
+       function ViewContractPeriodsPopupController($scope, $modalInstance,$log,priceData) {
+	    	RequestSender.gettingContractsResource.get({planId: priceData.planId,clientId:scope.clientId,template:'true'},function(data){
 	    			 $scope.subscriptiondatas = data.subscriptiondata;
 	    		 },function(errorData){
-	    			 $scope.contractError = errorData.data.errors[0].userMessageGlobalisationCode;
+	    			 $scope.errorDetails = rootScope.errorDetails;
+	            	 $scope.errorStatus = rootScope.errorStatus;
+	            	 rootScope.errorDetails = [];rootScope.errorStatus = [];
 	    		 });
 	    	 
 	    	$scope.approve = function (contractPeriod) {
 	    		
 	    		if(contractPeriod){
 	    			
-	    			angular.forEach($scope.subscriptiondatas,function(value,key){
-	    				if(value.id == contractPeriod){
-	    					scope.contractPeriod = value.Contractdata;
-	    					scope.contractId   = value.id;
-	    					$modalInstance.close('delete');
-	    				}
-	    			});
+	    			RequestSender.finalPriceCheckingResource.get({priceId:priceData.id,clientId:scope.clientId,
+						contractId:contractPeriod,paytermCode:priceData.billingFrequency},function(data){
+							angular.forEach($scope.subscriptiondatas,function(value,key){
+								if(value.id == contractPeriod){
+									scope.contractPeriod = value.Contractdata;
+									scope.contractId   = value.id;
+									$modalInstance.close([scope.contractId,scope.contractPeriod]);
+								}
+							});
+						},function(errorData){
+				            	 $scope.errorDetails = rootScope.errorDetails;
+				            	 $scope.errorStatus = rootScope.errorStatus;
+				            	 rootScope.errorDetails = [];rootScope.errorStatus = [];
+				  	 });
+	    			
 	    		}
 	    	};
 	    	
@@ -89,6 +99,135 @@ PostpaidPlansController = function(scope,RequestSender,localStorageService,locat
 	    	};
 	    	 
 	     };
+	    
+	     //checkout process code start
+	     scope.durationCheckboxSelectionFun = function(priceData,index){
+	    	 if(scope.existOrderStatus == 'pending'){
+	     		var modalInstance = $modal.open({
+	    			   templateUrl: 'messagespopup.html',
+	    			   controller: MessagesPopupController,
+	    			   resolve:{
+	    				   planId : function(){
+	    					   return priceData.planId;
+	    				   }
+	    			   }
+	    		   });
+	     		modalInstance.result.then(function (){
+	       	    	uncheckSelectedBox();
+	       	       },function (){
+	       	    	   uncheckSelectedBox();
+	       	    });
+		      			   
+	       	    function uncheckSelectedBox(){
+	       	    	angular.forEach(scope.plansData,function(value,key){
+	       	    		if(value.planId == priceData.planId){
+	       	    			scope.plansData[key].pricingData[index].isCheck = 'no';
+	       	    		} 
+	       	    	});
+	       	    	$log.info('Modal dismissed at: ' + new Date());
+	       	    };
+	     	}else{
+	    	   if(priceData.isCheck == 'no'){
+	    		   if(scope.previewCheckoutList.length != 0){
+	    			   scope.totalAmount -= priceData.price;
+	    		   }
+	    		   scope.previewCheckoutList = scope.previewCheckoutList.filter(function( obj ) {
+	    			   		return obj.id != priceData.id;
+		   		   });
+	    	   }else if(priceData.isCheck=='yes'){
+	    		   
+	    		   var modalInstance = $modal.open({
+	      			   templateUrl: 'viewcontractperiods.html',
+	      			   controller: ViewContractPeriodsPopupController,
+	      			   resolve:{
+	      				 priceData : function(){
+	      					   return priceData;
+	      				   }
+	      			   }
+	      		   });
+	      		   modalInstance.result.then(function (array) {
+	      			   
+	      			 angular.forEach(scope.plansData,function(value,key){
+	      				if(value.planId == priceData.planId){
+	      					scope.plansData[key].pricingData[index].contractId = array[0];
+	      					scope.plansData[key].pricingData[index].contractPeriod = array[1];
+	      				} 
+	      			 });
+	      		   }, function () {
+	      			   
+	      			  angular.forEach(scope.plansData,function(value,key){
+		      				if(value.planId == priceData.planId){
+		      					scope.plansData[key].pricingData[index].isCheck = 'no';
+		      				} 
+		      			 });
+		      			   $log.info('Modal dismissed at: ' + new Date());
+	      		   });
+	    	   }
+	         }
+	       };
+	       
+	       scope.previewCheckoutList = [];
+	       scope.totalAmount = 0;
+	       scope.pushCheckoutListFun = function(planId){
+	    	   scope.totalAmount = 0;
+	    	   angular.forEach(scope.plansData,function(value,key){
+	    		   if(value.planId == planId){
+	    			   for(var j in value.pricingData){
+	    				   if(value.pricingData[j].isCheck=='yes'){
+	    					   scope.previewCheckoutList.push(value.pricingData[j]);
+	    				   }
+	    			   }
+	    		   }
+	    	   });
+	    	   
+	    	   scope.previewCheckoutList=_.uniq(scope.previewCheckoutList,function(item,key,id){
+	               return item.id;
+	           });
+	    	   
+	    	   angular.forEach(scope.previewCheckoutList,function(value,key){
+	    		   scope.totalAmount += value.price;
+	    	   });
+	       };
+	       
+	       scope.resetSelectionFun = function(){
+	    	   angular.forEach(scope.plansData,function(value,key){
+	    			   for(var j in value.pricingData){
+	    				   value.pricingData[j].isCheck = 'no';
+	    			   }
+	    	   });
+	    	   scope.previewCheckoutList = [];
+	    	   scope.totalAmount = 0;
+	       };
+	       
+	       scope.submitFun = function(){
+	    	   localStorageService.add("isAutoRenew",angular.toJson(false));
+	    	   localStorageService.add("planType",'N');
+				  if(scope.totalAmount != 0 && scope.previewCheckoutList.length !=0){
+					  var price = 0;
+					  var finalPriceCheckOneByOneFun = function(val){
+							 RequestSender.finalPriceCheckingResource.get({priceId:scope.previewCheckoutList[val].id,clientId:scope.clientId,
+								 		contractId:scope.previewCheckoutList[val].contractId,paytermCode:scope.previewCheckoutList[val].billingFrequency},function(data){
+								 scope.previewCheckoutList[val].finalAmount = data.finalAmount;
+								 price += data.finalAmount;
+								 if(val == scope.previewCheckoutList.length-1){
+									 if(val == 0)
+										 localStorageService.add("chargeCodeData",{data:data,billingFrequency:scope.previewCheckoutList[0].billingFrequency});
+									 localStorageService.add("plansCheckoutList",scope.previewCheckoutList);
+									 location.path( '/paymentprocess/'+scope.screenName+'/0/0/'+price);
+								 }else{
+									 val += 1;
+									 finalPriceCheckOneByOneFun(val);
+							 	 }
+							 });
+						 };finalPriceCheckOneByOneFun(0);
+					  
+				  }else if(scope.totalAmount == 0 && scope.previewCheckoutList.length !=0){
+					  localStorageService.add("plansCheckoutList",scope.previewCheckoutList);
+					  location.path( '/paymentprocess/'+scope.screenName+'/0/0/0');
+				  }
+					
+			};
+		  //checkout process code end
 	     
 	     scope.checkingRecurringStatus = function(autoRenew){
 			  

@@ -5,8 +5,8 @@
 			  scope.formData = {};
 			  scope.partnerId= routeParams.id;
 			  scope.officeId = routeParams.officeId;
-			  scope.formData.startDate = dateFilter(new Date(),'dd MMMM yyyy');
-			  scope.minDate=dateFilter(new Date(),'dd MMMM yyyy');
+			  /*scope.formData.startDate = dateFilter(new Date(),'dd MMMM yyyy');
+			  scope.minDate=dateFilter(new Date(),'dd MMMM yyyy');*/
 /*			  var dd=new Date();
 			  scope.formData.endDate = dateFilter(dd.setDate(dd.getDate()+1),'dd MMMM yyyy');*/
 			  scope.agreementTypes = [];
@@ -18,6 +18,8 @@
 			  
 			      
 			  resourceFactory.agreementTemplateResource.get(function(data) {
+				 scope.formData.startDate = dateFilter(new Date(data.date),'dd MMMM yyyy');
+				 scope.minDate=dateFilter(new Date(data.date),'dd MMMM yyyy');
 				  
 				 scope.agreementTypes =data.agreementTypes;
 				 scope.sourceDatas = data.sourceData;

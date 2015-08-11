@@ -1,5 +1,13 @@
 <div data-ng-controller="EvoIntegrationController">
 <br/>
+<div class="loading-widget-div" data-ng-show="blockUI">
+        <div id="circularG">
+        	<div id="circularG_1" class="circularG"></div><div id="circularG_2" class="circularG"></div>
+            <div id="circularG_3" class="circularG"></div><div id="circularG_4" class="circularG"></div>
+            <div id="circularG_5" class="circularG"></div><div id="circularG_6" class="circularG"></div>
+            <div id="circularG_7" class="circularG"></div><div id="circularG_8" class="circularG"></div>
+        </div>
+</div>
 <div class="error" data-ng-show="errorStatus || errorDetails">
 	<label>{{'label.contract.error' | translate}}</label>
 	<label data-ng-show="errorStatus">{{errorStatus}}</label>
@@ -14,7 +22,7 @@
         		</td></tr>
 	   </table> 
 </div> -->
- <form action="https://spg.evopayments.eu/pay/payssl.aspx" method="post">
+ <form action="https://spg.evopayments.eu/pay/payssl.aspx" method="post" target="EVOPG">
  
 	<input type="hidden"   name="merchantid" 	  value="{{merchantId}}"> 
 	<input type="hidden"   name="len" 		      value="{{len}}"/>
@@ -22,7 +30,7 @@
 	<input type="hidden"   name="language"    	  value="{{optlang}}" />
     <button id="submitEvoIntegration" type="submit" class="btn btn-primary" data-ng-hide="true">Continue to Payment Method</button>
 </form>
-	 <accordion close-others="true">
+	 <accordion close-others="false">
         <accordion-group is-open="evoPG.reviewCart" >
           <accordion-heading>
             <i class="icon-ok-sign icon-large" data-ng-class="{statusactive:!evoPG.reviewCart,statusdeleted:evoPG.reviewCart}"></i>
@@ -63,7 +71,7 @@
         </accordion-group>
     	<accordion-group is-open="evoPG.billingInfo">
             <accordion-heading>
-            <i class="icon-ok-sign icon-large statusdeleted"></i>
+            <i class="icon-ok-sign icon-large" data-ng-class="{statusactive:!evoPG.billingInfo,statusdeleted:evoPG.billingInfo}"></i>
                <strong style="font-size: 18px;color:#7793cc;">{{'label.evo.billing.info'|translate}}</strong>
             	<i class="pull-right" ng-class="{'icon-chevron-up': evoPG.billingInfo, 'icon-chevron-down': !evoPG.billingInfo}"></i>
         	</accordion-heading>
@@ -148,13 +156,32 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-			 		 <button class="btn btn-primary pull-right" data-ng-click="submitPaymentMethodFun()">{{'button.evo.continue.paymentmethod' | translate}}</button>
+			 		 <button class="btn btn-primary pull-right" ng-click="evoPG.paymentMethod = evoPG.billingInfo">{{'button.evo.continue.paymentmethod' | translate}}</button>
 				</td>
 			</tr>
 		   </table>
 		   </fieldset>
             </div>
        </accordion-group>
+       <accordion-group is-open="evoPG.paymentMethod">
+          <accordion-heading>
+            <i class="icon-ok-sign icon-large" data-ng-class="{statusactive:!evoPG.paymentMethod,statusdeleted:evoPG.paymentMethod}"></i>
+            <strong style="font-size: 18px;color:#7793cc;">{{'label.evo.payment.method'|translate}}</strong> 
+             <i class="pull-right" ng-class="{'icon-chevron-up': evoPG.paymentMethod, 'icon-chevron-down': !evoPG.paymentMethod}"></i>
+          </accordion-heading>
+          <div>
+        	 <table class="fullwidth">
+				<tr>
+					<td align="center">
+						<iframe frameborder="0" scrolling="yes" width="500" height="400" 
+						   src="https://spg.evopayments.eu/pay/payssl.aspx" name="EVOPG">
+						   <p>iframes are not supported by your browser.</p>
+						 </iframe>
+					</td>
+				</tr>
+			</table>
+          </div>
+        </accordion-group>
      </accordion>
 
 </div>

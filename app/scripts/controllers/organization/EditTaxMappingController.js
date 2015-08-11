@@ -7,6 +7,7 @@
 		  scope.date = {};
         
          resourceFactory.getTaxmappingResource.get({taxId: routeParams.id, template: 'true'} , function(data) {
+        	 scope.minDate = new Date(data.date);
         	 scope.chargecodetaxs = data.chargeCodesForTax;
              scope.taxTypeDatas = data.taxTypeData;
              scope.priceRegionDatas = data.priceRegionData;
@@ -30,6 +31,7 @@
         	 delete this.formData.taxRegionId;
         	 delete this.formData.taxTypeData;
         	 delete this.formData.chargeCodesForTax;
+        	 delete this.formData.date;
             
              resourceFactory.getTaxmappingResource.update({'taxId': routeParams.id}, this.formData, function(data){
             	 location.path('/viewtaxmapping/' + data.resourceId);

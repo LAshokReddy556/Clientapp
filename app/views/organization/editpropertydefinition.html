@@ -20,7 +20,7 @@
 						<div class="control-group">
 							<label class="control-label" for="propertyCodeType">{{'label.propertycodesType' | translate }}<span class="required">*</span></label>
 							<div class="controls">
-								<select id="propertyCodeType" data-ng-model="formData.propertyCodeType" data-ng-options="propertyCodeType.mCodeValue as propertyCodeType.mCodeValue for propertyCodeType in propertyCodeTypes">
+								<select id="propertyCodeType" data-ng-model="formData.propertyCodeType" data-ng-change="changeFeildLength(formData.propertyCodeType)" data-ng-options="propertyCodeType.mCodeValue as propertyCodeType.mCodeValue for propertyCodeType in propertyCodeTypes">
 									<option value="">{{'label.select.one' | translate}}</option>
 								</select>
 							</div>
@@ -32,12 +32,11 @@
 						<div class="control-group">
 							<label class="control-label" for="code">{{ 'label.code' |translate }}<span class="required">*</span></label>
 							<div class="controls">
-								<input type="text" id="code" name="code" data-ng-model="formData.code" data-ng-pattern="/^[a-zA-Z0-9\s]+$/" data-ng-minlength=2 maxlength=4  required data-late-Validate><br/>
+								<input type="text" id="code" name="code" data-ng-model="formData.code" data-ng-pattern="/^[a-zA-Z0-9\s]+$/" my-minlength="{{minLength}}" maxlength={{maxLength}}  required data-late-Validate><br/>
 								 <span data-ng-show="editpropertydefinitionform.code.$invalid">
                                 <small class="error" data-ng-show="editpropertydefinitionform.code.$error.req"> {{'label.required.field' | translate}}</small>
-                                <small class="error" data-ng-show="(editpropertydefinitionform.code.$error.minlength || editpropertydefinitionform.code.$error.pattern)  && !editpropertydefinitionform.code.$error.req">It require minimum 2 alphanumeric's only</small>
-                               <!--  <small class="error" data-ng-show="editpropertydefinitionform.code.$error.minlength && !editpropertydefinitionform.code.$error.req &&formData.propertyCodeType='Building Codes'">It require minimum 3 alphanumeric's only</small> 
-                                <small class="error" data-ng-show="editpropertydefinitionform.code.$error.minlength && !editpropertydefinitionform.code.$error.req &&formData.propertyCodeType='Unit Codes'">It require minimum 4 alphanumeric's only</small>   -->
+                                <small class="error" data-ng-show="!editpropertydefinitionform.code.$error.req && (editpropertydefinitionform.code.$error.pattern)">It require alphanumeric's only</small>
+                                <small class="error" data-ng-show="!editpropertydefinitionform.code.$error.req && !editpropertydefinitionform.code.$error.pattern && (editpropertydefinitionform.code.$error.minlength)">It require minimum {{minLength}} and maximun {{maxLength}} alphanumeric's only </small>
                                </span>
 							</div>
 						</div>

@@ -8,10 +8,10 @@
 			scope.prospectsData = {};
 			scope.formData = {};
 			scope.first = {};
-			scope.first.date = new Date();
+			/*scope.first.date = new Date();
 			scope.first.time = scope.first.date.getHours() + ":" + scope.first.date.getMinutes();
 
-			scope.minDate = new Date();
+			scope.minDate = new Date();*/
 
 			$('#timepicker1').timepicker({
 				showInputs:false,
@@ -19,6 +19,10 @@
 			});
 
 			resourceFactory.prospectFollowUpResource.get({prospectId : routeParams.id }, function(data) {
+				scope.first.date = new Date(data.date);
+				scope.first.time = scope.first.date.getHours() + ":" + scope.first.date.getMinutes()+'0';
+				scope.minDate = new Date(data.date);
+				
 				scope.assignedToDatas = data.assignedToData;
 				scope.callStatusDatas = data.callStatusData;
 				scope.prospectsData.id = routeParams.id;

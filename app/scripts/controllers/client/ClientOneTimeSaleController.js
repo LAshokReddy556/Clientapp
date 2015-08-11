@@ -24,7 +24,7 @@
 		        }
 		        scope.itemId=null;
 	            scope.data={};
-	            scope.maxDate = new Date();
+	            //scope.maxDate = new Date();
 	            scope.truefalse = true;
 	            scope.walletConfig = webStorage.get('is-wallet-enable');
 	          
@@ -36,7 +36,8 @@
 	            scope.formData.discountId = scope.discountMasterDatas[0].discountMasterId;
 	            scope.onetimesales=data;
 	            scope.date= {};
-	            scope.date.saleDate = new Date();
+	            scope.date.saleDate = new Date(data.date);
+	            scope.maxDate = new Date(data.date);
 	            scope.formData.saleType=scope.saleType;
 
 	            if(scope.saleType == 'DEVICERENTAL'){
@@ -61,7 +62,7 @@
 	        		scope.formData.itemId=itemId;
 	        		scope.formData.discountId = scope.discountMasterDatas[0].discountMasterId;
 	        		scope.formData.officeId=officeId;
-	        		scope.formData.amount = data.feeMasterData[0].defaultFeeAmount;
+	        		//scope.formData.amount = data.feeMasterData[0].defaultFeeAmount;
 	        		scope.truefalse = false;
 	        		 if(scope.saleType == 'DEVICERENTAL'){
 	 	            	scope.formData.totalPrice=0;

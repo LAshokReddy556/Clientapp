@@ -1,4 +1,4 @@
-<div ng-controller="AddressManageController" >
+	<div ng-controller="AddressManageController" >
 <div>
 	<ul class="breadcrumb">
 		<li><a href="#/organization">{{'link.admin.organisation' | translate}}</a> <span class="divider">/</span></li>
@@ -13,7 +13,7 @@
 	
      <!-- <div ng-hide="isTreeView"> -->
      <div>
-		<input ng-model="filterText" type="text" class="span marginbottom0px" placeholder="Filter by Country/State/City Name">
+		<input ng-model="filterText" type="text" class="span marginbottom0px" placeholder="Filter by Country/State/City Name " >
 		<table class="table">
 			<thead>
 				<tr class="graybg">
@@ -24,7 +24,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr  ng-repeat="addressManage in addressManages.currentPageItems | filter:filterText">
+				<tr  ng-repeat="addressManage in addressManages.currentPageItems| orderBy:'countryName' | orderBy:'stateName' |filter:filterText">
 					<td >{{addressManage.countryName}}</td>
 					<td >{{addressManage.stateName}}</td>  
 					<td >{{addressManage.cityName}}</td>

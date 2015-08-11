@@ -27,7 +27,12 @@ EvoIntegrationController = function(scope, RequestSender,location, localStorageS
     	  scope.screenName			= evoStorageData.screenName;
     	  scope.numOfItems			= evoStorageData.numOfItems;
     	  
-    	  scope.evoPG = {reviewCart:true,billingInfo:false,isFirstDisabled:true};
+    	  scope.evoPG = {reviewCart:true,billingInfo:false,paymentInfo:false,isFirstDisabled:true};
+    	  
+   RequestSender.evoPaymentResource.save({"amount" : scope.price},function(data){
+	   scope.evoPrice = data.map.amount;
+    		
+    	  
     	  
     	 var evoData = {screenName:scope.screenName,planId:evoStorageData.planId,priceId:evoStorageData.priceId,price:evoStorageData.price,
 						clientId:clientData.id,email:scope.email};
@@ -47,12 +52,12 @@ EvoIntegrationController = function(scope, RequestSender,location, localStorageS
 			};randomFun();
 			
 			
-	 var macDataString = "*"+clientId+"*"+scope.merchantId+"*"+scope.price+"*"+scope.currencyType; 
+	 var macDataString = "*"+clientId+"*"+scope.merchantId+"*"+scope.evoPrice+"*"+scope.currencyType; 
 	 
 	 var hashVal = CryptoJS.HmacSHA256(macDataString, scope.HMACKey);
 	 var MAC = CryptoJS.enc.Hex.stringify(hashVal);
 	 
-	 var dataString = "TransID="+clientId+"&RefNr="+scope.transactionId+"&amount="+scope.price+"&FirstName="+scope.firstname+"&" +
+	 var dataString = "TransID="+clientId+"&RefNr="+scope.transactionId+"&amount="+scope.evoPrice+"&FirstName="+scope.firstname+"&" +
 	 					"LastName="+scope.lastname+"&AddrCity="+scope.city+"&AddrState="+scope.state+"&" +
 	 					"phone="+scope.phone+"&E-Mail="+scope.email+"&Currency="+scope.currencyType+"&OrderDesc="+scope.planCode+"&" +
 	 					"Response=encrypt&MAC="+MAC+"&" +
@@ -72,13 +77,17 @@ EvoIntegrationController = function(scope, RequestSender,location, localStorageS
 	 RequestSender.evoPaymentGatewayResource.save({method:'encrypt'},blowfishEncData,function(data){
 		 scope.data = data.map.blowfishData;
 		 $timeout(function() {
-			  //$("#submitEvoIntegration").click();
+			  $("#submitEvoIntegration").click();
 		    }, 1000);
 	 });
-	 
-	 scope.submitPaymentMethodFun = function(){
+    });
+   scope.blockUI = true;
+		$timeout(function() {
+	  scope.blockUI = false;
+   }, 4000);
+	 /*scope.submitPaymentMethodFun = function(){
 		 $("#submitEvoIntegration").click();
-	 };
+	 };*/
 			
     };
     

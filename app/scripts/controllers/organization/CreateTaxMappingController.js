@@ -4,16 +4,27 @@
         scope.chargecodetaxs = [];
         scope.typetaxmapdatas = [];
         scope.priceRegionDatas = [];
+        scope.date = {};
         scope.start = {};
         scope.formData = {};
-        scope.start.date = new Date();
+        //scope.start.date = new Date();
+        
         
         resourceFactory.taxmappingtemplateResource.getAlltaxmapping({'chargeCode':routeParams.chargeCode}, function(data) {
             scope.taxTypeDatas = data.taxTypeData;
             scope.priceRegionDatas = data.priceRegionData;
-            scope.formData = data;
+            scope.start.date = new Date(data.date);
+            scope.minDate = new Date(data.date);
+            scope.formData.chargeCode = data.chargeCode;
         });
         
+        scope.doSomething =function(){
+     	
+     	   if(scope.end.date){
+     		   if(new Date(scope.start.date) > new Date(scope.end.date))
+     			   scope.end.date = scope.start.date;
+     	   }
+        };
                 
         scope.submit = function() {
         	this.formData.locale = $rootScope.locale.code;

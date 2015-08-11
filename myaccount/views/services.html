@@ -28,7 +28,8 @@
 						<div class="text">{{order.planType}}</div>
 					</div>
 				</div>
-		 		<h1 style="line-height: 25px;">{{order.planCode}}</h1>
+		 		<h1 style="line-height: 25px;">{{order.planCode}}
+		 		<a data-ng-click="viewAddOns(order.id)" style="color:#fff;text-transform: lowercase;"> ({{'label.addons' | translate}}) </a></h1>
 		 		<ul> <li>{{'table.header.contractperoid'|translate}} : <span>{{order.contractPeriod}}</span>
 						<a data-ng-click="viewOrder(order.id)" style="color:blue;"> ({{'label.view' | translate}}) </a></li>
 					<li><span style="padding: 0px; margin:0px;">{{'table.header.price'|translate}} : {{order.price }}({{currencyCode}})</span></li>
@@ -78,7 +79,7 @@
 		 <br/>
 </div>
 <script type="text/ng-template" id="vieworder.html"> 
-  <div class="modal43" style="min-width:700px;">	
+  <div class="modal43" style="width:700px;">	
 	<div class="modal-header silver">
         <h3 class="bolder">{{'label.service.info' | translate}}
 			<a data-ng-show="(orderData.status == 'ACTIVE')||(orderData.status == 'SUSPENDED')" 
@@ -87,21 +88,11 @@
 		</h3>
     </div>
     <div class="modal-body">
-		<table class="table margintop10">
-		 <thead>
-  		   <tr class="graybg drakgraybg">
-             <th style="padding-left:20px;">{{'table.header.order.servicecode'|translate}}</th>
-             <th>{{'table.header.order.servicedescription'|translate}}</th>
-             <th>{{'table.header.order.servicetype'|translate}}</th>
-        	</tr>
-		 </thead>
-		 <tbody>
-			<tr data-ng-repeat="orderService in orderServices  | filter:filterText" >                 
-   				<td style="font-weight: inherit;color: #555555;padding-left:20px;">{{orderService.servicecode}}</td>
-   				<td>{{orderService.serviceDescription}}</td>
-   				<td>{{orderService.serviceType}}</td>
+		<table class="margintop10 fullwidth">
+			<tr data-ng-repeat="orderServiceParent in orderServices"">                 
+   			 <td style="padding :0 0 10px 20px;" data-ng-repeat="orderServiceChild in orderServiceParent">
+			   <img ng-src="{{orderServiceChild.image}}" alt="No image" width="50"/></td>
 			</tr>
-		</tbody>
  	   </table>
      </div>
      <div class="modal-footer">
@@ -110,24 +101,16 @@
 </div>
 </script>
 <script type="text/ng-template" id="viewplanservice.html"> 
-  <div class="modal43" style="min-width:700px;">	
+  <div class="modal43" style="width:700px;">	
 	<div class="modal-header silver">
         <h3 class="bolder">{{'label.service.info' | translate}}</h3>
     </div>
     <div class="modal-body">
-		<table class="table margintop10">
-		 <thead>
-  		   <tr class="graybg drakgraybg">
-             <th style="padding-left:20px;">{{'table.header.order.servicecode'|translate}}</th>
-             <th>{{'table.header.order.servicedescription'|translate}}</th>
-        	</tr>
-		 </thead>
-		 <tbody>
-			<tr data-ng-repeat="planservice in planServices  | filter:filterText" >                 
-   				<td style="font-weight: inherit;color: #555555;padding-left:20px;">{{planservice.serviceCode}}</td>
-   				<td>{{planservice.serviceDescription}}</td>
+		<table class="margintop10 fullwidth">
+			<tr data-ng-repeat="planserviceParent in planServices">                 
+   				<td style="padding :0 0 10px 20px;" data-ng-repeat="planserviceChild in planserviceParent">
+					<img ng-src="{{planserviceChild.image}}" alt="No image" width="50"/></td>
 			</tr>
-		</tbody>
  	   </table>
      </div>
      <div class="modal-footer">
@@ -165,5 +148,104 @@
         <button id="cancel" class="btn" ng-click="cancelDisconnection()">{{'btn.cancel' | translate}}</button>
      	<button id="submit" class="btn btn-primary" ng-click="approveDisconnection()" ng-disabled="flagOrderDisconnect">{{'label.confirm' | translate}}</button>
       </div>
+</script>
+<script type="text/ng-template" id="viewaddons.html"> 
+ <div class="modal43" style="width:700px;">
+	<div class="modal-header silver">
+        <h3 class="bolder">{{'label.header.addons' | translate}}
+			<a data-ng-click="createAddOn()" class="btn btn-primary pull-right" >
+    	 		<i class="icon-plus-sign icon-white"></i>{{'label.header.create.addons' | translate}}</a>
+		</h3>
+    </div>
+    <div class="modal-body">
+	  <table class="table">
+        <tr class="graybg">
+          <th>{{ 'table.order.addons.service' | translate }}</th>
+          <th>{{ 'table.order.addons.startdate' | translate }}</th>
+          <th>{{ 'table.order.addons.endDate' | translate }}</th>
+          <th>{{ 'table.order.addons.status' | translate }}</th>
+          <th>{{ 'table.order.addons.actions' | translate }}</th>
+        </tr>
+        <tr ng-repeat="orderAddonsData in orderAddonsDatas">
+          <td>{{orderAddonsData.serviceCode}}</td>
+          <td>{{orderAddonsData.startDate | DateFormat}}</td>
+          <td>{{orderAddonsData.endDate | DateFormat}}</td>            
+          <td>{{orderAddonsData.status}}</td> 
+          <td> <a data-ng-click="disConnectAddon(orderAddonsData.id)" data-popover="Disconnect" 
+                    data-popover-trigger="mouseenter"><i class="icon-remove icon-white"></i></a></td>       
+        </tr>
+       </table>
+     </div>
+     <div class="modal-footer">
+     	<button class="btn btn-primary" ng-click="close()" >{{'btn.close' | translate}}</button>
+     </div>
+  </div>
+</script>
+<script type="text/ng-template" id="createaddons.html">
+		
+	<div class="modal-header silver">
+        <h3 class="bolder">{{'label.header.create.addons' | translate}}</h3>
+    </div>
+    <div class="modal-body" style="height:300px;">
+	    <div class="error" data-ng-show="errorStatus || errorDetails">
+		  <label>{{'label.contract.error' | translate}}</label>
+		  <label data-ng-show="errorStatus">{{errorStatus}}</label>
+		  <label data-ng-hide="errorStatus"data-ng-repeat="error in errorDetails">{{error.code | translate}}</label>
+	    </div>
+		<div class="control-group">
+	        <label class="control-label">{{ 'label.order.contractperiod' | translate }}</label>
+	        <div class="controls">
+	          <select data-ng-model="formData.contractId" data-ng-options="subscriptiondata.id as subscriptiondata.Contractdata for subscriptiondata in subscriptiondatas" >
+	          </select>
+	        </div>
+	    </div>
+	    <div>
+	     <input data-ng-model="filterText" type="text" data-ng-autofocus="true" class="span" style="width:200px;" placeholder="{{'label.filter.servicename'|translate}}">
+	     <br/>
+	    <accordion close-others="true">
+	      <accordion-group  is-open = "$first" ng-repeat="serviceCategoryData in serviceCategoryDatas | filter:filterText" >
+	       <accordion-heading>
+	         <strong >{{serviceCategoryData.serviceCode}}</strong> 
+	          <i class="pull-right" data-ng-class="{'icon-chevron-up': !$first, 'icon-chevron-down': $first }"></i> 
+	       </accordion-heading>
+	       <table  class="table table-striped table-bordered fullwidth">
+		     <tr class="graybg">
+		       <th>{{'label.select' | translate}}</th>
+			   <th>{{'label.order.chargecode' |translate}}</th>
+		       <th>{{'table.header.price' | translate}}</th>
+		     </tr>
+	          <tr data-ng-repeat="addonsPriceData in addonsPriceDatas" data-ng-if="serviceCategoryData.serviceCode == addonsPriceData.serviceCode">
+	       		<td width="10%">
+	      		  <input type="checkbox" id="{{addonsPriceData.id}}"  data-ng-change="isSelected(addonsPriceData.serviceId,isActive,addonsPriceData.price,addonsPriceData.chargeCodeId,$index)" data-ng-model="isActive" data-ng-true-value="Y" data-ng-false-value="N"></td>
+				<td width="40%">{{addonsPriceData.chargecodeDescription}}</td>
+				<td width="60%">{{addonsPriceData.price}}</td>
+	     	 </tr>
+	   		</table>
+	      </accordion-group>
+	   </accordion>
+	   </div>
+	  </div>
+     </div>
+     <div class="modal-footer">
+        <button id="cancel" class="btn" data-ng-click="close()">{{'btn.cancel' | translate}}</button>
+     	<button id="submit" class="btn btn-primary" data-ng-click="save()">{{'btn.save' | translate}}</button>
+      </div>
+</script>
+<script type="text/ng-template" id="disconnectaddon.html">
+         <div class="modal-header silver">
+             <h3 class="bolder">{{'label.header.disconnect.addons' | translate}}</h3>
+         </div>
+         <div class="modal-body modal-small">
+			<div class="error" data-ng-show="errorStatus || errorDetails">
+		  		<label>{{'label.contract.error' | translate}}</label>
+		  		<label data-ng-show="errorStatus">{{errorStatus}}</label>
+		  		<label data-ng-hide="errorStatus"data-ng-repeat="error in errorDetails">{{error.code | translate}}</label>
+	    	</div>
+            <h4>{{'label.confirm.msg' | translate}}</h4>
+         </div>
+         <div class="modal-footer">
+             <button class="btn" ng-click="close()">{{'btn.cancel' | translate}}</button>
+             <button class="btn btn-primary" ng-click="save()">{{'label.confirm' | translate}}</button>
+         </div>
 </script>
 </div>

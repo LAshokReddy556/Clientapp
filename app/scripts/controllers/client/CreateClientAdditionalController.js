@@ -18,7 +18,7 @@
         scope.clientAddInfo = webStorage.get("client-additional-data");
 		  
         resourceFactory.clientAdditionalTemplateResource.get(function(data) {
-            
+        	scope.date.todayDate = data.date;
             scope.nationalityDatas= data.nationalityDatas;
             scope.genderDatas= data.genderDatas;
             scope.ageGroupDatas = data.ageGroupDatas;
@@ -30,7 +30,7 @@
 
         scope.submit = function() {
         	 scope.flag = true;
-            var reqDate = dateFilter(new Date(),'dd MMMM yyyy');
+            var reqDate = dateFilter(new Date(scope.date.todayDate),'dd MMMM yyyy');
             this.formData.dateFormat = 'dd MMMM yyyy';
             this.formData.activationDate = reqDate;
             this.formData.locale = 'en';

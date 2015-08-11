@@ -3,8 +3,9 @@
 	    MoveMrnController: function(scope,webStorage, resourceFactory, location,dateFilter,PermissionService,$rootScope) {
 	    	 scope.mrnIds = [];
 	    	 scope.first = {};
-	    	 scope.first.date = new Date();
+	    	 //scope.first.date = new Date();
 	        resourceFactory.moveMrnResource.get(function(data) {
+	        	 scope.first.date = new Date(data.date);
 	        	scope.mrnIds = data.mrnIds;
 	        	scope.formData = data;
 	        	scope.itemIds=data.itemsaleIds;
@@ -36,6 +37,7 @@
 		        	delete scope.formData.itemsaleIds;
 		        	//delete this.formData.type;
 		        	delete this.formData.itemId;
+		        	delete scope.formData.date;
 		        	scope.formData.movedDate = reqDate;
 		        	resourceFactory.moveMrnSaveResource.save(this.formData,function(data){
 		        		/*location.path('/viewmovemrn/'+data.resourceId);*/
@@ -55,6 +57,7 @@
 		        	delete scope.formData.itemsaleIds;
 		        	//delete this.formData.type;
 		        	delete this.formData.mrnId;
+		        	delete scope.formData.date;
 		        	scope.formData.movedDate = reqDate;
 		        	resourceFactory.moveItemSaleSaveResource.save(this.formData,function(data){
 		        		/*location.path('/viewmovemrn/'+data.resourceId);*/

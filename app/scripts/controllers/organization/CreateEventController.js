@@ -53,6 +53,7 @@
 							resourceFactory.eventTemplateResource.get(function(
 									data) {
 								scope.formData = {};
+								scope.date.startDate = new Date(data.date);
 								scope.eventStatus = data.statusData;
 								for(var i=0;i<scope.eventStatus.length;i++){
 									if(scope.eventStatus[i].value=='ACTIVE'){

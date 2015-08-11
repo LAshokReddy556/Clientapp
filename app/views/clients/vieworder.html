@@ -255,7 +255,7 @@
                  <th>{{ 'label.order.startdate' | translate }}</th>
                  <th>{{ 'table.order.endDate' | translate }}</th>
                  <th>{{ 'table.order.status' | translate }}</th>
-                
+                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -263,7 +263,9 @@
                 <td>{{orderAddonsData.serviceCode}}</td>
                 <td>{{orderAddonsData.startDate | DateFormat}}</td>
                 <td>{{orderAddonsData.endDate | DateFormat}}</td>            
-                <td>{{orderAddonsData.status}}</td>        
+                <td>{{orderAddonsData.status}}</td> 
+                <td>  <a data-ng-show="PermissionService.showMenu('DELETE_PLAN')" data-ng-click="disconnectAddon(orderAddonsData.id)" data-popover="Disconnect" 
+                       data-popover-trigger="mouseenter"><i class="icon-remove icon-white"></i></a></td>       
                 
             </tr>
         </tbody>
@@ -663,5 +665,16 @@
                         <button id="cancel" class="btn btn-primary" ng-click="cancel()">{{'button.done' | translate}}</button>
                     </div>
  </script>
-      
+      <script type="text/ng-template" id="disconnectaddon.html">
+                    <div class="modal-header silver">
+                        <h3 class="bolder">{{'dialog.addon.disconnect.message' | translate}}</h3>
+                    </div>
+                    <div class="modal-body modal-small">
+                       <h4>Are you sure?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" ng-click="cancel()">{{'button.cancel' | translate}}</button>
+                        <button class="btn btn-primary" ng-click="approve()">{{'label.confirm' | translate}}</button>
+                    </div>
+</script>
 </div>

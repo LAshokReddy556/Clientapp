@@ -4,8 +4,8 @@ ClientCloseController: function(scope,webStorage, resourceFactory, location, tra
             
 			scope.formData={};	
 			scope.close = {};
-			scope.close.date = dateFilter(new Date(),'dd MMMM yyyy');
-			scope.minDate= scope.close.date;
+			/*scope.close.date = dateFilter(new Date(),'dd MMMM yyyy');
+			scope.minDate= scope.close.date;*/
 			scope.closureReasons =[];
 			
 			scope.clientId=routeParams.id;
@@ -25,6 +25,9 @@ ClientCloseController: function(scope,webStorage, resourceFactory, location, tra
 			
 			// TEMPLATE DATA
 			resourceFactory.clientTemplateResource.get({commandParam:'close'} ,function(data) {
+				scope.close.date = dateFilter(new Date(data.date),'dd MMMM yyyy');
+				scope.minDate= scope.close.date;
+				
 			    scope.closureReasons = data.closureReasons;
 			    
 			});

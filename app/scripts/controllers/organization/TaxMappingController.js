@@ -2,6 +2,8 @@
   mifosX.controllers = _.extend(module, {
 	  TaxMappingController: function(scope,routeParams, resourceFactory,location) {
         scope.taxmappings = [];
+        scope.chargeCode = routeParams.chargeCode;
+        scope.chargeId = routeParams.chargeId;
         
         resourceFactory.taxmappingResource.query({chargeCode: routeParams.chargeCode}, function(data) {
             scope.taxmappings = data;

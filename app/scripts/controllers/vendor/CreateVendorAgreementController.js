@@ -14,14 +14,18 @@
 			 scope.vendorDetailsDatas=[];
 			 scope.start ={};
 			 scope.end ={};
-			 var datetime = new Date();
+			 /*var datetime = new Date();
 			 scope.start.date = datetime;
 			 scope.end.date = datetime;
-			 scope.minDate = new Date();
+			 scope.minDate = new Date();*/
 			 scope.vendorId = routeParams.vendorId;
 			 scope.formData.contentType = "Service";
 						
 			resourceFactory.VendorAgreementTemplateResource.getTemplateDetails({'vendorId':routeParams.vendorId},function(data) {
+				 var datetime = new Date(data.date);
+				 scope.start.date = datetime;
+				 scope.end.date = datetime;
+				 scope.minDate = new Date(data.date);
 				scope.priceRegionDatas = data.priceRegionData;
 				scope.servicesData = data.servicesData;
 				scope.planDatas = data.planDatas;

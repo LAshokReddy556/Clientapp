@@ -1,6 +1,6 @@
 (function(module) {
     mifosX.controllers = _.extend(module, {
-    	DashboardController: function(scope, resourceFactory,location) {
+    	DashboardController: function(scope, resourceFactory,dateFilter,location) {
             scope.client = [];
             scope.offices = [];
             scope.cOfficeName = 'Head Office';
@@ -857,70 +857,70 @@ return function(d, i) {
     				center: 'title',
     				right: 'month,basicWeek,basicDay'
     			},
-    			defaultDate: '2015-02-12',
+    			defaultDate: dateFilter(new Date(), 'dd MMMM yyyy'),
     			editable: true,
     			eventLimit: true, // allow "more" link when too many events
     			events: [
     				{
     					title: 'All Day Event',
-    					start: '2015-02-01'
+    					start: '2015-07-01'
     				},
     				{
     					title: 'Long Event',
-    					start: '2015-02-07',
-    					end: '2015-02-10'
+    					start: '2015-07-07',
+    					end: '2015-07-08'
     				},
     				{
     					id: 999,
     					title: 'Repeating Event',
-    					start: '2015-02-09T16:00:00'
+    					start: '2015-07-09T16:00:00'
     				},
     				{
     					id: 999,
     					title: 'Repeating Event',
-    					start: '2015-02-16T16:00:00'
+    					start: '2015-07-16T16:00:00'
     				},
     				{
     					title: 'Conference',
-    					start: '2015-02-11',
-    					end: '2015-02-13'
+    					start: '2015-07-15',
+    					end: '2015-07-16'
     				},
     				{
     					title: 'Meeting',
-    					start: '2015-02-12T10:30:00',
-    					end: '2015-02-12T12:30:00'
+    					start: '2015-07-12T10:30:00',
+    					end: '2015-07-12T12:30:00'
     				},
     				{
     					title: 'Lunch',
-    					start: '2015-02-12T12:00:00'
+    					start: '2015-07-12T12:00:00'
     				},
     				{
     					title: 'Meeting',
-    					start: '2015-02-12T14:30:00'
+    					start: '2015-07-12T14:30:00'
     				},
     				{
     					title: 'Happy Hour',
-    					start: '2015-02-12T17:30:00'
+    					start: '2015-07-12T17:30:00'
     				},
     				{
     					title: 'Dinner',
-    					start: '2015-02-12T20:00:00'
+    					start: '2015-07-12T20:00:00'
     				},
     				{
     					title: 'Birthday Party',
-    					start: '2015-02-13T07:00:00'
+    					start: '2015-07-13T07:00:00'
     				},
     				{
     					title: 'Click for Google',
     					url: 'http://google.com/',
-    					start: '2015-02-28'
+    					start: '2015-07-28'
     				}
     			]
     		});
 
         }
     });
-    mifosX.ng.application.controller('DashboardController', ['$scope', 'ResourceFactory','$location', mifosX.controllers.DashboardController]).run(function($log) {
+    mifosX.ng.application.controller('DashboardController', ['$scope', 'ResourceFactory','dateFilter','$location', mifosX.controllers.DashboardController]).run(function($log) {
         $log.info("DashboardController initialized");
     });
 }(mifosX.controllers || {}));

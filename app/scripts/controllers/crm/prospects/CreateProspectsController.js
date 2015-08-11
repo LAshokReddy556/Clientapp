@@ -9,12 +9,12 @@
 			scope.stateDatas = [];
 			scope.cityDatas = [];
 			scope.first = {};
-			var datetime = new Date();
+			/*var datetime = new Date();
 			scope.first.date = datetime;
-			scope.first.time = datetime.getHours() + ":" + datetime.getMinutes();
+			scope.first.time = datetime.getHours() + ":" + datetime.getMinutes();*/
 	
 			scope.formData = {};
-			scope.minDate = new Date();
+			//scope.minDate = new Date();
 
 			$('#timepicker1').timepicker({
 				showInputs : false,
@@ -23,6 +23,11 @@
 			});
 						
 			resourceFactory.prospectTemplateResource.getTemplate(function(data) {
+				var datetime = new Date(data.date);
+				scope.first.date = datetime;
+				scope.first.time = datetime.getHours() + ":" + datetime.getMinutes()+'0';
+				scope.minDate = new Date(data.date);
+				
 				scope.sourceOfPublicityDatas = data.sourceOfPublicityData;
 				scope.planDatas = data.planData;
 				scope.countryDatas = data.countryData;

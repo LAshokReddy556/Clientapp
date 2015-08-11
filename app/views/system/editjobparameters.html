@@ -1,10 +1,4 @@
 <div data-ng-controller="EditJobParameters">
-	<div class="error" data-ng-show="errorStatus || errorDetails">
-		<label>{{'label.contract.error' | translate}}</label> 
-		<label data-ng-show="errorStatus">{{errorStatus}}</label> 
-		<label data-ng-hide="errorStatus" data-ng-repeat="error in errorDetails">{{error.code | translate}}</label>
-	</div>
-	
 	<div class="paddedbottom10">
 		<ul class="breadcrumb">
 			<li><a href="#/system">{{'link.admin.system' | translate}}</a> <span class="divider">/</span></li>
@@ -13,6 +7,13 @@
 			<li class="active">{{'label.editschedulerjobparameters' | translate}}</li>
 		</ul>
 	</div>
+
+	<div class="error" data-ng-show="errorStatus || errorDetails">
+		<label>{{'label.contract.error' | translate}}</label> 
+		<label data-ng-show="errorStatus">{{errorStatus}}</label> 
+		<label data-ng-hide="errorStatus" data-ng-repeat="error in errorDetails">{{error.code | translate}}</label>
+	</div>
+	
 	
 	<form class="form-horizontal" data-ng-submit="submit()">
 		<fieldset>
@@ -65,7 +66,7 @@
 				</div>
 			</div>
 
-			<div class="control-group" data-ng-show="formData.displayName =='AUTO_EXPIRY'">
+			<div class="control-group" data-ng-show="formData.name =='Auto Exipiry'">
 				<label class="control-label" for="startDate">{{'label.job.exipirydate' | translate }}</label>
 				<div class="controls">
 					<input type="text" data-datepicker-pop="dd MMMM yyyy"
@@ -131,12 +132,17 @@
 					</label>
 				</div>
 			</div>
-			
-			<div class="control-group" data-ng-show="formData.displayName =='AUTO_EXPIRY'">
+			<div class="control-group" data-ng-show="formData.name =='Auto Exipiry'">
 				<label class="control-label" for="isDynamic">{{'label.job.isAutoRenewal' | translate }}</label>
 				<div class="controls">
 					<label class="checkbox"> <input type="checkbox" data-ng-model="formData.isAutoRenewal">
 					</label>
+				</div>
+			</div>
+			<div class="control-group" data-ng-show="formData.name =='Auto Exipiry'">
+				<label class="control-label">{{ 'label.job.addon.exipiry' | translate }}</label>
+				<div class="controls">
+					<label class="checkbox"> <input type="checkbox" data-ng-model="formData.addonExipiry"></label>
 				</div>
 			</div>
 			

@@ -12,7 +12,7 @@ OrderBookingScreenController = function(RequestSender,rootScope,location,dateFil
 	function successFun(planData){
 		localStorageService.remove("gatewayStatus"); localStorageService.remove("storageData"); 
 		localStorageService.remove("isAutoRenew");localStorageService.remove("chargeCodeData");
-		localStorageService.remove("contractsData");
+		localStorageService.remove("contractsData");localStorageService.remove("plansCheckoutList");
 		if(gatewayStatus == 'RECURRING'){
 			var paypalrecurringsuccessPopupController = function ($scope,$modalInstance,$log){
 				$scope.done = function(){
@@ -37,13 +37,15 @@ OrderBookingScreenController = function(RequestSender,rootScope,location,dateFil
     		(priceId == "amountZero")? location.path("/events") : location.path('/paymentgatewayresponse/'+clientId);
     	};
     }
-	
+
 	var storageData = localStorageService.get("storageData");
 		  var clientData 			= storageData.clientData;
 		  var totalOrdersData 		= storageData.totalOrdersData;
 		  var eventData		 		= storageData.eventData || "";
 		  var orderId 				= storageData.orderId || null;
+  RequestSender.clientResource.get({clientId: scope.clientId} , function(clientsInfo) {
     if(screenName != "vod"){
+      if(screenName != 'additionalorders'){
 		for(var i in totalOrdersData){
 		  if(totalOrdersData[i].planId == planId){
 			for(var j in totalOrdersData[i].pricingData){
@@ -61,7 +63,7 @@ OrderBookingScreenController = function(RequestSender,rootScope,location,dateFil
 					orderBookingData.isNewplan 		= true;
 					orderBookingData.locale 		= rootScope.localeLangCode; 
 					orderBookingData.dateFormat 	= 'dd MMMM yyyy'; 
-					orderBookingData.start_date 	= dateFilter(new Date(),'dd MMMM yyyy'); 
+					orderBookingData.start_date 	= dateFilter(new Date(clientsInfo.date),'dd MMMM yyyy'); 
 					orderBookingData.paytermCode 	= planData.billingFrequency; 
 					orderBookingData.contractPeriod = planData.contractId; 
 					orderBookingData.planCode 		= planId;
@@ -91,8 +93,8 @@ OrderBookingScreenController = function(RequestSender,rootScope,location,dateFil
 					changeOrderData.isNewplan 		 = false;
 					changeOrderData.locale 			 = rootScope.localeLangCode; 
 					changeOrderData.dateFormat 		 = 'dd MMMM yyyy'; 
-					changeOrderData.start_date 		 = dateFilter(new Date(),'dd MMMM yyyy'); 
-					changeOrderData.disconnectionDate= dateFilter(new Date(),'dd MMMM yyyy');
+					changeOrderData.start_date 		 = dateFilter(new Date(clientsInfo.date),'dd MMMM yyyy'); 
+					changeOrderData.disconnectionDate= dateFilter(new Date(clientsInfo.date),'dd MMMM yyyy');
 					changeOrderData.paytermCode 	 = planData.billingFrequency; 
 					changeOrderData.contractPeriod 	 = planData.contractId; 
 					changeOrderData.planCode 		 = planId;
@@ -146,6 +148,33 @@ OrderBookingScreenController = function(RequestSender,rootScope,location,dateFil
 		   break;
 		  }
 		}
+      }else if(screenName == 'additionalorders'){
+			var plansData = [];
+			plansData = localStorageService.get("plansCheckoutList");
+			var orderBookOneByOneFun = function(val){
+				var orderBookingData 			= {};
+				(plansData[val].isPrepaid=='Y') ? orderBookingData.billAlign 		= false : orderBookingData.billAlign 		= true;
+				orderBookingData.isNewplan 		= true;
+				orderBookingData.locale 		= rootScope.localeLangCode; 
+				orderBookingData.dateFormat 	= 'dd MMMM yyyy'; 
+				orderBookingData.start_date 	= dateFilter(new Date(clientsInfo.date),'dd MMMM yyyy'); 
+				orderBookingData.paytermCode 	= plansData[val].billingFrequency; 
+				orderBookingData.contractPeriod = plansData[val].contractId; 
+				orderBookingData.planCode 		= plansData[val].planId;
+				orderBookingData.autoRenew 		= isAutoRenew;
+				RequestSender.bookOrderResource.save({clientId : clientId},orderBookingData,function(data){
+					 if(val == plansData.length-1){
+						 successFun("success");
+					 }else{
+						 val += 1;
+						 orderBookOneByOneFun(val);
+				 	 }
+				 });
+			 };
+			 if(plansData.length != 0 ) orderBookOneByOneFun(0);
+			 
+	 
+      }
      }else if(screenName == "vod"){
     	 var eventSavedOneByOneFun = function(val){
 			 RequestSender.eventsResource.save(eventFormData[val],function(data){
@@ -167,7 +196,7 @@ OrderBookingScreenController = function(RequestSender,rootScope,location,dateFil
 					 							formatType 		: eventData[i].quality,
 					 							clientId 		: clientId,
 					 							locale 			: rootScope.localeLangCode,
-					 							eventBookedDate : dateFilter(new Date(),'dd MMMM yyyy'),
+					 							eventBookedDate : dateFilter(new Date(clientsInfo.date),'dd MMMM yyyy'),
 					 							dateFormat 		: 'dd MMMM yyyy',
 					 							deviceId 		: clientData.hwSerialNumber
 				 							};
@@ -176,6 +205,8 @@ OrderBookingScreenController = function(RequestSender,rootScope,location,dateFil
 			 }
 		 }
      }
+    
+	});
 		 
   };
 

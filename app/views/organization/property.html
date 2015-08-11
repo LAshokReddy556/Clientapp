@@ -51,10 +51,23 @@
 				</tr>
 			</tbody>
 		</table>
-		<ul class="pager">
+		<!-- <ul class="pager">
+					<li class="previous" ><a  data-ng-click="propertyCodes.firstPage()" href="" ng-disabled="!propertyCodes.hasFirstPage()">First</a></li>
         			<li class="previous"><a data-ng-click="propertyCodes.previous()" href="" data-ng-disabled="!propertyCodes.hasPrevious()">&larr; Prev</a></li>
+        			 <strong>Page No:&nbsp;&nbsp;{{pageNo}}/{{totalPages}}</strong>
+       				<li class="next" ><a  data-ng-click="propertyCodes.lastPage()" href="" ng-disabled="!propertyCodes.hasLastPage()">Last</a></li>
         			<li class="next" ><a data-ng-click="propertyCodes.next()" href=""  data-ng-disabled="!propertyCodes.hasNext()">Next &rarr;</a></li>
-    	</ul>
+    	</ul> -->
+    	 <ul class="pager">
+    		<li class="previous" ng-click="firstPageNo()"><a  ng-click="propertyCodes.firstPage()" href="" ng-hide="!propertyCodes.hasFirstPage()">First</a></li>
+        	<li class="previous" ng-click="previousPageNo()"><a  id="prev" ng-click="propertyCodes.previous()"  href="" ng-hide="!propertyCodes.hasPrevious()">&larr; Prev</a></li>
+       		<strong>Page No:&nbsp;&nbsp;{{pageNo}}/{{totalPages}}</strong>
+        	<li class="next" ng-click="lastPageNo()"><a  ng-click="propertyCodes.lastPage()" href="" ng-hide="!propertyCodes.hasLastPage()">Last</a></li>
+         	<li class="next" ng-click="nextPageNo()"><a  id="next" ng-click="propertyCodes.next()" href="" ng-hide="!propertyCodes.hasNext()">Next &rarr;</a></li>
+    </ul>
+    	
+    	
+    	
 	</div>
   </tab>
   <tab heading="{{'tab.propertymaster' | translate}}" select="getPropertyMaster()" active="propertyMasterTab" data-ng-show="$parent.PermissionService.showMenu('READ_PROPERTYMASTER')">
@@ -95,13 +108,21 @@
 				</tr>
 			</tbody>
 		</table>
-		<ul class="pager">
-		            <!-- <li class="previous" data-ng-click="firstPageNo()"><a  data-ng-click="propertyMasters.firstPage()" href="" data-ng-disabled="!propertyMasters.hasFirstPage()">First</a></li> -->
+		<!-- <ul class="pager">
+		           	<li class="previous" data-ng-click="firstPageNo()"><a  data-ng-click="propertyMasters.firstPage()" href="" data-ng-disabled="!propertyMasters.hasFirstPage()">First</a></li> 
         			<li class="previous"><a data-ng-click="propertyMasters.previous()" href="" data-ng-disabled="!propertyMasters.hasPrevious()">&larr; Prev</a></li>
-        			 <!-- <strong>Page No:&nbsp;&nbsp;{{pageNo}}/{{totalPages}}</strong> -->
-        			 <!-- <li class="next" data-ng-click="lastPageNo()"><a  data-ng-click="propertyMasters.lastPage()" href="" data-ng-disabled="!propertyMasters.hasLastPage()">Last</a></li> -->
+        			  <strong>Page No:&nbsp;&nbsp;{{pageNo}}/{{totalPages}}</strong>
+        			  <li class="next" data-ng-click="lastPageNo()"><a  data-ng-click="propertyMasters.lastPage()" href="" data-ng-disabled="!propertyMasters.hasLastPage()">Last</a></li>
         			<li class="next" ><a data-ng-click="propertyMasters.next()" href=""  data-ng-disabled="!propertyMasters.hasNext()">Next &rarr;</a></li>
-    	</ul>
+    	</ul> -->
+    	 <ul class="pager">
+    			<li class="previous" ng-click="firstPageNo()"><a  ng-click="propertyMasters.firstPage()" href="" ng-hide="!propertyMasters.hasFirstPage()">First</a></li>
+       			<li class="previous" ng-click="previousPageNo()"><a  id="prev" ng-click="propertyMasters.previous()"  href="" ng-hide="!propertyMasters.hasPrevious()">&larr; Prev</a></li>
+       			<strong>Page No:&nbsp;&nbsp;{{pageNo}}/{{totalPages}}</strong>
+        		<li class="next" ng-click="lastPageNo()"><a  ng-click="propertyMasters.lastPage()" href="" ng-hide="!propertyMasters.hasLastPage()">Last</a></li>
+				<li class="next" ng-click="nextPageNo()"><a  id="next" ng-click="propertyMasters.next()" href="" ng-hide="!propertyMasters.hasNext()">Next &rarr;</a></li>
+   		 </ul>
+    	
 	</div>
 		
 		</tab></tabset>

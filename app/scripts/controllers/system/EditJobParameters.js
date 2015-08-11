@@ -45,7 +45,11 @@
 
 				if (data.jobparameters.createTicket == "Y") {
 					scope.formData.isCreateTicket = true;
-				} else {
+				}
+				if (data.jobparameters.addonExipiry == "Y") {
+					scope.formData.addonExipiry = true;
+				} 
+				else {
 					scope.formData.isCreateTicket = false;
 				}
 

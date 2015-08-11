@@ -19,7 +19,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="pointer-main" data-ng-repeat="employee in employees | filter:filterText">
+            <tr class="pointer-main" data-ng-repeat="employee in employees | orderBy:'displayName'| filter:filterText">
                 <td class="pointer" data-ng-click="routeTo(employee.id)">{{employee.displayName}}</td>            
                 <td class="pointer" data-ng-click="routeTo(employee.id)">{{employee.officeName}}</td> 
                 <td class="pointer"><a data-ng-show="PermissionService.showMenu('UPDATE_STAFF')"

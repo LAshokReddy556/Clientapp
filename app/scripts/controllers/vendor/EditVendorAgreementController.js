@@ -15,13 +15,16 @@
 			 scope.deleteAttributes=[];
 			 scope.start ={};
 			 scope.end ={};
-			 var datetime = new Date();
+			 /*var datetime = new Date();
 			 scope.start.date = datetime;
-			 scope.minDate = new Date();
+			 scope.minDate = new Date();*/
 			 scope.vendorId = routeParams.vendorId;
 			 scope.agreementId = routeParams.id;
 						
 			resourceFactory.VendorAgreementResource.getTemplateDetails({vendorAgreementId:scope.agreementId,resourceType:'details',template:true}, function(data) {
+				scope.start.date = new Date(data.date);
+				scope.minDate = new Date(data.date);
+				
 				scope.priceRegionDatas = data.priceRegionData;
 				scope.servicesData = data.servicesData;
 				scope.planDatas = data.planDatas;

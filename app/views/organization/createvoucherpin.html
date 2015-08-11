@@ -14,125 +14,138 @@
         <fieldset>
           <legend>{{'label.createvoucherpin' | translate}}</legend>
 			<table>
-			<tr>
-				<td>
-					<table>
-						<tr>
-							<td>
-								<div class="control-group">
-           					 	<label class="control-label" for="batchName">{{ 'label.batchName' | translate }}<span class="required">*</span></label>
-            					<div class="controls">
-             					 <input type="text" id="batchName" data-ng-model="formData.batchName">
-           						</div>
+				<tr>
+					<td align="center" colspan="2" style="padding-bottom: 20px; font-size: 16px; font-weight: 400;">
+						<span style="margin-right: 20px;">
+						<input type="radio" name="voucherSelectionType" data-ng-change="radioTypeSelection()" data-ng-model="voucherType" value="voucher"/>&nbsp;Voucher</span>
+						<input type="radio" name="voucherSelectionType" data-ng-change="radioTypeSelection()" data-ng-model="voucherType" value="coupon"/>&nbsp;Coupon
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="control-group">
+         					 	<label class="control-label" for="batchName">{{ 'label.batchName' | translate }}<span class="required">*</span></label>
+          					<div class="controls">
+           					 <input type="text" id="batchName" data-ng-model="formData.batchName">
          						</div>
-							</td>
-							<td>
-								<div class="control-group">
-            					<label class="control-label" for="officeId">{{ 'label.officeId' | translate }}<span class="required">*</span></label>
-            					<div class="controls">
-	             				 <select data-ng-model="formData.officeId"  data-ng-options="office.id as office.name for office in offices" ></select>
-	            				</div>
+       						</div>
+					</td>
+					<td>
+						<div class="control-group">
+          					<label class="control-label" for="officeId">{{ 'label.officeId' | translate }}<span class="required">*</span></label>
+          					<div class="controls">
+            				 <select data-ng-model="formData.officeId"  data-ng-options="office.id as office.name for office in offices" ></select>
+           				</div>
+        						</div>
+					</td>
+					</tr>
+					<tr>
+					<td>
+						<div class="control-group">
+          					<label class="control-label" for="length">{{ 'label.lengthOfPin' | translate }}<span class="required">*</span></label>
+          					<div class="controls">
+            					<input type="text" id="length" name="length" data-ng-model="formData.length" data-ng-pattern="{{'integer' | CodeValidate}}"><br/>
+            					<span data-ng-show="createVoucherForm.length.$dirty && createVoucherForm.length.$invalid">
+            						<small class="error-row">{{'error.not.numeric.validation' | translate}}</small>
+            					</span>
+         						 </div>
+        						</div>
+					</td>
+					<td>
+						<div class="control-group">
+          					<label class="control-label" for="beginWith">{{ 'label.beginWith' | translate }}<span class="required">*</span></label>
+          					<div class="controls">
+            					<input type="text" id="beginWith" data-ng-model="formData.beginWith">
+            					<small class="error" data-ng-show="lengthValidationError">{{'form.error.voucher.no.length.match.exception'|translate}}</small>
+          					</div>
+        						</div>
+					</td>
+					</tr>
+					<tr>
+					<td>
+						<div class="control-group">
+          					<label class="control-label" for="pinCategoryData">{{ 'label.pinCategory' | translate }}<span class="required">*</span></label>
+          					<div class="controls">
+           					 <select data-ng-model="formData.pinCategory"  id="pinCategory" data-ng-options="pinCategoryData.value as pinCategoryData.value for pinCategoryData in pinCategoryDatas">
+           					 </select>
+          					</div>
+        						</div>
+					</td>
+					<td>
+						<div class="control-group">
+          					<label class="control-label" for="quantity">{{ 'label.quantity' | translate }}<span class="required">*</span></label>
+          					<div class="controls">
+            					<input type="text" id="quantity" name="quantity" data-ng-model="formData.quantity" data-ng-pattern="{{'integer' | CodeValidate}}"><br/>
+            					<span data-ng-show="createVoucherForm.quantity.$dirty && createVoucherForm.quantity.$invalid">
+            						<small class="error-row">{{'error.not.numeric.validation' | translate}}</small>
+            					</span>
+          					</div>
+        						</div>
+						</td>
+					</tr>	
+					<tr>
+						<td>
+							<div class="control-group">
+         					 		<label class="control-label" for="serialNo">{{ 'label.serialNoLength' | translate }}<span class="required">*</span></label>
+          						<div class="controls">
+            						<input type="text" id="serialNo" name="serialNo" data-ng-model="formData.serialNo" data-ng-pattern="{{'integer' | CodeValidate}}"><br/>
+            						<span data-ng-show="createVoucherForm.serialNo.$dirty && createVoucherForm.serialNo.$invalid">
+            							<small class="error-row">{{'error.not.numeric.validation' | translate}}</small>
+            						</span>
           						</div>
-							</td>
-							</tr>
-							<tr>
-							<td>
-								<div class="control-group">
-            					<label class="control-label" for="length">{{ 'label.lengthOfPin' | translate }}<span class="required">*</span></label>
-            					<div class="controls">
-              					<input type="text" id="length" name="length" data-ng-model="formData.length" data-ng-pattern="{{'integer' | CodeValidate}}"><br/>
-              					<span data-ng-show="createVoucherForm.length.$dirty && createVoucherForm.length.$invalid">
-              						<small class="error-row">{{'error.not.numeric.validation' | translate}}</small>
-              					</span>
-           						 </div>
+        							</div>
+						</td>
+						<td data-ng-if="voucherType=='voucher'">
+							<div class="control-group">
+          						<label class="control-label">{{ 'label.pinType' | translate }}<span class="required">*</span></label>
+          						<div class="controls">
+            						<select data-ng-model="formData.pinType" id="pinType" data-ng-change="setPinValue()" data-ng-options="pinTypeData.value as pinTypeData.value for pinTypeData in pinTypeDatas">
+            						</select>
           						</div>
-							</td>
-							<td>
-								<div class="control-group">
-            					<label class="control-label" for="beginWith">{{ 'label.beginWith' | translate }}<span class="required">*</span></label>
-            					<div class="controls">
-              					<input type="text" id="beginWith" data-ng-model="formData.beginWith">
-              					<small class="error" data-ng-show="lengthValidationError">{{'form.error.voucher.no.length.match.exception'|translate}}</small>
-            					</div>
+        							</div>
+						</td>
+						<td data-ng-if="voucherType=='coupon'">
+							<div class="control-group">
+          						<label class="control-label">{{ 'label.promotion' | translate }}<span class="required">*</span></label>
+          						<div class="controls">
+            						<select data-ng-model="formData.pinValue" id="promotionValue" data-ng-options="promotionData.id as promotionData.promotionDescription for promotionData in promotionDatas">
+            						</select>
           						</div>
-							</td>
-							</tr>
-							<tr>
-							<td>
-								<div class="control-group">
-            					<label class="control-label" for="pinCategoryData">{{ 'label.pinCategory' | translate }}<span class="required">*</span></label>
-            					<div class="controls">
-             					 <select data-ng-model="formData.pinCategory"  id="pinCategory" data-ng-options="pinCategoryData.value as pinCategoryData.value for pinCategoryData in pinCategoryDatas">
-             					 </select>
-            					</div>
-          						</div>
-							</td>
-							<td>
-								<div class="control-group">
-            					<label class="control-label" for="quantity">{{ 'label.quantity' | translate }}<span class="required">*</span></label>
-            					<div class="controls">
-              					<input type="text" id="quantity" name="quantity" data-ng-model="formData.quantity" data-ng-pattern="{{'integer' | CodeValidate}}"><br/>
-              					<span data-ng-show="createVoucherForm.quantity.$dirty && createVoucherForm.quantity.$invalid">
-              						<small class="error-row">{{'error.not.numeric.validation' | translate}}</small>
-              					</span>
-            					</div>
-          						</div>
-								</td>
-							</tr>	
-							<tr>
-								<td >
+        							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
 									<div class="control-group">
-           					 		<label class="control-label" for="serialNo">{{ 'label.serialNoLength' | translate }}<span class="required">*</span></label>
-            						<div class="controls">
-              						<input type="text" id="serialNo" name="serialNo" data-ng-model="formData.serialNo" data-ng-pattern="{{'integer' | CodeValidate}}"><br/>
-              						<span data-ng-show="createVoucherForm.serialNo.$dirty && createVoucherForm.serialNo.$invalid">
-              							<small class="error-row">{{'error.not.numeric.validation' | translate}}</small>
-              						</span>
+                      				<label class="control-label">{{ 'label.expiryDate' | translate }}<span class="required">*</span></label>
+                      				<div class="controls">
+                         					 <input type="text" data-datepicker-pop="dd MMMM yyyy" id="expiryDate" readonly data-ng-model="start.date"  data-is-open="opened2" min="minDate" max="'2020-06-22'" data-date-disabled="disabled(date, mode)" style="background-color:#FFFFFF;" />
+                      				</div>
+        							</div>
+        						</td>
+						<td data-ng-if="voucherType=='voucher'">
+							<div class="control-group" style=" margin-top: -45px;line-height: 10px;">
+							   <div class="controls">
+            							<input data-ng-show = "formData.pinType=='VALUE'" type="text" id="pinValue" name="pinValue" data-ng-model="formData.pinValue" data-ng-pattern="{{'integer' | CodeValidate}}"/>
+            							
+            							<select data-ng-show="formData.pinType=='PRODUCT'" id="productValue" data-ng-model="formData.pinValue"  data-ng-options="planPriceData.id as planPriceData.plan_duration for  planPriceData in planPriceData">
+            							</select><br/>
+            							<span data-ng-show="createVoucherForm.pinValue.$dirty && createVoucherForm.pinValue.$invalid">
+            								<small class="error-row">{{'error.not.numeric.validation' | translate}}</small>
+            							</span>
+            						   </div>
             						</div>
-          							</div>
-								</td>
-								<td>
-									<div class="control-group">
-            						<label class="control-label" for="pinTypeData">{{ 'label.pinType' | translate }}<span class="required">*</span></label>
-            						<div class="controls">
-              						<select data-ng-model="formData.pinType" id="pinType" data-ng-change="setPinValue()" data-ng-options="pinTypeData.value as pinTypeData.value for pinTypeData in pinTypeDatas">
-              						</select>
-            						</div>
-          							</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-  									<div class="control-group">
-                        				<label class="control-label">{{ 'label.expiryDate' | translate }}<span class="required">*</span></label>
-                        				<div class="controls">
-                           					 <input type="text" data-datepicker-pop="dd MMMM yyyy" id="expiryDate" readonly data-ng-model="start.date"  data-is-open="opened2" min="minDate" max="'2020-06-22'" data-date-disabled="disabled(date, mode)" style="background-color:#FFFFFF;" />
-                        				</div>
-          							</div>
-          						</td>
-								<td>
-									<div class="control-group" style=" margin-top: -45px;line-height: 10px;">
-									   <div class="controls">
-              							<input data-ng-show = "formData.pinType=='VALUE'" type="text" id="pinValue" name="pinValue" data-ng-model="formData.pinValue" data-ng-pattern="{{'integer' | CodeValidate}}"/>
-              							
-              							<select data-ng-show="formData.pinType=='PRODUCT'" id="productValue" data-ng-model="formData.pinValue"  data-ng-options="planPriceData.id as planPriceData.plan_duration for  planPriceData in planPriceData">
-              							</select><br/>
-              							<span data-ng-show="createVoucherForm.pinValue.$dirty && createVoucherForm.pinValue.$invalid">
-              								<small class="error-row">{{'error.not.numeric.validation' | translate}}</small>
-              							</span>
-              						   </div>
-              						</div>
-								</td>
-          					</tr>
-					</table>
-			
-				</td>
-			</tr>
+						</td>
+        		   </tr>
+        		   <tr>
+        		   	  <td align="right" colspan="2">
+				          <div>
+				            <a href="#/voucherpins"><button id="cancel" type="reset" class="btn">{{'button.cancel'| translate}}</button></a>
+				            <button  id="submit" type="submit" class="btn btn-primary" data-ng-disabled="createVoucherForm.$dirty && createVoucherForm.$invalid">{{'button.save'| translate}}</button> 
+				          </div>
+        		   	  </td>
+        		   </tr>
 			</table>
-          <div class="pull-right" style="margin-right:55px;">
-            <a href="#/voucherpins"><button id="cancel" type="reset" class="btn">{{'button.cancel'| translate}}</button></a>
-            <button  id="submit" type="submit" class="btn btn-primary" data-ng-disabled="createVoucherForm.$dirty && createVoucherForm.$invalid">{{'button.save'| translate}}</button> 
-          </div>
           
         </fieldset>
       </form>

@@ -22,10 +22,13 @@
         }
         //scope.datass = {};
         scope.start={};
-        scope.start.date = new Date();
-        scope.minDate= scope.start.date;
+        /*scope.start.date = new Date();
+        scope.minDate= scope.start.date;*/
         
         resourceFactory.adjustmentTemplateResource.get(function(data){
+        	scope.start.date = new Date(data.date);
+            scope.minDate= scope.start.date;
+            
           scope.discountOptions = data.discountOptions;
           scope.data = data.data;
           scope.formData.adjustment_type = scope.discountOptions[0].discountType;

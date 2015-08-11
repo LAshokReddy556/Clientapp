@@ -20,9 +20,9 @@
         scope.restricted = [];
         scope.products = [];
         scope.restrictedProducts =[];
-        scope.start.date = new Date();
+       /* scope.start.date = new Date();
         scope.minDate = new Date();
-        scope.minendDate = new Date();
+        scope.minendDate = new Date();*/
      
         resourceFactory.planTemplateResource.get(function(data) {
         	
@@ -34,6 +34,9 @@
             scope.volumeTypes = data.volumeTypes;
             scope.productmix = data;
             scope.allowedProducts = data.services;
+            scope.start.date = new Date(data.date);
+            scope.minDate = new Date(data.date);
+            scope.minendDate = new Date(data.date);
            
             scope.formData = {
               isPrepaid:false,

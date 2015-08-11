@@ -5,11 +5,12 @@
 	        scope.promotiondatas = [];
 	        scope.durationTypes = [];
 	        scope.start = {};
-	        scope.start.date = new Date();
+	        //scope.start.date = new Date();
 	        
 	        resourceFactory.promotionTemplateResource.get(function(data) {
 	            scope.promotiondatas = data.discountTypeData;
 	            scope.durationTypes = data.contractTypedata;
+	            scope.start.date = new Date(data.date);
 	           	scope.formData = {};
 	        });
 	        scope.reset123 = function(){
@@ -23,7 +24,7 @@
 	             this.formData.startDate = startdate;
 	             
 	            resourceFactory.promotionResource.save(this.formData, function(data){
-	            		location.path('/viewpromotioncode/'+ data.resourceId);
+	            		location.path('/discounts');
 	          });
 	           
 	            webStorage.add("callingTab", {someString: "Promotioncode" });

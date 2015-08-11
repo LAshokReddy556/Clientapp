@@ -44,7 +44,7 @@
 	  </tr>
 	</table>
     <div>
-		<table class="table">
+		<table class="table" data-ng-if="screenName != 'additionalorders'">
 			<thead>
 		           <tr class="graybg">
 					<th>{{'header.plan.name'|translate}}</th>
@@ -62,6 +62,42 @@
 					<td class="bigfont" data-ng-if="planData.isPrepaid=='N'">{{planData.billingFrequency}}</td>
 					<td class="bigfont">{{planData.price}}({{currencyCode}})</td>
 					<td class="bigfont">{{price}}({{currencyCode}})</td>
+				</tr>
+			</tbody>
+			
+		</table>
+		<table class="table" data-ng-if="screenName == 'additionalorders'">
+			<thead>
+		           <tr class="graybg">
+					<th>{{'header.plan.name'|translate}}</th>
+					<th>{{'header.contract.period'|translate}}</th>
+					<th data-ng-if="planType=='N'">{{'header.contract.billingfrequency'|translate}}</th>
+					<th>{{'header.price'|translate}}({{currencyCode}})</th>
+					<th>{{'header.finalprice'|translate}}({{currencyCode}})</th>
+					<!-- <th>Action</th> -->
+				</tr>
+			</thead>
+			<tbody>
+				<tr data-ng-repeat="planData in plansData">
+					<td style="font-weight: inherit;" class="bigfont"><span style="color: #0088cc;">{{planData.planCode}}</span></td>
+					<td class="bigfont" data-ng-if="planType!='N'">{{planData.duration}}</td>
+					<td class="bigfont" data-ng-if="planType=='N'">{{planData.contractPeriod}}</td>
+					<td class="bigfont" data-ng-if="planType=='N'">{{planData.billingFrequency}}</td>
+					<td class="bigfont">{{planData.price}}</td>
+					<td class="bigfont">{{planData.finalAmount}}</td>
+					<!-- <td>
+						<a data-ng-click="deleteSelectionPlan(planData.id)" data-popover="Remove" data-popover-trigger="mouseenter">
+                    		<i class="icon-remove icon-white"></i>
+                    	</a>
+                    </td> -->
+				</tr>
+				<tr></tr>
+				<tr>
+					<td></td>
+					<td data-ng-if="planType=='N'"></td>
+					<td style="font-size:22px;text-align: right;padding-right: 30px;"><strong style="">{{'label.amount.total'|translate}}&nbsp;:</strong></td>
+					<td><strong style="font-size:22px">{{actualPlansPrice}}</strong></td>
+					<td><strong style="font-size:22px">{{finalPlansPrice}}</strong></td>
 				</tr>
 			</tbody>
 			

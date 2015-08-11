@@ -11,8 +11,8 @@
 			scope.usersDatas=[];
 			scope.sourceData=[];
 			 scope.start = {};
-			 scope.start.date = new Date();
-			 scope.minDate= scope.start.date;
+			 /*scope.start.date = new Date();
+			 scope.minDate= scope.start.date;*/
 			 
 			 scope.first = {};
 			 //scope.first.date = new Date();
@@ -46,6 +46,9 @@
 		       
             resourceFactory.ticketResourceTemplate.get(function(data){ 
             	
+            	scope.start.date = new Date(data.date);
+   			 	scope.minDate= scope.start.date;
+   			 
               scope.date = data.ticketDate;
               scope.priorityTypes=data.priorityType;
               for(var i=0;i<scope.priorityTypes.length;i++){
@@ -90,7 +93,7 @@
 				this.formData.dateFormat = 'dd MMMM yyyy';
 				this.formData.ticketURL=locationOrigin+''+locationPathname+"#/viewTicket/"+scope.clientId+"/";
 				//alert(this.formData.ticketURL);
-				this.formData.ticketTime = ' '+new Date().toLocaleTimeString().replace("IST","").trim();
+				this.formData.ticketTime = ' '+new Date(scope.start.date).toLocaleTimeString().replace("IST","").trim();
                 resourceFactory.ticketResource.save({'clientId': routeParams.id},this.formData,function(data){
                  location.path('/viewTicket/'+ routeParams.id+'/'+data.resourceId);
                });

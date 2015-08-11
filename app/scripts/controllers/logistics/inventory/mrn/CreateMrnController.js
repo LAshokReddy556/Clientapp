@@ -4,8 +4,9 @@
     	 scope.officeDatas = [];
     	 scope.itemMasterDatas = [];
     	 scope.first = {};
-    	 scope.first.date = new Date();
+    	 //scope.first.date = new Date();
         resourceFactory.mrnTemplateResource.get(function(data) {
+        	scope.first.date = new Date(data.date);
         	scope.officeDatas = data.officeData;
         	scope.itemMasterDatas = data.itemMasterData;
         	scope.formData = data;
@@ -34,6 +35,7 @@
             
         	delete this.formData.itemMasterData;
         	delete this.formData.officeData;
+        	delete this.formData.date;
         	resourceFactory.mrnResource.save(this.formData,function(data){
         			location.path('/inventory');
           });

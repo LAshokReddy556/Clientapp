@@ -984,6 +984,12 @@ nav:hover:after{
 .container td:last-child {    padding-right: 20px;  }
 .container th:last-child {    padding-right: 20px;  }
 
+/*dashboard calender*/
+#calendar td:first-child {    padding-left: 0px;  }
+#calendar th:first-child {    padding-left: 0px;   }
+#calendar td:last-child {    padding-right: 0px;  }
+#calendar th:last-child {    padding-right: 0px;  }
+
 .pointer:hover{
     color:deepskyblue;
 }

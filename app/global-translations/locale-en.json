@@ -307,6 +307,7 @@
   "label.job.exipirydate":"Exipiry Date",
   "label.job.isDynamic":"Is Dynamic",
   "label.job.isautorenwalactive":"Is Auto Renewal",
+  "label.job.addon.exipiry":"Addon Exipiry",
   "label.job.isautorenewal":"Auto Renewal",
   "label.job.emailid":"Email Id",
   "validation.msg.schedulerjob.emailId.cannot.be.blank":"Email Id cannot be blank",
@@ -354,6 +355,7 @@
   "dialog.redemption.title.message" :"Redeem",
   "button.transferclient":"Transfer client",
   "label.assignstaff":"Assign staff",
+  "error.msg.staff.duplicate.displayName":"Name already exist with this name",
   "label.closurereason":"Closure reason",
   "tab.heading.client.documents":"Documents",
   "label.select.file":"Select file",
@@ -547,7 +549,6 @@
   "error.not.numeric.validation":"Enter Numeric Value",
   "error.not.decimal.validation":"Enter Decimal Value",
   "error.invalid.phone.validation":"MAX Length 15 Numbers",
-   
 
   "#Journal Entry Predefined Postings":"........",
   "label.select.accountingrule":"--Select accounting rule--",
@@ -1042,8 +1043,9 @@
   "label.beginWith":"Begin With",
   "label.pinCategory":"Pin Category",
   "label.quantity":"Quantity",
-  "label.serialNoLength":"Length of Serial NO",
+  "label.serialNoLength":"Length of Serial No",
   "label.pinType":"Pin Type",
+  "label.promotion":"Promotion",
   "label.ManageVoucherpins":"Voucher Pins",
   "validation.msg.hardwareswap.provisionNum.cannot.be.blank":"Serial Number can not be blank",
   "validation.msg.voucher.batchName.cannot.be.blank":"Batch Name cannot be blank",
@@ -1064,6 +1066,8 @@
   "error.msg.please.pair.hardware.with.plan ":"Pair hardware with a Plan",
   "error.msg.device.details.not.found":"Device details not available",
   "validation.msg.voucher.voucherIds.cannot.be.empty":"Select atleast one Voucher",
+  "validation.msg.voucher.serialNo.is.not.within.expected.range":"The Length of Serial No must be between 0 and 18",
+  "validation.msg.voucher.promotionValue.cannot.be.blank":"Promotion cannot be blank",
   
   "#Table heading Voucher pins":"....",
   "table.heading.id":"Id",
@@ -1079,6 +1083,7 @@
   "table.heading.expiryDate":"Expiry Date",
   "table.heading.propertycode":"Property Code",
   "label.allocateproperty":"Allocate Property",
+  "table.heading.promotiondesc":"Promotion Description",
   
   "#Discounts":"....",
   "link.create.new.discount":"Create Discounts",
@@ -1408,12 +1413,12 @@
   "validation.msg.chargecode.durationType.not.zero.or.greater":"Missing Duration Type",
   "validation.msg.chargecode.chargeDuration.not.greater.than.zero":"Charge Duration should not Greaterthan Zero",
   "error.msg.chargecode.duplicate.name":"Charge Code already exist with this name",
-  "error.msg.chargecode.can not.delete or update already use":"Charge code in use, cannot delete or update",
+  "error.msg.chargecode.can not.delete or update already used":"Charge code in use, cannot delete or update",
   "validation.msg.taxmap.chargeCode.not.zero.or.greater":"Missing Charge code",
   "button.viewtax":"View Tax",
   "button.addtax":"Add Tax",
  
-  
+ 
   "#taxmapping":"....",
   "label.taxmapping":"Tax Mapping",
   "label.edittaxmapping":"Edit Tax Mapping",
@@ -2513,6 +2518,7 @@
 "label.editaddons":"Edit Addons",
 "link.create.new.addon":"New Addon",
 "table.addons.price":"Price",
+"dialog.addon.disconnect.message":"Disconnect Addon",
 "validation.msg.addons.planId.cannot.be.blank":"Select Plan from the List",
 "validation.msg.addons.chargeCode.cannot.be.blank":"Select charge code",
 "error.msg.select.addon.period.more.than":"contract is not applicable for this chargecode.",
@@ -2825,7 +2831,7 @@
 "#Deposit and Refund  ":".......",
 "error.msg.hardware.unallocated":"Please Unallocate hardware",
 "error.msg.unable.to.refund.clientbalance.greater.than.refund.amount":"Unable refund client due balance is greater than refund balance",
-"error.msg.hardware.quality.not.good":"Item Quality is not good"
+"error.msg.hardware.quality.not.good":"Item Quality is not good",
 "error.msg.fee.code.duplicate.name":"Fee Code already exists",
 "error.msg.fee.transaction.alredy.exists":"A Fee with this transaction already exists,Please Update it"
 
